@@ -17,7 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.UserPersonCollectionActivity" />
-        <activity android:name=".Activity.UserPersonInformationActivity"></activity>
+        <activity android:name=".Activity.UserPersonInformationActivity" />
+        <activity android:name=".Activity.UserPersonInformationChangeNicknameActivity" />
+        <activity android:name=".Activity.UserPersonInformationChangePhneActivity" />
+        <activity android:name=".Activity.UserPersonInformationChangeSexActivity" />
+        <activity android:name=".Activity.UserPersonAboutsUsActivity"></activity>
     </application>
 
 </manifest>

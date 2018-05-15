@@ -106,7 +106,7 @@
                         android:drawableTop="@mipmap/user_person_head_cat_img"
                         android:background="@null"
                         android:layout_gravity="center"
-                        android:text="我的收藏"
+                        android:text="我的预约"
                         android:textSize="12sp"
                         android:textColor="#000000"/>
                 </LinearLayout>
@@ -126,14 +126,6 @@
                         android:text="我的收藏"
                         android:textSize="12sp"
                         android:textColor="#000000"/>
-                    <!--<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:text="我的收藏"
-                        android:textSize="12sp"
-                        android:textColor="#000000"/>-->
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -180,22 +172,17 @@
                 android:background="@drawable/listborder"
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
-                android:layout_marginLeft="15dp">
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@mipmap/user_person_head_cat_img"
-                    android:layout_gravity="center_vertical"/>
+                android:layout_marginLeft="20dp">
                 <Button
                     android:id="@+id/user_person_appoint_information_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
+                    android:layout_weight="10"
+                    android:drawableLeft="@mipmap/user_person_head_cat_img"
+                    android:drawablePadding="10dp"
                     android:text="预约人信息"
-                    android:background="@null"
-                    android:gravity="left|center_vertical"
-                    android:layout_marginLeft="8dp"/>
+                    android:gravity="center_vertical|left"
+                    android:background="@null"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -210,22 +197,17 @@
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
                 android:background="@drawable/listborder">
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@mipmap/user_person_head_cat_img"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
                 <Button
                     android:id="@+id/user_person_abouts_us_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
+                    android:layout_weight="10"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@mipmap/user_person_head_cat_img"
+                    android:drawablePadding="10dp"
                     android:text="关于我们"
-                    android:background="@null"
-                    android:gravity="left|center_vertical"
-                    android:layout_marginLeft="8dp"/>
+                    android:gravity="center_vertical|left"
+                    android:background="@null"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -245,21 +227,16 @@
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
                 android:background="@drawable/listborder">
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@mipmap/user_person_head_cat_img"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"/>
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
+                    android:layout_weight="10"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@mipmap/user_person_head_cat_img"
+                    android:drawablePadding="10dp"
                     android:text="设置"
-                    android:background="@null"
-                    android:gravity="left|center_vertical"
-                    android:layout_marginLeft="8dp"/>
+                    android:gravity="center_vertical|left"
+                    android:background="@null"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
