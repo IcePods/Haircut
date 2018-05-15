@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.UserPersonCollectionActivity" />
+        <activity android:name=".Activity.UserPersonInformationActivity"></activity>
     </application>
 
 </manifest>
