@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/loginbci"
+    tools:context="com.example.lu.thebarbershop.Activity.UsersLoginActivity">
+
+    <Button
+        android:id="@+id/users_login_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:textColor="#392f41"
+        android:text="注册"/>
+    <ImageView
+        android:id="@+id/users_login_logo"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@mipmap/wulitou"
+        android:layout_below="@id/users_login_register"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+    //用户名
+    <LinearLayout
+        android:id="@+id/user_login_layout_username"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/users_login_logo"
+        android:background="@drawable/input">
+
+        <ImageView
+            android:id="@+id/user_login_userpic"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:src="@mipmap/username"/>
+        <EditText
+            android:id="@+id/users_login_username"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:hint="用户名/手机"
+            android:layout_weight="5"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+    //密码
+    <LinearLayout
+        android:id="@+id/user_login_password"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/user_login_layout_username"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/input">
+
+        <ImageView
+            android:id="@+id/user_login_pwdpic"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:src="@mipmap/password"/>
+        <EditText
+            android:id="@+id/users_login_pwd"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:hint="密码"
+            android:layout_weight="5"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/users_login_login"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:text="登录"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/user_login_password"
+        android:textSize="23sp"
+        android:background="@drawable/input"
+        android:textColor="#000000"/>
+</RelativeLayout>

@@ -22,6 +22,8 @@
         <activity android:name=".Activity.UserPersonInformationChangePhneActivity" />
         <activity android:name=".Activity.UserPersonInformationChangeSexActivity" />
         <activity android:name=".Activity.UserPersonAboutsUsActivity"></activity>
+        <activity android:name=".Activity.UsersRegisterActivity" />
+        <activity android:name=".Activity.UsersLoginActivity"></activity>
     </application>
 
 </manifest>

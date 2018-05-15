@@ -1,6 +1,8 @@
 package com.example.lu.thebarbershop.Fragment;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -12,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.lu.thebarbershop.Activity.UsersRegisterActivity;
 import com.example.lu.thebarbershop.R;
 
 /**
@@ -36,6 +39,16 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_index,container,false);
         //初始化控件
         init(view);
+
+        //测试登录注册页面用，跳转到注册页面
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UsersRegisterActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         return view;
     }
