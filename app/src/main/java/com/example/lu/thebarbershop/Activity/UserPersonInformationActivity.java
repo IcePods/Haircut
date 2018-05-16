@@ -51,7 +51,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     break;
                 //修改昵称
                 case R.id.arrowtip48_1:
-                    //只实现跳转，跳转到个人信息详情页面UserPersonInformationActivity
+                    //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
                     //3. 进行跳转
@@ -59,7 +59,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     break;
                 //修改性别
                 case R.id.arrowtip48_2:
-                    //只实现跳转，跳转到个人信息详情页面UserPersonInformationActivity
+                    //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeSexActivity.class);
                     //3. 进行跳转
@@ -67,7 +67,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     break;
                 //修改电话
                 case R.id.arrowtip48_3:
-                    //只实现跳转，跳转到个人信息详情页面UserPersonInformationActivity
+                    //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangePhneActivity.class);
                     //3. 进行跳转

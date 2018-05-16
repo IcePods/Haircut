@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.lu.thebarbershop.Activity.UserPersonAboutsUsActivity;
+import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonCollectionActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonInformationActivity;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
@@ -33,9 +34,11 @@ import com.example.lu.thebarbershop.R;
 public class PersonFragment extends Fragment {
     private ImageView imageView;//头像
     private Button infobutton;//个人信息按钮 id=user_person_information_btn
+    private Button appointmentbutton;//我的预约
     private Button collectionbutton;//我的收藏按钮 id=user_person_collection_btn
     private Button aboutusbutton;//关于我们按钮 id=user_person_abouts_us_btn
     private Mylistener mylistener;//监听器
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class PersonFragment extends Fragment {
 
         imageView = view.findViewById(R.id.user_person_head_portrait_img);//头像
         infobutton = view.findViewById(R.id.user_person_information_btn);//个人信息按钮
+        appointmentbutton = view.findViewById(R.id.user_person_appointment_btn);//我的预约按钮
         collectionbutton = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
         aboutusbutton = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
 
@@ -51,6 +55,7 @@ public class PersonFragment extends Fragment {
 
         imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap(),2));
         infobutton.setOnClickListener(mylistener);
+        appointmentbutton.setOnClickListener(mylistener);
         collectionbutton.setOnClickListener(mylistener);
         aboutusbutton.setOnClickListener(mylistener);
 
@@ -75,6 +80,11 @@ public class PersonFragment extends Fragment {
                     break;
                 //我的预约按钮
                 case R.id.user_person_appointment_btn:
+                    //只实现跳转，跳转到预约页面UserPersonAppointmentActivity
+                    //2. 指定跳转路线
+                    intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
+                    //3. 进行跳转
+                    startActivity(intent);
                     break;
                 //我的收藏按钮
                 case R.id.user_person_collection_btn:
