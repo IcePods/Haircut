@@ -1,12 +1,19 @@
 package com.example.lu.thebarbershop.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
 import com.example.lu.thebarbershop.R;
@@ -19,6 +26,9 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageButton phnebutton;//修改电话按钮
     private Mylistener mylistener;//监听器
     private Button exittologin;
+
+    private PopupWindow popupWindow;
+    private final int CAMERA_REQUEST = 8888;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         sexbutton.setOnClickListener(mylistener);
         phnebutton.setOnClickListener(mylistener);
         exittologin.setOnClickListener(mylistener);
+        imageView.setOnClickListener(mylistener);
     }
     private class Mylistener implements View.OnClickListener{
 
@@ -84,7 +95,77 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //进行跳转
                     startActivity(intent);
                     break;
+                case R.id.user_person_informatin_header_img:
+                    showPop(imageView);
+
+                    break;
             }
+        }
+    }
+    /**
+     * 弹出拍照的弹出框
+     * */
+    private void showPop(ImageView imageButton){
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.user_person_profil_popupwindow,null);
+        Button btn_take = v.findViewById((R.id.takePicture));
+        Button btn_choose = v.findViewById((R.id.chooseFrom));
+        Button btn_cancel = v.findViewById(R.id.cancel);
+        btn_take.setOnClickListener(new OnClickListener());
+
+        btn_cancel.setOnClickListener(new OnClickListener() );
+
+        popupWindow=new PopupWindow(this);
+        darkenBackground(0.5f);
+        popupWindow.setContentView(v);
+        popupWindow.setWidth(RelativeLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.showAsDropDown(imageButton);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow()
+                        .getAttributes();
+                lp.alpha = 1f;
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                getWindow().setAttributes(lp);
+            }
+        });
+
+    }
+    //设置弹出框背景黑色半透明
+    private void darkenBackground(Float bgcolor){
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgcolor;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
+
+
+    }
+    //弹出框内容的监听器
+    class OnClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.takePicture:
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    popupWindow.dismiss();
+                    break;
+                case R.id.cancel:
+                    popupWindow.dismiss();
+                    break;
+
+
+            }
+        }
+    }
+    //返回拍的照片并设置给imageview
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+            imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(photo,3));
         }
     }
 }
