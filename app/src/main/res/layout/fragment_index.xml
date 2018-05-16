@@ -11,6 +11,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal"
             >
             <TextView
@@ -60,28 +61,55 @@
         android:layout_below="@+id/user_index_header">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true">
+
             <RelativeLayout
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+
+                >
 
                 <RelativeLayout
                     android:id="@+id/user_index_viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/user_index_viewpager_content"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"></android.support.v4.view.ViewPager>
+                        android:layout_height="190dp">
+                    </android.support.v4.view.ViewPager>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="vertical"
+                        android:layout_alignParentBottom="true"
+                        android:padding="5dp"
+                        android:background="#00000000"
+                        android:gravity="center_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp"
+                            >
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/user_index_forselect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#F5F5F5"
                     android:layout_below="@+id/user_index_viewpager">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -163,28 +191,84 @@
                     </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/user_index_message"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="40dp"
                     android:layout_below="@+id/user_index_forselect">
+
+                    <com.example.lu.thebarbershop.MyTools.LooperTextView
+                        android:id="@+id/user_index_loopertextview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#F5F5F5"
+                        android:layout_marginEnd="1dp">
+
+                    </com.example.lu.thebarbershop.MyTools.LooperTextView>
 
 
                 </RelativeLayout>
 
+
                 <RelativeLayout
+                    android:layout_marginTop="10dp"
                     android:id="@+id/user_person_index_lvshop"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:layout_below="@+id/user_index_message">
+                    android:layout_height="1000dp"
+                    android:layout_below="@+id/user_index_message"
+                    android:background="#F5F5F5"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="14dp"
+
+                            android:layout_weight="1"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="14dp"
+                            android:text="▼▼推荐好店   Recommend a good shop"
+                            android:layout_weight="1"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="14dp"
+
+                            android:layout_weight="1"
+                            />
+                    </LinearLayout>
 
                     <ListView
+                        android:layout_marginTop="50dp"
                         android:id="@+id/user_person_index_lvshop_content"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="#FFFFFFFF"
+                        android:divider="#F5F5F5"
+                        android:dividerHeight="10dp">
 
                     </ListView>
+                    <!--<com.example.lu.thebarbershop.MyTools.IndexListView
+                        android:layout_marginTop="50dp"
+                        android:id="@+id/user_person_index_lvshop_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="#FFFFFFFF"
+                        ></com.example.lu.thebarbershop.MyTools.IndexListView>-->
 
                 </RelativeLayout>
 
