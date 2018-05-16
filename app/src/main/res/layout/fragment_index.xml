@@ -257,7 +257,7 @@
                         android:layout_marginEnd="10dp"
                         android:background="#FFFFFFFF"
                         android:divider="#F5F5F5"
-                        android:dividerHeight="10dp">
+                        android:dividerHeight="15dp">
 
                     </ListView>
                     <!--<com.example.lu.thebarbershop.MyTools.IndexListView

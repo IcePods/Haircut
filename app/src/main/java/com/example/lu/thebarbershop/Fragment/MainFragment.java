@@ -218,4 +218,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         super.onDestroy();
         isRunning=false;
     }
+
+
 }
