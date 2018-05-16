@@ -60,9 +60,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/user_index_header">
         <ScrollView
+            android:id="@+id/user_index_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            >
 
             <RelativeLayout
                 android:layout_marginTop="5dp"
@@ -216,7 +218,7 @@
                     android:layout_marginTop="10dp"
                     android:id="@+id/user_person_index_lvshop"
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/user_index_message"
                     android:background="#F5F5F5"
                     >
@@ -248,27 +250,20 @@
                             />
                     </LinearLayout>
 
-                    <ListView
+
+                    <com.example.lu.thebarbershop.MyTools.IndexListView
                         android:layout_marginTop="50dp"
                         android:id="@+id/user_person_index_lvshop_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="60dp"
                         android:background="#FFFFFFFF"
                         android:divider="#F5F5F5"
                         android:dividerHeight="15dp">
 
-                    </ListView>
-                    <!--<com.example.lu.thebarbershop.MyTools.IndexListView
-                        android:layout_marginTop="50dp"
-                        android:id="@+id/user_person_index_lvshop_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="#FFFFFFFF"
-                        ></com.example.lu.thebarbershop.MyTools.IndexListView>-->
+                    </com.example.lu.thebarbershop.MyTools.IndexListView>
 
                 </RelativeLayout>
 

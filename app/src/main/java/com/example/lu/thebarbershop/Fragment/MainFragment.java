@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
@@ -54,6 +55,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private TextView address;
     private LinearLayout search;
     private ImageView plus;
+    private ScrollView scrollView;
     private ViewPager vp;
     private LinearLayout ll_point;
     private ListView lv_shop;
@@ -85,6 +87,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         looperTextView.setTipList(new PrepareLooperTextDate().getLooperList());
         //店铺listview
         initShopAdapter();
+        //设置scroll开始从头显示
+        scrollView.smoothScrollTo(0,0);
 
 
 
@@ -107,7 +111,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         lv_shop = view.findViewById(R.id.user_person_index_lvshop_content);
         ll_point = view.findViewById(R.id.ll_point);
         looperTextView = view.findViewById(R.id.user_index_loopertextview);
-
+        scrollView =view.findViewById(R.id.user_index_scroll);
 
     }
 

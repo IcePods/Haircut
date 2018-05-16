@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="300dp"
     android:orientation="vertical"
     >
 
@@ -9,7 +9,7 @@
         android:id="@+id/user_shopdetail_picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:src="@mipmap/user_index_perm"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="石家庄建设南大街与石家庄中国南大街交叉口南行120米路东"
-                    android:maxEms="11"
+                    android:maxEms="15"
+                    android:lines="2"
                     android:textColor="#121212"
                     android:ellipsize="end"/>
 
@@ -59,7 +60,7 @@
             <TextView
                 android:id="@+id/user_shopdetail_introduce"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="我们用双手成就你的装逼梦想"
                 android:textColor="#121212"/>
         </LinearLayout>

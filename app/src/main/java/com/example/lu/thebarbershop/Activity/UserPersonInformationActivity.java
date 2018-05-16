@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.example.lu.thebarbershop.MyTools.CenterSquareScaleBitmap;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
 import com.example.lu.thebarbershop.R;
 
@@ -161,11 +162,12 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         }
     }
     //返回拍的照片并设置给imageview
+    
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-            imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(photo,3));
+            Bitmap result = CenterSquareScaleBitmap.centerSquareScaleBitmap(photo,80);
+            imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(result,2));
         }
     }
 }
