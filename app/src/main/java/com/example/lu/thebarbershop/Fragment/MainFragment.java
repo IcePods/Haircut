@@ -40,16 +40,6 @@ public class MainFragment extends Fragment {
         //初始化控件
         init(view);
 
-        //测试登录注册页面用，跳转到注册页面
-        address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), UsersRegisterActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
         return view;
     }
     /**
