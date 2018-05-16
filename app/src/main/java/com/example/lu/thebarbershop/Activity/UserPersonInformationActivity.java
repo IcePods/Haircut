@@ -4,6 +4,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -17,6 +18,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageButton sexbutton;//修改性别按钮
     private ImageButton phnebutton;//修改电话按钮
     private Mylistener mylistener;//监听器
+    private Button exittologin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         nicknamebutton = findViewById(R.id.arrowtip48_1);
         sexbutton = findViewById(R.id.arrowtip48_2);
         phnebutton = findViewById(R.id.arrowtip48_3);
+        exittologin = findViewById(R.id.user_person_information_exit);
 
         mylistener = new Mylistener();
 
@@ -36,6 +39,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         nicknamebutton.setOnClickListener(mylistener);
         sexbutton.setOnClickListener(mylistener);
         phnebutton.setOnClickListener(mylistener);
+        exittologin.setOnClickListener(mylistener);
     }
     private class Mylistener implements View.OnClickListener{
 
@@ -71,6 +75,13 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangePhneActivity.class);
                     //3. 进行跳转
+                    startActivity(intent);
+                    break;
+                case R.id.user_person_information_exit:
+                    //只实现跳转，跳转到登录页面
+                    //跳转路线
+                    intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                    //进行跳转
                     startActivity(intent);
                     break;
             }

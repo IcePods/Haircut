@@ -11,24 +11,23 @@ import android.widget.ImageView;
 import com.example.lu.thebarbershop.R;
 
 public class UsersLoginActivity extends AppCompatActivity {
-    private Button ToRegister;
-    private ImageView UserLoginLogo;
-    private EditText UserLoginUsername;
-    private EditText UserLoginPwd;
-    private Button UserLogin;
+    private Button ToRegister;//跳转注册button
+    private ImageView UserLoginLogo;//登录页面logo
+    private EditText UserLoginUsername;//登录用户名
+    private EditText UserLoginPwd;//登录密码
+    private Button UserLogin;//登录按钮
+    private Mylistener mylistener;//监听器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users_login_activity);
+        //获取控件
         getview();
-        ToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),UsersRegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+        //实现监听控件
+        mylistener = new Mylistener();
+        ToRegister.setOnClickListener(mylistener);
+        UserLogin.setOnClickListener(mylistener);
 
 
     }
@@ -40,4 +39,21 @@ public class UsersLoginActivity extends AppCompatActivity {
         UserLoginPwd = findViewById(R.id.users_login_pwd);
         UserLogin = findViewById(R.id.users_login_login);
     }
+//实现监听器类
+    private class Mylistener implements View.OnClickListener{
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()){
+            case R.id.users_login_register:
+                intent.setClass(getApplicationContext(),UsersRegisterActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.users_login_login:
+                intent.setClass(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+}
 }

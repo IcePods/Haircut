@@ -28,19 +28,19 @@ public class UsersRegisterActivity extends AppCompatActivity {
     private EditText UserRegisterPwd2;
     private CheckBox checkBox;
     private Button UserRegister;
+    private Mylistener mylistener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users_register_activity);
+        //获取控件
         getview();
-        ToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),UsersLoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        //控件监听
+        mylistener = new Mylistener();
+        ToLogin.setOnClickListener(mylistener);
+        UserRegister.setOnClickListener(mylistener);
+
 
 
     }
@@ -54,8 +54,23 @@ public class UsersRegisterActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.user_register_box);
         UserRegister = findViewById(R.id.user_register);
     }
+    private class Mylistener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            switch (v.getId()){
+                case R.id.user_register_login:
+                    intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.user_register:
+                    intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    }
 
 
 
 }
-//Bitmap bm =((BitmapDrawable) ( imageView).getDrawable()).getBitmap();
