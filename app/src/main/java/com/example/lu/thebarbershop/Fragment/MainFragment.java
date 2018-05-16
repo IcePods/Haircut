@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
@@ -208,6 +210,21 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
         indexShopDetailAdapter = new IndexShopDetailAdapter(mContext,new PrepareIndexShopDetail().prepareIndexShopDetail(),R.layout.item_user_index_shop);
         lv_shop.setAdapter(indexShopDetailAdapter);
+        lv_shop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //携带数据跳转到另一个Activity，进行数据的更新操作
+                Intent intent = new Intent();
+                //指定跳转路线
+                intent.setClass(getActivity().getApplicationContext(),UserShopDetailActivity.class);
+                //把点击的商品对象添加到intent对象中去
+                Bundle bundle = new Bundle();
+                UserShopDetail userShopDetail = (UserShopDetail)indexShopDetailAdapter.getItem(position);
+                bundle.putSerializable("userShopDetail",userShopDetail);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
     /**
      * 重写ondestory

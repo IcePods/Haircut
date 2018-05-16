@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lu.thebarbershop">
-    <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -23,10 +23,11 @@
         <activity android:name=".Activity.UserPersonInformationChangeNicknameActivity" />
         <activity android:name=".Activity.UserPersonInformationChangePhneActivity" />
         <activity android:name=".Activity.UserPersonInformationChangeSexActivity" />
-        <activity android:name=".Activity.UserPersonAboutsUsActivity"></activity>
+        <activity android:name=".Activity.UserPersonAboutsUsActivity" />
         <activity android:name=".Activity.UsersRegisterActivity" />
-        <activity android:name=".Activity.UsersLoginActivity"></activity>
-        <activity android:name=".Activity.UserPersonAppointmentActivity"></activity>
+        <activity android:name=".Activity.UsersLoginActivity" />
+        <activity android:name=".Activity.UserPersonAppointmentActivity" />
+        <activity android:name=".Activity.UserShopDetailActivity"></activity>
     </application>
 
 </manifest>

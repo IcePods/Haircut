@@ -1,5 +1,6 @@
 package com.example.lu.thebarbershop.Entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  * Created by sweet on 2018/5/15.
  */
 
-public class UserShopDetail {
+public class UserShopDetail implements Serializable {
     private int shopId;
     private String shopPicture;
     private String shopName;
