@@ -44,7 +44,7 @@ public class ViewPagerTools {
            //加小白点，指示器（这里的小圆点定义在了drawable下的选择器中了，也可以用小图片代替）
            pointView = new View(mContext);
            pointView.setBackgroundResource(R.drawable.point_selector); //使用选择器设置背景
-           LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(10, 10);
+           LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
            if (i != 0){
                //如果不是第一个点，则设置点的左边距
                layoutParams.leftMargin = 10;

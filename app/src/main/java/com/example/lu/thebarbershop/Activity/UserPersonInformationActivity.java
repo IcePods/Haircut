@@ -162,7 +162,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         }
     }
     //返回拍的照片并设置给imageview
-    
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");

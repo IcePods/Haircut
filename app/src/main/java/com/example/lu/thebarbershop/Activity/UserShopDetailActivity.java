@@ -1,29 +1,46 @@
 package com.example.lu.thebarbershop.Activity;
 
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
+import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
+import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class UserShopDetailActivity extends AppCompatActivity {
+public class UserShopDetailActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
     //RecyclerView 控件
     private RecyclerView mRecyclerView;
     //RecycleAdapter
     private RecyclerView.Adapter mAdapter;
     //RecycleView 管理器
     private RecyclerView.LayoutManager mLayoutManager;
+    //图片轮训控件
+    private ViewPager vp;
+    //图片轮训的点
+    private LinearLayout ll_point;
+
+    private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
+    private int lastPosition;//轮播图下边点的位置
+    private boolean isRunning = false; //viewpager是否在自动轮询
 
     private ImageButton user_shop_detail_back_imgbtn ;//店铺详情页面返回按钮
     private ImageButton user_shopdetail_collect;//店铺详情 收藏按钮
@@ -53,6 +70,14 @@ public class UserShopDetailActivity extends AppCompatActivity {
 
         initData();
         initView();
+        //得到轮播图片集合
+        addViewPagerImages();
+        ///
+        changeViewPagerPoint();
+        //开启图片轮训
+        viewPagerThread();
+
+
     }
     //获取控件
     private void getView(){
@@ -63,6 +88,8 @@ public class UserShopDetailActivity extends AppCompatActivity {
 
         user_shop_detail_back_imgbtn= findViewById(R.id.user_shop_detail_back_imgbtn);
         user_shopdetail_collect = findViewById(R.id.user_shopdetail_collect);
+        vp =findViewById(R.id.user_shop_detail_viewpager_content);
+        ll_point =findViewById(R.id.user_shop_detail_ll_point);
     }
     //获取传过来的intent 获取参数
     private void getIntentAndData(){
@@ -89,6 +116,7 @@ public class UserShopDetailActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         // 设置adapter
         mRecyclerView.setAdapter(mAdapter);
+
     }
     //数据源
     private ArrayList<Barber> getData() {
@@ -116,5 +144,92 @@ public class UserShopDetailActivity extends AppCompatActivity {
         barber5.setBarberName("发型师5");
         data.add(barber5);
         return data;
+    }
+
+    /**
+     *将轮播的图片添加到集合中
+     * */
+    public void addViewPagerImages(){
+        //得到图片集合
+        PrepareIndexViewPagerDate prepareIndexViewPagerDate = new PrepareIndexViewPagerDate();
+        List<String> list = prepareIndexViewPagerDate.date();
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        requestOptions.placeholder(R.mipmap.user_index_nurse);
+        for(int i=0;i<list.size();i++){
+            ImageView imageView =new ImageView(this);
+            Glide.with(this)
+                    .load(list.get(i))
+                    .apply(requestOptions)
+                    .into(imageView);
+            imageViewArrayList.add(imageView);
+            Log.i("hzl",imageViewArrayList.size()+"");
+
+
+        }
+    }
+
+    /**
+     * 图片轮播线程
+     * */
+    public void viewPagerThread(){
+       /* ViewPagerTools tools = new ViewPagerTools(this,vp,ll_point,imageViewArrayList);
+        tools.initDate(imageViewArrayList);
+        tools.initAdapter();*/
+        new Thread(){
+            @Override
+            public void run() {
+                isRunning =true;
+                while (isRunning){
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(this!=null){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                vp.setCurrentItem(vp.getCurrentItem()+1);
+                            }
+                        });
+                    }
+                }
+            }
+        }.start();
+    }
+    public void changeViewPagerPoint(){
+        ViewPagerTools tools = new ViewPagerTools(this,vp,ll_point,imageViewArrayList);
+        tools.initDate(imageViewArrayList);
+        tools.initAdapter();
+        vp.setOnPageChangeListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isRunning=false;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        //当前的位置可能很大，为了防止下标越界，对要显示的图片的总数进行取余
+        int a = imageViewArrayList.size();
+        int newPosition = position % a;
+
+        //设置小圆点为高亮或暗色
+        ll_point.getChildAt(lastPosition).setEnabled(false);
+        ll_point.getChildAt(newPosition).setEnabled(true);
+        lastPosition = newPosition; //记录之前的点
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

@@ -56,8 +56,25 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/user_shop_detail_viewpager_content"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp">
+                        android:layout_height="150dp">
                     </android.support.v4.view.ViewPager>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="vertical"
+                        android:layout_alignParentBottom="true"
+                        android:padding="5dp"
+                        android:background="#00000000"
+                        android:gravity="center_horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/user_shop_detail_ll_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        />
+                    </LinearLayout>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -105,7 +122,7 @@
                         android:id="@+id/user_shop_detail_phone_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/user_shop_detail_address_content"
+                        android:layout_below="@+id/user_shop_detail_address_content"
                         android:layout_marginLeft="7dp"
                         android:layout_marginRight="7dp">
                         <ImageButton

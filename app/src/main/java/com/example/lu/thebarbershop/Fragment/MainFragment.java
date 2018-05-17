@@ -56,10 +56,10 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private LinearLayout search;
     private ImageView plus;
     private ScrollView scrollView;
+    private LooperTextView looperTextView;
+    private ListView lv_shop;
     private ViewPager vp;
     private LinearLayout ll_point;
-    private ListView lv_shop;
-    private LooperTextView looperTextView;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
@@ -183,6 +183,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         ViewPagerTools tools = new ViewPagerTools(mContext,vp,ll_point,imageViewArrayList);
         tools.initDate(imageViewArrayList);
         tools.initAdapter();
+        vp.setOnPageChangeListener(this);
         new Thread(){
             @Override
             public void run() {
