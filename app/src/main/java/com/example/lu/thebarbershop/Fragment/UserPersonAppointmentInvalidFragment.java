@@ -22,7 +22,7 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class UserPersonAppointmentInvalidFragment extends Fragment {
-    private ListView appointmentInvalidList;
+    private ListView appointmentInvalidList;//失效预约列表
     private Context context;
 
 

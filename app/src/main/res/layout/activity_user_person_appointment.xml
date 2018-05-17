@@ -46,6 +46,7 @@
             android:layout_weight="5"
             android:gravity="center"
             android:padding="10dp"
+            android:layout_gravity="center_vertical"
             android:text="有效预约" />
 
         <TextView
@@ -64,6 +65,7 @@
             android:layout_weight="5"
             android:gravity="center"
             android:padding="10dp"
+            android:layout_gravity="center_vertical"
             android:text="失效预约" />
 
     </LinearLayout>

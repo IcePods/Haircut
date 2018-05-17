@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,16 +18,16 @@ import com.example.lu.thebarbershop.Fragment.UserPersonAppointmentInvalidFragmen
 import com.example.lu.thebarbershop.R;
 
 public class UserPersonAppointmentActivity extends AppCompatActivity {
-    private TextView tvFragmentEffective;
-    private TextView tvFragmentInvalid;
-    private ImageButton imageButtonBack;
+    private TextView tvFragmentEffective;//有效预约标签
+    private TextView tvFragmentInvalid;//失效预约标签
+    private ImageButton imageButtonBack;//顶部返回箭头
     //定义Fragment的管理器
     private FragmentManager fragmentManager;
     //定义当前页面fragment
     private Fragment currentFragment = new Fragment();
     //定义页面
-    private Fragment EffectiveFragment; //有效预约
-    private Fragment InvalidFragment;   //失效预约
+    private Fragment EffectiveFragment; //有效预约页面
+    private Fragment InvalidFragment;   //失效预约页面
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +88,16 @@ public class UserPersonAppointmentActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.tv_appointment_effective://显示“有效预约”
+                    tvFragmentEffective.setTextColor(0xFFF7A113);//更改标签颜色
                     //更改页面
                     ChangeFragment(EffectiveFragment);
+                    tvFragmentInvalid.setTextColor(Color.GRAY);
                 break;
                 case R.id.tv_appointment_invalid://显示“失效预约”
+                    tvFragmentInvalid.setTextColor(0xFFF7A113);//更改标签颜色
                     //更改页面
                     ChangeFragment(InvalidFragment);
+                    tvFragmentEffective.setTextColor(Color.GRAY);
                 break;
                 case R.id.user_person_collection_back:
                     finish();

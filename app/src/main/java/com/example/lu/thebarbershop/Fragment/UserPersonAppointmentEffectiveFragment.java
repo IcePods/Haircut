@@ -23,7 +23,7 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class UserPersonAppointmentEffectiveFragment extends Fragment {
-    private ListView appointmentEffectiveList;
+    private ListView appointmentEffectiveList;//有效预约列表
     private Context context;
 
 
@@ -38,8 +38,6 @@ public class UserPersonAppointmentEffectiveFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_person_appointment_effective, container, false);
         appointmentEffectiveList = view.findViewById(R.id.lv_appointment_effective);
         context = getActivity().getApplicationContext();
-
-
 
 
         final EffectiveAppointmentAdapter adapter = new EffectiveAppointmentAdapter(getActivity().getApplicationContext(),prepareDatas(),R.layout.item_user_appointment_effective);
