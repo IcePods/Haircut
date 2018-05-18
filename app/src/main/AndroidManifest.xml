@@ -27,7 +27,8 @@
         <activity android:name=".Activity.UsersRegisterActivity" />
         <activity android:name=".Activity.UsersLoginActivity" />
         <activity android:name=".Activity.UserPersonAppointmentActivity" />
-        <activity android:name=".Activity.UserShopDetailActivity"></activity>
+        <activity android:name=".Activity.UserShopDetailActivity" />
+        <activity android:name=".Activity.CreateDynamicActivity"></activity>
     </application>
 
 </manifest>
