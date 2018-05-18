@@ -54,11 +54,21 @@
 
         </LinearLayout>
     </RelativeLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/user_index_header">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/white">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#444"/>
+
         <ScrollView
             android:id="@+id/user_index_scroll"
             android:layout_width="match_parent"
@@ -250,7 +260,6 @@
                             />
                     </LinearLayout>
 
-
                     <com.example.lu.thebarbershop.MyTools.IndexListView
                         android:layout_marginTop="50dp"
                         android:id="@+id/user_person_index_lvshop_content"
@@ -264,15 +273,17 @@
                         android:dividerHeight="15dp">
 
                     </com.example.lu.thebarbershop.MyTools.IndexListView>
-
                 </RelativeLayout>
 
 
 
             </RelativeLayout>
-
         </ScrollView>
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#444"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </RelativeLayout>
-
 
 </RelativeLayout>
