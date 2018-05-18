@@ -3,6 +3,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.R;
 
 import java.util.List;
@@ -23,9 +27,9 @@ import java.util.Map;
 public class CollectionAdapter extends BaseAdapter {
     private Context mContext;
     private int mLayout;
-    private List<Map<String, Object>> favouriteshops;
+    private List<UserShopDetail> favouriteshops;
 
-    public CollectionAdapter(Context mContext, int mLayout, List<Map<String, Object>> favouriteshops) {
+    public CollectionAdapter(Context mContext, int mLayout, List<UserShopDetail> favouriteshops) {
         this.mContext = mContext;
         this.mLayout = mLayout;
         this.favouriteshops = favouriteshops;
@@ -74,10 +78,19 @@ public class CollectionAdapter extends BaseAdapter {
         button.setBackground(drawable); // 设置背景（效果就是有边框及底色）
         //
         //利用传递的数据源给相应的控件对象赋值
-        Map<String, Object> shops = favouriteshops.get(position);
-        img.setImageResource((Integer) shops.get("img"));
-        name.setText((String) shops.get("name"));
-        address.setText((String) shops.get("address"));
+        UserShopDetail shops = favouriteshops.get(position);
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        requestOptions.placeholder(R.mipmap.user_index_perm);
+        Glide.with(mContext)
+                .load(shops.getShopPicture())
+                .apply(requestOptions)
+                .into(img);
+        String str = shops.getShopAddress();
+        if(str.length() > 10){
+            str = str.substring(0,10)+"...";
+        }
+        name.setText(shops.getShopName());
+        address.setText(str);
         //返回子项目布局视图
         return convertView;
     }

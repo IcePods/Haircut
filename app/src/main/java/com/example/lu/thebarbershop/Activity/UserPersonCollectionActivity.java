@@ -1,19 +1,19 @@
 package com.example.lu.thebarbershop.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Adapter.CollectionAdapter;
+import com.example.lu.thebarbershop.Entity.UserShopDetail;
+import com.example.lu.thebarbershop.MyTools.PrepareIndexShopDetail;
 import com.example.lu.thebarbershop.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 我的收藏页面
@@ -38,7 +38,16 @@ public class UserPersonCollectionActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"a",Toast.LENGTH_SHORT).show();
+                //携带数据跳转到另一个Activity，进行数据的更新操作
+                Intent intent = new Intent();
+                //指定跳转路线
+                intent.setClass(getApplicationContext(),UserShopDetailActivity.class);
+                //把点击的商品对象添加到intent对象中去
+                Bundle bundle = new Bundle();
+                UserShopDetail userShopDetail = (UserShopDetail)adapter.getItem(position);
+                bundle.putSerializable("userShopDetail",userShopDetail);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         backbutton.setOnClickListener(mylistener);
@@ -57,19 +66,15 @@ public class UserPersonCollectionActivity extends AppCompatActivity {
         }
     }
     //静态数据模拟
-    private List<Map<String,Object>> prepareDatas() {
-        List<Map<String,Object>> shops = new ArrayList<>();
-        //第一个商品
-        Map<String,Object> shopa = new HashMap<>();
-        shopa.put("img",R.mipmap.user_person_headimg);
-        shopa.put("name","第一个收藏的店铺");
-        shopa.put("address","万达广场 火锅");
-        shops.add(shopa);
-        Map<String,Object> shopb = new HashMap<>();
-        shopb.put("img",R.mipmap.user_person_headimg);
-        shopb.put("name","第一个收藏的店铺");
-        shopb.put("address","万达广场 火锅");
-        shops.add(shopb);
+    private List<UserShopDetail> prepareDatas() {
+        PrepareIndexShopDetail pshopDetail = new PrepareIndexShopDetail();
+        List<UserShopDetail> shops = new ArrayList<>();
+        //第一个店铺 从PrepareIndexShopDetail类中获取前两个店铺信息
+        UserShopDetail shopDetaila = pshopDetail.prepareIndexShopDetail().get(0);
+        shops.add(shopDetaila);
+        //第二个店铺 从PrepareIndexShopDetail类中获取前两个店铺信息
+        UserShopDetail shopDetailb = pshopDetail.prepareIndexShopDetail().get(1);
+        shops.add(shopDetailb);
 
         return shops;
     }
