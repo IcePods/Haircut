@@ -2,6 +2,7 @@ package com.example.lu.thebarbershop.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.lu.thebarbershop.Activity.CreateDynamicActivity;
 import com.example.lu.thebarbershop.Adapter.DynamicListAdapter;
 import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.R;
@@ -36,6 +39,7 @@ public class DynamicFragment extends Fragment{
     private RecyclerView.LayoutManager layoutManager;
     private List<Dynamic> list;
     RefreshLayout refreshLayout;
+    private Button createNewDynamic;
 
 
     @Nullable
@@ -46,12 +50,31 @@ public class DynamicFragment extends Fragment{
         DynamicList  = view.findViewById(R.id.dynamic_list);
         refreshLayout = view.findViewById(R.id.refreshLayout);
         context = getActivity().getApplicationContext();
+        //点击跳转到动态发布界面
+        gotoCreateNewDynamic(view);
+
         initData();
         setPullRefresher();
         ////通过listview展示动态列表
         //ShowDynamicByListView(dataSource(),context);
         return view;
 
+
+    }
+
+    /**
+     * 点击发布按钮，跳转到发布新动态页面
+     */
+    private void gotoCreateNewDynamic(View view){
+        createNewDynamic = view.findViewById(R.id.create_new_dynamic);
+        createNewDynamic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, CreateDynamicActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     /*//实现通过listview展示动态列表
