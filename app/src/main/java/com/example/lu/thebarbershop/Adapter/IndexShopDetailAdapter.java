@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,6 +87,8 @@ public class IndexShopDetailAdapter extends BaseAdapter {
        if(convertView ==null){
            LayoutInflater minflater = LayoutInflater.from(context);
            convertView = minflater.inflate(R.layout.item_user_index_shop,null);
+           AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1000);
+           convertView.setLayoutParams(params);
            viewHolder = new ViewHolder();
            viewHolder.indexshopPicture = convertView.findViewById(R.id.user_shopdetail_picture);
            viewHolder.indexshopName=convertView.findViewById(R.id.user_shopdetail_shopname);
