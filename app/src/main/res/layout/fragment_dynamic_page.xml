@@ -21,10 +21,12 @@
             android:background="#00000000"
             android:text="发布"/>
     </RelativeLayout>
-    <ListView
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/dynamic_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#E8E8E8"
-        android:dividerHeight="15dp"></ListView>
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
