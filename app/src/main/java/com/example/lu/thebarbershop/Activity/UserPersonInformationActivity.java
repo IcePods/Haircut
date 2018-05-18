@@ -26,7 +26,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageButton sexbutton;//修改性别按钮
     private ImageButton phnebutton;//修改电话按钮
     private Mylistener mylistener;//监听器
-    private Button exittologin;
+    private Button exittologin;//退出登录
 
     private PopupWindow popupWindow;
     private final int CAMERA_REQUEST = 8888;
@@ -95,6 +95,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     intent.setClass(getApplicationContext(),UsersLoginActivity.class);
                     //进行跳转
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.user_person_informatin_header_img:
                     showPop(imageView);
