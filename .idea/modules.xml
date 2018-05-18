@@ -3,13 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TheBarberShop.iml" filepath="$PROJECT_DIR$/TheBarberShop.iml" />
-      <module fileurl="file://D:\study\haircut\TheBarberShop.iml" filepath="D:\study\haircut\TheBarberShop.iml" />
-      <module fileurl="file://C:\Users\lu\Desktop\TheBarberShop\TheBarberShop.iml" filepath="C:\Users\lu\Desktop\TheBarberShop\TheBarberShop.iml" />
       <module fileurl="file://D:\Class\Projects\haircut\TheBarberShop.iml" filepath="D:\Class\Projects\haircut\TheBarberShop.iml" />
+      <module fileurl="file://C:\Users\lu\Desktop\TheBarberShop\TheBarberShop.iml" filepath="C:\Users\lu\Desktop\TheBarberShop\TheBarberShop.iml" />
+      <module fileurl="file://D:\study\haircut\TheBarberShop.iml" filepath="D:\study\haircut\TheBarberShop.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\lu\Desktop\TheBarberShop\app\app.iml" filepath="C:\Users\lu\Desktop\TheBarberShop\app\app.iml" />
-      <module fileurl="file://D:\WorkSpace\TheBarberShop\haircut.iml" filepath="D:\WorkSpace\TheBarberShop\haircut.iml" />
       <module fileurl="file://D:\android\gitDown\TheBarberShop\haircut.iml" filepath="D:\android\gitDown\TheBarberShop\haircut.iml" />
+      <module fileurl="file://D:\WorkSpace\TheBarberShop\haircut.iml" filepath="D:\WorkSpace\TheBarberShop\haircut.iml" />
     </modules>
   </component>
 </project>
