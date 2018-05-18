@@ -62,10 +62,12 @@ public class UsersRegisterActivity extends AppCompatActivity {
                 case R.id.user_register_login:
                     intent.setClass(getApplicationContext(),UsersLoginActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.user_register:
                     intent.setClass(getApplicationContext(),UsersLoginActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
             }
         }
