@@ -87,4 +87,17 @@ public class DynamicListAdapter extends RecyclerView.Adapter<DynamicListAdapter.
         }
     }
 
+    public void add(List<Dynamic> addMessageList){
+        //增加数据
+        int position = dataSource.size();
+        dataSource.addAll(position,addMessageList);
+        notifyItemInserted(position);
+    }
+    public void refresh(List<Dynamic> newList){
+        //刷新数据
+        dataSource.removeAll(dataSource);
+        dataSource.addAll(newList);
+        notifyDataSetChanged();
+    }
+
 }

@@ -282,7 +282,8 @@
             <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#444"/>
+                android:background="#444"
+                app:srlAccentColor="#fff"/>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </RelativeLayout>
 
