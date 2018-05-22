@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Activity.UserSearchActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
@@ -89,6 +90,9 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         initShopAdapter();
         //设置scroll开始从头显示
         scrollView.smoothScrollTo(0,0);
+        //设置监听器
+        MianFragmentListener mianFragmentListener = new MianFragmentListener();
+        search.setOnClickListener(mianFragmentListener);
 
 
 
@@ -230,6 +234,19 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 startActivity(intent);
             }
         });
+    }
+    //点击事件监听器
+    class MianFragmentListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.user_index_search:
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, UserSearchActivity.class);
+                    startActivity(intent);
+            }
+        }
     }
     /**
      * 重写ondestory

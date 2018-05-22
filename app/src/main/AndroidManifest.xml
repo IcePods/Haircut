@@ -61,6 +61,7 @@
         <activity android:name=".Activity.UserShopDetailActivity" />
         <activity android:name=".Activity.CreateDynamicActivity" />
         <activity android:name=".Activity.ShopDetailBaiduMap"></activity>
+        <activity android:name=".Activity.UserSearchActivity"></activity>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

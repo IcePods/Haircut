@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lu.thebarbershop.Activity.UserSearchActivity">
+
+    <RelativeLayout
+        android:id="@+id/user_search_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/user_search_back"
+                android:src="@mipmap/user_search_back"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_weight="4"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/user_search_activity_search"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/user_index_search_button"
+                    android:layout_weight="3"/>
+                <EditText
+                    android:id="@+id/user_search_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:hint="你想搜啥"
+                    android:textSize="15dp"
+                    android:textColor="#2E2E2E"/>
+
+
+            </LinearLayout>
+
+            <TextView
+
+                android:id="@+id/user_search_sousuo"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:text="取消"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#2E2E2E"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/user_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/user_search_top"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/user_search_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索历史"
+                android:textSize="14dp"
+                android:textColor="#C7C7C7"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="展开"
+                android:textColor="#C7C7C7"
+                android:layout_marginRight="20dp"
+                />
+
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/user_search_history_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_search_history"
+        android:layout_marginTop="10dp">
+
+        <ListView
+            android:id="@+id/user_search_listview"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/user_search_clean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_search_listview"
+            android:text="清空搜索记录"
+            android:textColor="#696969"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/user_search_clean"/>
+    </RelativeLayout>
+</RelativeLayout>
