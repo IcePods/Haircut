@@ -1,6 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    signingConfigs {
+        config {
+            keyAlias 'baidumapkey'
+            keyPassword 'lhy1023973648'
+            storeFile file('E:/KeyStorePath/keystore.jks')
+            storePassword 'lhy1023973648'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.lu.thebarbershop"
@@ -19,15 +32,16 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-5'//没有使用特殊Header，可以不加这行
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-5'
+    //没有使用特殊Header，可以不加这行
     implementation 'com.github.bumptech.glide:glide:4.5.0'
-
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation files('libs/BaiduLBS_Android.jar')
 }

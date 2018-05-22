@@ -1,6 +1,8 @@
 package com.example.lu.thebarbershop.Activity;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,10 +40,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private ViewPager vp;
     //图片轮训的点
     private LinearLayout ll_point;
+    //百度定位
+    private RelativeLayout LocationMap;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
     private boolean isRunning = false; //viewpager是否在自动轮询
+
+    private  UserShopDetail userShopDetail;
 
     private ImageButton user_shop_detail_back_imgbtn ;//店铺详情页面返回按钮
     private ImageButton user_shopdetail_collect;//店铺详情 收藏按钮
@@ -64,9 +71,19 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                 finish();
             }
         });
+        LocationMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent();
+                //把点击的商品对象添加到intent对象中去
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userShopDetail",userShopDetail);
+                intent.putExtras(bundle);
+                intent.setClass(getApplicationContext(),ShopDetailBaiduMap.class);
+                startActivity(intent);
 
-
-
+            }
+        });
 
         initData();
         initView();
@@ -90,13 +107,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         user_shopdetail_collect = findViewById(R.id.user_shopdetail_collect);
         vp =findViewById(R.id.user_shop_detail_viewpager_content);
         ll_point =findViewById(R.id.user_shop_detail_ll_point);
+        LocationMap = findViewById(R.id.user_shop_detail_address_content);
     }
     //获取传过来的intent 获取参数
     private void getIntentAndData(){
         //获取intent对象传递的参数
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        final UserShopDetail userShopDetail = (UserShopDetail) bundle.getSerializable("userShopDetail");
+        userShopDetail = (UserShopDetail) bundle.getSerializable("userShopDetail");
 
         //更改控件内容
         user_shopdetail_header_shopname.setText(userShopDetail.getShopName());
