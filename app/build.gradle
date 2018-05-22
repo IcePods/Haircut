@@ -10,7 +10,7 @@ android {
         config {
             keyAlias 'baidumapkey'
             keyPassword 'lhy1023973648'
-            storeFile file('E:/KeyStorePath/keystore.jks')
+            storeFile file('D:/KeyStorePath/keystore.jks')
             storePassword 'lhy1023973648'
         }
     }
