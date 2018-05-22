@@ -27,8 +27,11 @@ import java.io.File;
 public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageView imageView;//头像
     private ImageButton backbutton;//返回按钮
+    private RelativeLayout nicknamerl;//修改昵称RelativeLayout
     private ImageButton nicknamebutton;//修改昵称按钮
+    private RelativeLayout sexrl;//修改性别RelativeLayout
     private ImageButton sexbutton;//修改性别按钮
+    private RelativeLayout phnerl;//修改电话RelativeLayout
     private ImageButton phnebutton;//修改电话按钮
     private Mylistener mylistener;//监听器
     private Button exittologin;//退出登录
@@ -52,17 +55,26 @@ public class UserPersonInformationActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.user_person_informatin_header_img);
         backbutton = findViewById(R.id.user_person_informatin_back);
-        nicknamebutton = findViewById(R.id.arrowtip48_1);
-        sexbutton = findViewById(R.id.arrowtip48_2);
-        phnebutton = findViewById(R.id.arrowtip48_3);
+        //修改昵称
+        nicknamerl = findViewById(R.id.user_person_information_nickname_rl);
+        nicknamebutton = findViewById(R.id.arrowtip48_nickname);
+        //修改性别
+        sexrl = findViewById(R.id.user_person_information_sex_rl);
+        sexbutton = findViewById(R.id.arrowtip48_sex);
+        //修改电话
+        phnerl = findViewById(R.id.user_person_information_phne_rl);
+        phnebutton = findViewById(R.id.arrowtip48_phne);
         exittologin = findViewById(R.id.user_person_information_exit);
 
         mylistener = new Mylistener();
 
         imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap(),2));
         backbutton.setOnClickListener(mylistener);
+        nicknamerl.setOnClickListener(mylistener);
         nicknamebutton.setOnClickListener(mylistener);
+        sexrl.setOnClickListener(mylistener);
         sexbutton.setOnClickListener(mylistener);
+        phnerl.setOnClickListener(mylistener);
         phnebutton.setOnClickListener(mylistener);
         exittologin.setOnClickListener(mylistener);
         imageView.setOnClickListener(mylistener);
@@ -80,27 +92,39 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     finish();
                     break;
                 //修改昵称
-                case R.id.arrowtip48_1:
+                case R.id.user_person_information_nickname_rl:
                     //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
                     //3. 进行跳转
                     startActivity(intent);
                     break;
+                case R.id.arrowtip48_nickname:
+                    intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
+                    startActivity(intent);
+                    break;
                 //修改性别
-                case R.id.arrowtip48_2:
+                case R.id.user_person_information_sex_rl:
                     //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeSexActivity.class);
                     //3. 进行跳转
                     startActivity(intent);
                     break;
+                case R.id.arrowtip48_sex:
+                    intent.setClass(getApplicationContext(),UserPersonInformationChangeSexActivity.class);
+                    startActivity(intent);
+                    break;
                 //修改电话
-                case R.id.arrowtip48_3:
+                case R.id.user_person_information_phne_rl:
                     //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangePhneActivity.class);
                     //3. 进行跳转
+                    startActivity(intent);
+                    break;
+                case R.id.arrowtip48_phne:
+                    intent.setClass(getApplicationContext(),UserPersonInformationChangePhneActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.user_person_information_exit:

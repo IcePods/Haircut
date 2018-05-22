@@ -24,7 +24,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.lu.thebarbershop.Activity.UserSearchActivity;
+import com.example.lu.thebarbershop.Activity.UserMainHaircolorActivity;
+import com.example.lu.thebarbershop.Activity.UserMainHaircutActivity;
+import com.example.lu.thebarbershop.Activity.UserMainNurseActivity;
+import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
@@ -49,10 +52,14 @@ import java.util.List;
 
 public class MainFragment extends Fragment implements ViewPager.OnPageChangeListener{
     private Context mContext;
-    private ImageView hirecut;
-    private ImageView hirecolor;
-    private ImageView perm;
-    private ImageView nurse;
+    private ImageView haircut;//剪发 id=user_index_haircut
+    private TextView haircuttxt;
+    private ImageView haircolor;//染发 id=user_index_haircolor
+    private TextView haircolortxt;
+    private ImageView perm;//烫发 id=user_index_perm
+    private TextView permtxt;
+    private ImageView nurse;//护理 id=user_index_nurse
+    private TextView nursetxt;
     private TextView address;
     private LinearLayout search;
     private ImageView plus;
@@ -68,7 +75,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     private IndexShopDetailAdapter indexShopDetailAdapter;//主页店铺展示的adapter
 
-
+    private Mylistener mylistener;//点击事件监听器
 
     @Nullable
     @Override
@@ -78,6 +85,16 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         View view = inflater.inflate(R.layout.fragment_index,container,false);
         //初始化控件
         init(view);
+        //绑定事件监听器
+        mylistener = new Mylistener();
+        perm.setOnClickListener(mylistener);
+        permtxt.setOnClickListener(mylistener);
+        haircut.setOnClickListener(mylistener);
+        haircuttxt.setOnClickListener(mylistener);
+        haircolor.setOnClickListener(mylistener);
+        haircolortxt.setOnClickListener(mylistener);
+        nurse.setOnClickListener(mylistener);
+        nursetxt.setOnClickListener(mylistener);
         //设置图片为圆形
         setRounded();
         //得到轮播图片集合
@@ -90,10 +107,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         initShopAdapter();
         //设置scroll开始从头显示
         scrollView.smoothScrollTo(0,0);
-        //设置监听器
-        MianFragmentListener mianFragmentListener = new MianFragmentListener();
-        search.setOnClickListener(mianFragmentListener);
-
 
 
 
@@ -107,10 +120,14 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         address = view.findViewById(R.id.user_index_address);
         search = view.findViewById(R.id.user_index_search);
         plus = view.findViewById(R.id.user_index_plus);
-        perm = view.findViewById(R.id.user_index_perm);
-        hirecut = view.findViewById(R.id.user_index_hirecut);
-        hirecolor = view.findViewById(R.id.user_index_hirecolor);
-        nurse = view.findViewById(R.id.user_index_nurse);
+        perm = view.findViewById(R.id.user_index_perm);//烫发
+        permtxt = view.findViewById(R.id.user_index_perm_txt);
+        haircut = view.findViewById(R.id.user_index_haircut);//剪发
+        haircuttxt = view.findViewById(R.id.user_index_haircut_txt);
+        haircolor = view.findViewById(R.id.user_index_haircolor);//染发
+        haircolortxt = view.findViewById(R.id.user_index_haircolor_txt);
+        nurse = view.findViewById(R.id.user_index_nurse);//护理
+        nursetxt = view.findViewById(R.id.user_index_nurse_txt);
         vp = view.findViewById(R.id.user_index_viewpager_content);
         lv_shop = view.findViewById(R.id.user_person_index_lvshop_content);
         ll_point = view.findViewById(R.id.ll_point);
@@ -124,13 +141,62 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
      * */
     public void setRounded(){
         GetRoundedCornerBitmap GetRounded = new GetRoundedCornerBitmap();
-        hirecut.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)hirecut.getDrawable()).getBitmap(),2));
-        hirecolor.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)hirecolor.getDrawable()).getBitmap(),2));
+        haircut.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)haircut.getDrawable()).getBitmap(),2));
+        haircolor.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)haircolor.getDrawable()).getBitmap(),2));
         perm.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)perm.getDrawable()).getBitmap(),2));
         nurse.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)nurse.getDrawable()).getBitmap(),2));
 
     }
 
+    /**
+     * 点击事件监听器类
+     */
+    private class Mylistener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            switch (v.getId()){
+                //点击烫发图片 跳转到对应发型页面
+                case R.id.user_index_perm:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainPermActivity.class);
+                    startActivity(intent);
+                    break;
+                //点击烫发文字 跳转到对应发型界面
+                case R.id.user_index_perm_txt:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainPermActivity.class);
+                    startActivity(intent);
+                    break;
+                //剪发
+                case R.id.user_index_haircut:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainHaircutActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.user_index_haircut_txt:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainHaircutActivity.class);
+                    startActivity(intent);
+                    break;
+                //染发
+                case R.id.user_index_haircolor:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainHaircolorActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.user_index_haircolor_txt:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainHaircolorActivity.class);
+                    startActivity(intent);
+                    break;
+                //护理
+                case R.id.user_index_nurse:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainNurseActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.user_index_nurse_txt:
+                    intent.setClass(getActivity().getApplicationContext(),UserMainNurseActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    }
     //////////////////////
     /**
      * 实现onpagechangelistener
@@ -234,19 +300,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 startActivity(intent);
             }
         });
-    }
-    //点击事件监听器
-    class MianFragmentListener implements View.OnClickListener{
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.user_index_search:
-                    Intent intent = new Intent();
-                    intent.setClass(mContext, UserSearchActivity.class);
-                    startActivity(intent);
-            }
-        }
     }
     /**
      * 重写ondestory

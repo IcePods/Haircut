@@ -40,6 +40,7 @@
         android:layout_below="@+id/rv_ll_1"
         android:orientation="vertical">
         <RelativeLayout
+            android:id="@+id/user_person_information_nickname_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -58,10 +59,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/arrowtip48_1"
+                android:layout_toLeftOf="@+id/arrowtip48_nickname"
                 android:text="zhangsan233"/>
             <ImageButton
-                android:id="@+id/arrowtip48_1"
+                android:id="@+id/arrowtip48_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -70,6 +71,7 @@
                 android:src="@mipmap/arrowtip_right"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/user_person_information_sex_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -88,10 +90,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/arrowtip48_2"
+                android:layout_toLeftOf="@+id/arrowtip48_sex"
                 android:text="男"/>
             <ImageButton
-                android:id="@+id/arrowtip48_2"
+                android:id="@+id/arrowtip48_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -100,6 +102,7 @@
                 android:src="@mipmap/arrowtip_right"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/user_person_information_phne_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -118,10 +121,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/arrowtip48_3"
+                android:layout_toLeftOf="@+id/arrowtip48_phne"
                 android:text="15732112345"/>
             <ImageButton
-                android:id="@+id/arrowtip48_3"
+                android:id="@+id/arrowtip48_phne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
