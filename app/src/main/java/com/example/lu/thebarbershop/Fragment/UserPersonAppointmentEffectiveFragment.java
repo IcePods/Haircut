@@ -43,6 +43,7 @@ public class UserPersonAppointmentEffectiveFragment extends Fragment {
         final EffectiveAppointmentAdapter adapter = new EffectiveAppointmentAdapter(getActivity().getApplicationContext(),prepareDatas(),R.layout.item_user_appointment_effective);
         appointmentEffectiveList.setAdapter(adapter);
         appointmentEffectiveList.setDivider(null);
+        //有效预约item点击方法
         appointmentEffectiveList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

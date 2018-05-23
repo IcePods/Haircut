@@ -54,7 +54,7 @@ public class UserMainHaircutActivity extends AppCompatActivity {
                 //携带数据跳转到另一个Activity，进行数据的更新操作
                 Intent intent = new Intent();
                 //指定跳转路线
-                intent.setClass(getApplicationContext(),MainActivity.class);
+                intent.setClass(getApplicationContext(),HairStyleDetailActivity.class);
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
 

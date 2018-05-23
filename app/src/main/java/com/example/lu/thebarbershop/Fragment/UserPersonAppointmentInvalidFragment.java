@@ -41,7 +41,7 @@ public class UserPersonAppointmentInvalidFragment extends Fragment {
 
         final InvalidAppointmentAdapter adapter = new InvalidAppointmentAdapter(getActivity().getApplicationContext(),prepareDatas(),R.layout.item_user_appointment_invalid);
         appointmentInvalidList.setAdapter(adapter);
-        //预约item的点击方法
+        //失效预约item的点击方法
         appointmentInvalidList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
