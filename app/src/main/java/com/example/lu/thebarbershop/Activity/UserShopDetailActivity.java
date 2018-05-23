@@ -45,6 +45,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private RelativeLayout LocationMap;
     //电话控件
     private RelativeLayout TelephoneLayout;
+    //作品展示
+    private RelativeLayout productionLayout;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
@@ -75,6 +77,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         LocationMap.setOnClickListener(listener);
         //点击跳转拨号盘 填入电话号 但不拨打
         TelephoneLayout.setOnClickListener(listener);
+        //点击跳转作品展示页面
+        productionLayout.setOnClickListener(listener);
         initData();
         initView();
         //得到轮播图片集合
@@ -108,6 +112,12 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent1);
                     break;
+                case R.id.user_shop_detail_production:
+                    //跳转到作品展示页面
+                    Intent intent2 =  new Intent();
+                    intent2.setClass(getApplicationContext(),UserShopDetailProductionActivity.class);
+                    startActivity(intent2);
+
             }
         }
     }
@@ -124,6 +134,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         ll_point =findViewById(R.id.user_shop_detail_ll_point);
         LocationMap = findViewById(R.id.user_shop_detail_address_content);
         TelephoneLayout = findViewById(R.id.user_shop_detail_phone_content);
+        productionLayout = findViewById(R.id.user_shop_detail_production);
     }
     //获取传过来的intent 获取参数
     private void getIntentAndData(){
