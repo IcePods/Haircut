@@ -1,6 +1,7 @@
 package com.example.lu.thebarbershop.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -42,6 +43,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private LinearLayout ll_point;
     //百度定位
     private RelativeLayout LocationMap;
+    //电话控件
+    private RelativeLayout TelephoneLayout;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
@@ -64,27 +67,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         getView();
         //获取传过来的intent 获取参数 并更改对应控件
         getIntentAndData();
+        //实例化监听器
+        OnClickImpListener listener = new OnClickImpListener();
         //点击返回 finish 本activity
-        user_shop_detail_back_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        LocationMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =  new Intent();
-                //把点击的商品对象添加到intent对象中去
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("userShopDetail",userShopDetail);
-                intent.putExtras(bundle);
-                intent.setClass(getApplicationContext(),ShopDetailBaiduMap.class);
-                startActivity(intent);
-
-            }
-        });
-
+        user_shop_detail_back_imgbtn.setOnClickListener(listener);
+        //点击跳转百度地图
+        LocationMap.setOnClickListener(listener);
+        //点击跳转拨号盘 填入电话号 但不拨打
+        TelephoneLayout.setOnClickListener(listener);
         initData();
         initView();
         //得到轮播图片集合
@@ -95,6 +85,31 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         viewPagerThread();
 
 
+    }
+    private class OnClickImpListener implements  View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.user_shop_detail_back_imgbtn:
+                    finish();
+                    break;
+                case R.id.user_shop_detail_address_content:
+                    Intent intent =  new Intent();
+                    //把点击的商品对象添加到intent对象中去
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("userShopDetail",userShopDetail);
+                    intent.putExtras(bundle);
+                    intent.setClass(getApplicationContext(),ShopDetailBaiduMap.class);
+                    startActivity(intent);
+                    break;
+                case R.id.user_shop_detail_phone_content:
+                    //拉取拨号盘 填入电话号 不拨打
+                    Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+userShopDetail.getShopPhone()));
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent1);
+                    break;
+            }
+        }
     }
     //获取控件
     private void getView(){
@@ -108,6 +123,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         vp =findViewById(R.id.user_shop_detail_viewpager_content);
         ll_point =findViewById(R.id.user_shop_detail_ll_point);
         LocationMap = findViewById(R.id.user_shop_detail_address_content);
+        TelephoneLayout = findViewById(R.id.user_shop_detail_phone_content);
     }
     //获取传过来的intent 获取参数
     private void getIntentAndData(){
