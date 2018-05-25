@@ -134,15 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:paddingTop="20dp"
-                    android:layout_below="@+id/hair_style_detail_introduction"
-                   >
-
-                  <!--  <LinearLayout
-                        android:id="@+id/btn_appointment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        >-->
+                    android:layout_below="@+id/hair_style_detail_introduction">
 
                         <TextView
                             android:id="@+id/hair_style_appointment"
@@ -155,13 +147,13 @@
 
                         <ImageView
                             android:id="@+id/image_appointment"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_gravity="center"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:paddingTop="5dp"
                             android:paddingRight="5dp"
                             android:src="@mipmap/arrowtip_right"
                             android:layout_alignParentRight="true"/>
-                   <!-- </LinearLayout>-->
+
                 </RelativeLayout>
 
             </RelativeLayout>
