@@ -107,7 +107,10 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         //店铺listview
         initShopAdapter();
         //设置scroll开始从头显示
-        scrollView.smoothScrollTo(0,0);
+       /* scrollView.smoothScrollTo(0,0);*/
+       vp.setFocusable(true);
+       vp.setFocusableInTouchMode(true);
+       vp.requestFocus();
         //设置监听器
         MianFragmentListener mianFragmentListener = new MianFragmentListener();
         search.setOnClickListener(mianFragmentListener);
