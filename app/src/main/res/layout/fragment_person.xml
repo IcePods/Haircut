@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff"
-    android:layout_marginBottom="40dp">
+    android:background="#F7F7F9">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,18 +78,12 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
-            <!--分界线-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F7F7F9"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/border"
+                android:layout_marginTop="20dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="10dp">
                 <LinearLayout
@@ -161,18 +154,19 @@
                 </LinearLayout>
             </LinearLayout>
             <!--分界线-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F7F7F9"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:background="#F7F7F9"/>-->
             <!--预约人信息-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/listborder"
+                android:layout_marginTop="20dp"
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
-                android:layout_marginLeft="20dp">
+                android:paddingLeft="20dp">
                 <Button
                     android:id="@+id/user_person_appoint_information_btn"
                     android:layout_width="match_parent"
@@ -195,34 +189,34 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
+                android:paddingLeft="20dp"
                 android:background="@drawable/listborder">
                 <Button
                     android:id="@+id/user_person_abouts_us_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
                     android:drawableLeft="@mipmap/user_person_head_cat_img"
                     android:drawablePadding="10dp"
                     android:text="关于我们"
                     android:gravity="center_vertical|left"
                     android:background="@null"/>
             </LinearLayout>
-            <!--分界线-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F7F7F9" />
+            <!--&lt;!&ndash;分界线&ndash;&gt;-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:background="#F7F7F9" />-->
             <!--设置？？-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
+                android:layout_marginTop="23dp"
                 android:paddingBottom="3dp"
+                android:paddingLeft="20dp"
                 android:background="@drawable/listborder">
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
                     android:drawableLeft="@mipmap/user_person_head_cat_img"
                     android:drawablePadding="10dp"
                     android:text="设置"
@@ -230,10 +224,10 @@
                     android:background="@null"/>
             </LinearLayout>
             <!--分界线-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#F7F7F9" />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:background="#F7F7F9" />-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
