@@ -45,7 +45,9 @@
                     android:background="#00000000"
                     android:hint="你想搜啥"
                     android:textSize="15dp"
-                    android:textColor="#2E2E2E"/>
+                    android:textColor="#2E2E2E"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
 
 
             </LinearLayout>

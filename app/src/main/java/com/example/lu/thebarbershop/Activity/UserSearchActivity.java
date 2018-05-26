@@ -94,6 +94,7 @@ public class UserSearchActivity extends AppCompatActivity {
         userSearchEdit.addTextChangedListener(watcher);
 
 
+
     }
 
     //初始化控件

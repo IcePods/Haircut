@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -115,7 +116,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         MianFragmentListener mianFragmentListener = new MianFragmentListener();
         search.setOnClickListener(mianFragmentListener);
 
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return view;
     }
     /**
@@ -316,6 +317,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 case R.id.user_index_search:
                     Intent intent = new Intent();
                     intent.setClass(mContext, UserSearchActivity.class);
+                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                     startActivity(intent);
             }
         }
