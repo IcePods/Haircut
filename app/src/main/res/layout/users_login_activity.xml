@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/loginbci"
     tools:context="com.example.lu.thebarbershop.Activity.UsersLoginActivity">
 
     <Button
@@ -24,6 +23,14 @@
         android:layout_below="@id/users_login_register"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/login_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/users_login_logo"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:textColor="#c91f37"/>
     //用户名
     <LinearLayout
         android:id="@+id/user_login_layout_username"
@@ -74,6 +81,7 @@
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
             android:hint="密码"
+            android:inputType="textPassword"
             android:layout_weight="5"
             android:textSize="15sp"/>
 
