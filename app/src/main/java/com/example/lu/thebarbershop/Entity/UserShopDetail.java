@@ -1,7 +1,12 @@
 package com.example.lu.thebarbershop.Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +20,9 @@ public class UserShopDetail implements Serializable {
     private String shopAddress;
     private String shopPhone;
     private String shopIntroduce;//店铺简介
-   /* private List<Baber> baberSet = new ArrayList<Baber>();*/
+    private Set<ShopPicture> ShopPictureSet = new HashSet<>();
+    private List<HairStyleDetail> hairStyleDetails = new ArrayList<HairStyleDetail>();
+    /*private List<Baber> baberSet = new ArrayList<Baber>();*/
 
     public int getShopId() {
         return shopId;
@@ -64,4 +71,22 @@ public class UserShopDetail implements Serializable {
     public void setShopIntroduce(String shopIntroduce) {
         this.shopIntroduce = shopIntroduce;
     }
+
+    public Set<ShopPicture> getShopPictureSet() {
+        return ShopPictureSet;
+    }
+
+    public void setShopPictureSet(Set<ShopPicture> shopPictureSet) {
+        ShopPictureSet = shopPictureSet;
+    }
+
+    public List<HairStyleDetail> getHairStyleDetails() {
+        return hairStyleDetails;
+    }
+
+    public void setHairStyleDetails(List<HairStyleDetail> hairStyleDetails) {
+        this.hairStyleDetails = hairStyleDetails;
+    }
+
+
 }

@@ -40,7 +40,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
     private TextView errorMessage;
 
     private final String url = "http://192.168.1.104:8080/theBarberShopServers/register.action";
-    OkHttpClient okHttpClient ;
+    OkHttpClient okHttpClient;
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
 
     Handler handler = new Handler(){
@@ -195,7 +195,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
                         bundle.putString("user",a);
                         message.setData(bundle);
                         handler.sendMessage(message);
-                        
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

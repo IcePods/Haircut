@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -33,6 +35,7 @@ import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
+import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
 import com.example.lu.thebarbershop.MyTools.LooperTextView;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexShopDetail;
@@ -43,9 +46,21 @@ import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.Activity.UsersRegisterActivity;
 
 import com.example.lu.thebarbershop.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by lu on 2018/5/9 0009.
@@ -70,6 +85,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private ListView lv_shop;
     private ViewPager vp;
     private LinearLayout ll_point;
+    private List<UserShopDetail> allShopList;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
@@ -79,6 +95,28 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     private Mylistener mylistener;//点击事件监听器
 
+    //获取店铺信息
+    /*private final String url="";*/
+    OkHttpClient okHttpClient= new OkHttpClient();
+   /* private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");*/
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    Bundle bundle = msg.getData();
+                    String allShop = bundle.getString("allshop");
+                    Log.i("allshop",allShop);
+                    Gson gson =new Gson();
+                    allShopList =gson.fromJson(allShop,new TypeToken<List<UserShopDetail>>(){}.getType());
+                    Log.i("allshop",allShopList.size()+"");
+                    initShopAdapter();
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +125,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         View view = inflater.inflate(R.layout.fragment_index,container,false);
         //初始化控件
         init(view);
+
         //绑定事件监听器
         mylistener = new Mylistener();
         perm.setOnClickListener(mylistener);
@@ -105,8 +144,10 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         viewPagerThread();
         //消息上下轮播
         looperTextView.setTipList(new PrepareLooperTextDate().getLooperList());
+        //从服务器获取usershopdetail
+        getUserShopDetail();
         //店铺listview
-        initShopAdapter();
+
         //设置scroll开始从头显示
        /* scrollView.smoothScrollTo(0,0);*/
        vp.setFocusable(true);
@@ -115,6 +156,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         //设置监听器
         MianFragmentListener mianFragmentListener = new MianFragmentListener();
         search.setOnClickListener(mianFragmentListener);
+
+
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return view;
@@ -289,8 +332,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
      * */
     public void initShopAdapter(){
         //实例化数据
-
-        indexShopDetailAdapter = new IndexShopDetailAdapter(mContext,new PrepareIndexShopDetail().prepareIndexShopDetail(),R.layout.item_user_index_shop);
+        indexShopDetailAdapter = new IndexShopDetailAdapter(mContext,allShopList,R.layout.item_user_index_shop);
         lv_shop.setAdapter(indexShopDetailAdapter);
         lv_shop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -302,6 +344,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
                 UserShopDetail userShopDetail = (UserShopDetail)indexShopDetailAdapter.getItem(position);
+
                 bundle.putSerializable("userShopDetail",userShopDetail);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -322,6 +365,35 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
             }
         }
     }
+
+    //Get请求，带有封装请求参数的请求方式
+    private void getUserShopDetail(){
+        Request request = new Request.Builder().url("http://192.168.155.3:8080/theBarberShopServers/AllShop.action").build();
+        final Call call = okHttpClient.newCall(request);
+        new Thread(){
+            @Override
+            public void run() {
+
+                try {
+                    Response response = call.execute();
+                    String a = response.body().string();
+                    Message message =Message.obtain();
+                    message.what =1;
+                    Bundle bundle =new Bundle();
+                    bundle.putString("allshop",a);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+
+
+    }
+
     /**
      * 重写ondestory
      * */

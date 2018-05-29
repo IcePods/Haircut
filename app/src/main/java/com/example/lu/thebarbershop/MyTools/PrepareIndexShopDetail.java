@@ -5,14 +5,37 @@ import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+
 /**
  * Created by sweet on 2018/5/15.
  */
 
 public class PrepareIndexShopDetail {
+    private final String url="";
+    OkHttpClient okHttpClient;
+    private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
+
     public List<UserShopDetail> prepareIndexShopDetail(){
         List<UserShopDetail> list = new ArrayList<UserShopDetail>();
-        UserShopDetail userShopDetail1 = new UserShopDetail();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       /* UserShopDetail userShopDetail1 = new UserShopDetail();
         userShopDetail1.setShopId(1);
         userShopDetail1.setShopPicture("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526384959497&di=0ba01c4ae22ea48da90dce1cd243d6be&imgtype=0&src=http%3A%2F%2Fpic1.xtuan.com%2Fupload%2Fxiaoguotu%2F20130513%2F10253745280.jpg");
         userShopDetail1.setShopAddress("长安区勒泰中心庄里街最北侧上二楼必胜客北边");
@@ -68,7 +91,7 @@ public class PrepareIndexShopDetail {
         userShopDetail7.setShopPhone("1577896541");
         userShopDetail7.setShopIntroduce("我们用双手成就你的梦想哈哈哈快来快活吧");
         list.add(userShopDetail7);
-
+*/
         return list;
     }
 }

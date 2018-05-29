@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
+import com.example.lu.thebarbershop.Entity.ShopPicture;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
@@ -48,6 +49,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     //作品展示
     private RelativeLayout productionLayout;
 
+    private List<String> shopPictureList=new ArrayList<String>();//服务器获取的店铺轮播图片集合
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
     private boolean isRunning = false; //viewpager是否在自动轮询
@@ -142,6 +144,12 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         userShopDetail = (UserShopDetail) bundle.getSerializable("userShopDetail");
+        Log.i("allshoppicture",userShopDetail.getShopPictureSet().size()+"");
+        for(ShopPicture i:userShopDetail.getShopPictureSet()){
+
+            shopPictureList.add(i.getShoppicture_picture());
+            Log.i("allshoppicturestring",i.toString());
+        }
 
         //更改控件内容
         user_shopdetail_header_shopname.setText(userShopDetail.getShopName());
@@ -196,14 +204,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
      * */
     public void addViewPagerImages(){
         //得到图片集合
-        PrepareIndexViewPagerDate prepareIndexViewPagerDate = new PrepareIndexViewPagerDate();
-        List<String> list = prepareIndexViewPagerDate.date();
+       /* PrepareIndexViewPagerDate prepareIndexViewPagerDate = new PrepareIndexViewPagerDate();
+        List<String> list = prepareIndexViewPagerDate.date();*/
         RequestOptions requestOptions = new RequestOptions().centerCrop();
         requestOptions.placeholder(R.mipmap.user_index_nurse);
-        for(int i=0;i<list.size();i++){
+        for(int i=0;i<shopPictureList.size();i++){
             ImageView imageView =new ImageView(this);
             Glide.with(this)
-                    .load(list.get(i))
+                    .load(shopPictureList.get(i))
                     .apply(requestOptions)
                     .into(imageView);
             imageViewArrayList.add(imageView);
