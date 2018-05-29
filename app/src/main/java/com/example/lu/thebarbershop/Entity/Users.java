@@ -1,10 +1,14 @@
 package com.example.lu.thebarbershop.Entity;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by 天龙 on 2018/5/24.
  */
 
-public class Users {
+public class Users implements Serializable{
     private int UserId;
     private String UserAccount;
     private String UserPassword;
@@ -12,6 +16,7 @@ public class Users {
     private String UserSex;
     private String UserPhone;
     private String UserHeader;
+    private Set<UserShopDetail> shopSet = new HashSet<UserShopDetail>();
 
     public int getUserId() {
         return UserId;
@@ -67,5 +72,18 @@ public class Users {
 
     public void setUserHeader(String userHeader) {
         UserHeader = userHeader;
+    }
+
+    public Set<UserShopDetail> getShopSet() {
+        return shopSet;
+    }
+
+    public void setShopSet(Set<UserShopDetail> shopSet) {
+        this.shopSet = shopSet;
+    }
+
+    public String toString(Users u) {
+        String a= u.UserId+u.UserAccount+u.UserPassword;
+        return a;
     }
 }
