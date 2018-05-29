@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.common.views.PortraitView;
+import com.example.lu.thebarbershop.Activity.ChatActivity;
 import com.example.lu.thebarbershop.Entity.ActiveChat;
 import com.example.lu.thebarbershop.R;
 
@@ -41,6 +42,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         holder.mName.setText(lists.get(position).getmName());
         holder.mContent.setText(lists.get(position).getmContent());
         holder.mTime.setText(lists.get(position).getmTime());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChatActivity.show(mContext);
+            }
+        });
     }
 
     @Override

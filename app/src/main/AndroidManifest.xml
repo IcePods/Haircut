@@ -64,17 +64,18 @@
         <activity android:name=".Activity.CreateDynamicActivity" />
         <activity android:name=".Activity.ShopDetailBaiduMap" />
         <activity android:name=".Activity.UserSearchActivity" />
-        <activity android:name=".Activity.UserShopDetailProductionActivity"/>
+        <activity android:name=".Activity.UserShopDetailProductionActivity" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
 
         <activity android:name=".Activity.UserMainHaircutActivity" />
         <activity android:name=".Activity.UserMainHaircolorActivity" />
         <activity android:name=".Activity.UserMainNurseActivity" />
-        <activity android:name=".Activity.HairStyleDetailActivity"></activity>
+        <activity android:name=".Activity.HairStyleDetailActivity" />
+        <activity android:name=".Activity.ChatActivity"></activity>
     </application>
 
 </manifest>
