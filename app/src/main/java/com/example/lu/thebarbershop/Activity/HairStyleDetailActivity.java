@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.HairStyle;
+import com.example.lu.thebarbershop.Entity.HairStyleDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareHairStylePicture;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.R;
@@ -34,7 +36,8 @@ public class HairStyleDetailActivity extends AppCompatActivity {
 
     private TextView hairStyleName;//发型名
     private TextView hairStyleIntroduction;//发型描述
-    private List<String> hairstyleImgs;//发型图片URL
+
+    private List<String> hairstyleImgs = new ArrayList<String>();//发型图片URL
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //放轮播图片的集合
     private int lastPosition;//轮播图下边点的位置
@@ -84,11 +87,14 @@ public class HairStyleDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         hairStyle = (HairStyle)bundle.getSerializable("hairStyle");
+        for(HairStyleDetail i:hairStyle.getHairStyleDetailSet()){
+            hairstyleImgs.add(i.getHairstyle_detail_picture());
+            Log.i("hzl",hairstyleImgs.size()+"");
+        }
 
         //更改控件内容
         hairStyleName.setText(hairStyle.getHairstyleName());
         hairStyleIntroduction.setText(hairStyle.getHairstyleIntroduce());
-        hairstyleImgs = hairStyle.getHairstyleDetailPicture();
 
     }
     class onClickListener implements View.OnClickListener{

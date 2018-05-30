@@ -34,6 +34,7 @@ import com.example.lu.thebarbershop.Activity.UserMainNurseActivity;
 import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
+import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
@@ -54,6 +55,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -87,6 +89,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private LinearLayout ll_point;
     private List<UserShopDetail> allShopList;
 
+    private List<HairStyle> permsList;
+
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
     private int lastPosition;//轮播图下边点的位置
     private boolean isRunning = false; //viewpager是否在自动轮询
@@ -94,6 +98,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private IndexShopDetailAdapter indexShopDetailAdapter;//主页店铺展示的adapter
 
     private Mylistener mylistener;//点击事件监听器
+
+    private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
 
     //获取店铺信息
     /*private final String url="";*/
@@ -112,6 +118,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     allShopList =gson.fromJson(allShop,new TypeToken<List<UserShopDetail>>(){}.getType());
                     Log.i("allshop",allShopList.size()+"");
                     initShopAdapter();
+                    break;
             }
             super.handleMessage(msg);
         }
@@ -219,6 +226,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     break;
                 //剪发
                 case R.id.user_index_haircut:
+
                     intent.setClass(getActivity().getApplicationContext(),UserMainHaircutActivity.class);
                     startActivity(intent);
                     break;
@@ -228,6 +236,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     break;
                 //染发
                 case R.id.user_index_haircolor:
+
                     intent.setClass(getActivity().getApplicationContext(),UserMainHaircolorActivity.class);
                     startActivity(intent);
                     break;
@@ -237,6 +246,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     break;
                 //护理
                 case R.id.user_index_nurse:
+
                     intent.setClass(getActivity().getApplicationContext(),UserMainNurseActivity.class);
                     startActivity(intent);
                     break;
@@ -344,7 +354,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
                 UserShopDetail userShopDetail = (UserShopDetail)indexShopDetailAdapter.getItem(position);
-
                 bundle.putSerializable("userShopDetail",userShopDetail);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -368,7 +377,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     //Get请求，带有封装请求参数的请求方式
     private void getUserShopDetail(){
-        Request request = new Request.Builder().url("http://192.168.155.3:8080/theBarberShopServers/AllShop.action").build();
+        Request request = new Request.Builder().url("http://192.168.155.2:8080/theBarberShopServers/AllShop.action").build();
         final Call call = okHttpClient.newCall(request);
         new Thread(){
             @Override

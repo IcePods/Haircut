@@ -29,14 +29,14 @@ public class UserShopDetailProductionNurse extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_shop_detail_production_nurse,container,false);
 
         //创建静态数据
-        PrepareHairStylePicture hairStyles = new PrepareHairStylePicture();
+    /*    PrepareHairStylePicture hairStyles = new PrepareHairStylePicture();
         mRecyclerView = view.findViewById(R.id.fragment_shop_detail_nurse_recyclerview);
         //设置布局管理器为2列，纵向
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mAdapter = new HaircolorRecyclerviewAdapter(getActivity().getApplicationContext(), R.layout.item_user_main_haircolor_recyclerview, hairStyles.prepareHairStylePicture());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
         return view;
     }
 }

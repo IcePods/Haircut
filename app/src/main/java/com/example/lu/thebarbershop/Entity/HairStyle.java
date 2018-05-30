@@ -2,6 +2,7 @@ package com.example.lu.thebarbershop.Entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by shan on 2018/5/18.
@@ -11,7 +12,7 @@ import java.util.List;
 public class HairStyle implements Serializable{
     private int hairstyleId;//发型id
     private String hairstylePicture;//发型图片地址
-    private List<String> hairstyleDetailPicture;//发型图片集合
+    private Set<HairStyleDetail> hairStyleDetailSet;//发型详情
     private String hairstyleName;//发型名称
     private String hairstyleIntroduce;//发型简介
 //    private int imgHeight;//发型图片高度
@@ -19,13 +20,7 @@ public class HairStyle implements Serializable{
     public HairStyle() {
     }
 
-    public HairStyle(int hairstyleId, String hairstylePicture, List<String> hairstyleDetailPicture, String hairstyleName, String hairstyleIntroduce) {
-        this.hairstyleId = hairstyleId;
-        this.hairstylePicture = hairstylePicture;
-        this.hairstyleDetailPicture = hairstyleDetailPicture;
-        this.hairstyleName = hairstyleName;
-        this.hairstyleIntroduce = hairstyleIntroduce;
-    }
+
 
     public int getHairstyleId() {
         return hairstyleId;
@@ -43,12 +38,12 @@ public class HairStyle implements Serializable{
         this.hairstylePicture = hairstylePicture;
     }
 
-    public List<String> getHairstyleDetailPicture() {
-        return hairstyleDetailPicture;
+    public Set<HairStyleDetail> getHairStyleDetailSet() {
+        return hairStyleDetailSet;
     }
 
-    public void setHairstyleDetailPicture(List<String> hairstyleDetailPicture) {
-        this.hairstyleDetailPicture = hairstyleDetailPicture;
+    public void setHairStyleDetailSet(Set<HairStyleDetail> hairStyleDetailSet) {
+        this.hairStyleDetailSet = hairStyleDetailSet;
     }
 
     public String getHairstyleName() {

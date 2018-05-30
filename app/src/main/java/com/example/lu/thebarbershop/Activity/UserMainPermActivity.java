@@ -1,10 +1,13 @@
 package com.example.lu.thebarbershop.Activity;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -14,6 +17,19 @@ import com.example.lu.thebarbershop.Adapter.PermRecyclerviewAdapter;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.MyTools.PrepareHairStylePicture;
 import com.example.lu.thebarbershop.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 //import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class UserMainPermActivity extends AppCompatActivity {
@@ -22,13 +38,42 @@ public class UserMainPermActivity extends AppCompatActivity {
     private PermRecyclerviewAdapter mAdapter;
     private ImageButton backbutton;//返回按钮 id=user_main_perm_back_imgbtn
     private TextView hairnametxt;//顶部发型类型名称 id=user_main_perm_name
+    private List<HairStyle> permsList;
 
+    OkHttpClient okHttpClient= new OkHttpClient();
+    private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
+
+    Handler handler =new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    Bundle bundle2 = msg.getData();
+                    String perms = bundle2.getString("indexByType");
+                    Log.i("index",perms);
+                    Gson gson1 = new Gson();
+                    permsList=gson1.fromJson(perms,new TypeToken<List<HairStyle>>(){}.getType());
+                    Log.i("index",permsList.get(1).getHairstyleName()+"");
+                    initAdapter();
+
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        postGetHairStyleByType("烫发",1);
         /*//初始化Fresco
         Fresco.initialize(this);*/
         setContentView(R.layout.activity_user_main_perm);
+
+       /* //服务器获取的perms
+        Intent intent = getIntent();
+        permsList = (List<HairStyle>) intent.getSerializableExtra("perms");*/
+       /* Log.i("perms",permsList.size()+"");*/
+
 
         //获取控件id
         backbutton = findViewById(R.id.user_main_perm_back_imgbtn);
@@ -43,11 +88,18 @@ public class UserMainPermActivity extends AppCompatActivity {
         hairnametxt.setText("烫发");
 
         //创建静态数据
-        PrepareHairStylePicture hairStyles = new PrepareHairStylePicture();
+      /*  PrepareHairStylePicture hairStyles = new PrepareHairStylePicture();*/
         mRecyclerView = findViewById(R.id.user_main_perm_recyclerview);
         //设置布局管理器为2列，纵向
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mAdapter = new PermRecyclerviewAdapter(this, R.layout.item_user_main_perm_recyclerview, hairStyles.prepareHairStylePicture()); mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+
+    }
+
+    private void initAdapter() {
+        mAdapter = new PermRecyclerviewAdapter(this, R.layout.item_user_main_perm_recyclerview,permsList);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setAdapter(mAdapter);
         //给发型展示页面的子item绑定点击事件监听器 跳转到对应的详情页面
@@ -61,12 +113,42 @@ public class UserMainPermActivity extends AppCompatActivity {
                 intent.setClass(getApplicationContext(),HairStyleDetailActivity.class);
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
-
-                HairStyle hairStyle = PrepareHairStylePicture.prepareHairStylePicture().get(position);
+                HairStyle hairStyle = permsList.get(position);
                 bundle.putSerializable("hairStyle",hairStyle);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
+    }
+
+    //POST请求，带有封装请求参数的请求方式
+    private void postGetHairStyleByType(final String a,final int num){
+        new Thread(){
+            @Override
+            public void run() {
+
+                RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN,a);
+                Request.Builder builder = new Request.Builder();
+                builder.url("http://192.168.155.2:8080/theBarberShopServers/getHairStyleByTypeInHome.action");
+                builder.post(body);
+                Request request = builder.build();
+                Call call = okHttpClient.newCall(request);
+                try {
+                    Response response = call.execute();
+                    String a = response.body().string();
+                    Message message =Message.obtain();
+                    message.what =num;
+                    Bundle bundle =new Bundle();
+                    bundle.putString("indexByType",a);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+
     }
 }

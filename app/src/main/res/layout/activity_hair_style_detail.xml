@@ -83,7 +83,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/hair_style_viewpager"
-                    android:paddingLeft="30dp">
+                    android:paddingLeft="30dp"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -97,7 +98,9 @@
                             android:layout_height="wrap_content"
                             android:text="女士时尚剪发"
                             android:textColor="@android:color/black"
-                            android:textSize="18dp" />
+                            android:textSize="18dp"
+
+                            />
 
 
                     </LinearLayout>
@@ -124,6 +127,7 @@
                             android:paddingRight="30dp"
                             android:layout_marginTop="10dp"
                             android:gravity="center"
+                            android:textColor="#121212"
                             android:text="超级美的发型哦" />
 
                     </LinearLayout>
@@ -143,6 +147,7 @@
                             android:layout_gravity="center"
                             android:text="预约  "
                             android:textSize="17dp"
+                            android:textColor="#121212"
                             android:layout_toLeftOf="@+id/image_appointment"/>
 
                         <ImageView

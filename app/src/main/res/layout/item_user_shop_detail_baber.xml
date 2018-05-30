@@ -16,6 +16,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Jayson"/>
+        android:text="Jayson"
+        android:textColor="#121212"/>
 
 </LinearLayout>

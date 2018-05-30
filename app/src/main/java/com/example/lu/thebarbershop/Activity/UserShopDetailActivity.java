@@ -89,6 +89,10 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         changeViewPagerPoint();
         //开启图片轮训
         viewPagerThread();
+        //设置最开头显示
+        vp.setFocusable(true);
+        vp.setFocusableInTouchMode(true);
+        vp.requestFocus();
 
 
     }
