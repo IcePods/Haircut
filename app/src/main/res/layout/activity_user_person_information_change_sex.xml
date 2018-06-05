@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
             android:textSize="18sp"
+            android:textColor="#CACACA"
             android:text="先生">
         </RadioButton>
         <RadioButton
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:textSize="18sp"
+            android:textColor="#CACACA"
             android:text="女士"/>
     </RadioGroup>
     <Button

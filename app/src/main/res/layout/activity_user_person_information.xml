@@ -60,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/arrowtip48_nickname"
-                android:text="zhangsan233"/>
+                android:text="zhangsan233"
+                android:textColor="#121212"/>
             <ImageButton
                 android:id="@+id/arrowtip48_nickname"
                 android:layout_width="wrap_content"
@@ -91,7 +92,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/arrowtip48_sex"
-                android:text="男"/>
+                android:text="男"
+                android:textColor="#121212"/>
             <ImageButton
                 android:id="@+id/arrowtip48_sex"
                 android:layout_width="wrap_content"
@@ -122,7 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/arrowtip48_phne"
-                android:text="15732112345"/>
+                android:text="15732112345"
+                android:textColor="#121212"/>
             <ImageButton
                 android:id="@+id/arrowtip48_phne"
                 android:layout_width="wrap_content"

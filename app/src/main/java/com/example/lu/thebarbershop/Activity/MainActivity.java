@@ -3,6 +3,9 @@ package com.example.lu.thebarbershop.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -15,6 +18,9 @@ import com.example.lu.thebarbershop.Fragment.MainFragment;
 import com.example.lu.thebarbershop.Fragment.NewsFragment;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.R;
+
+import java.io.File;
+import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity {
     private Button BtnFragmentIndex;
@@ -36,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //获取控件
+
         getView();
+        /*changeSPLocation();*/
         //给选项卡绑定事件监听器
         onClickListenerImpl listener = new onClickListenerImpl();
         BtnFragmentIndex.setOnClickListener(listener);
@@ -47,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
             FragmentIndex = new MainFragment();
             FragmentNews = new NewsFragment();
             FragmentDynameic = new DynamicFragment();
-            FragmentPerson = new PersonFragment();
+            FragmentPerson = new PersonFragment(this);
+
         //默认显示第一个页面
         ChangeFragment(FragmentIndex);
     }
@@ -132,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
                     BtnFragmentPerson.setTextColor(getResources().getColor(R.color.unSelected));
                     break;
                 case R.id.btn_fragment_mine : //显示“我的”页面
+                    SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
+                    sharedPreferences.getString("UserAccount","王大锤");
                     //更改页面
                     ChangeFragment(FragmentPerson);
                     //更改选项卡图片颜色
@@ -172,4 +183,33 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private void changeSPLocation() {
+        try {
+            Field field;
+            // 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+            field = ContextWrapper.class.getDeclaredField("mBase");
+            field.setAccessible(true);
+            // 获取mBase变量
+            Object obj = field.get(this);
+            // 获取ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
+            field = obj.getClass().getDeclaredField("mPreferencesDir");
+            field.setAccessible(true);
+            // 创建自定义路径
+            File file = new File(android.os.Environment.getExternalStorageDirectory().getPath());
+            // 修改mPreferencesDir变量的值
+            field.set(obj, file);
+        } catch (NoSuchFieldException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
 }

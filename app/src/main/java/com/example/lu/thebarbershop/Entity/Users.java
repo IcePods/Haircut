@@ -101,7 +101,7 @@ public class Users implements Serializable{
     }
 
     public String toString(Users u) {
-        String a= u.UserId+u.UserAccount+u.UserPassword;
+        String a= u.UserId+u.UserAccount+u.UserPassword+UserToken+UserSex+UserCondition+UserName+UserPhone+UserHeader;
         return a;
     }
 }

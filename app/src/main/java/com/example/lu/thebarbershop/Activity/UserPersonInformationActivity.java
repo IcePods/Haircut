@@ -1,7 +1,10 @@
 package com.example.lu.thebarbershop.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -22,10 +25,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lu.thebarbershop.Entity.Users;
+import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
+import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 
 import java.io.File;
@@ -43,6 +50,18 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageButton phnebutton;//修改电话按钮
     private Mylistener mylistener;//监听器
     private Button exittologin;//退出登录
+    private TextView name;
+    private TextView sex;
+    private TextView phone;
+    private String username;
+    private String userheader;
+    private String usersex;
+    private String userphone;
+    private String token = "";
+    /*private Users users = (Users)getIntent().getSerializableExtra("users");*/
+
+    private SQLiteDatabase database;//查询数据库
+
 
     private PopupWindow popupWindow;
     //------------------------------------------------
@@ -74,9 +93,17 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         phnebutton = findViewById(R.id.arrowtip48_phne);
         exittologin = findViewById(R.id.user_person_information_exit);
 
+        name = findViewById(R.id.user_person_informatin_nickname_tv);
+        sex  =findViewById(R.id.user_person_informatin_sex_tv);
+        phone = findViewById(R.id.user_person_informatin_phne_tv);
         mylistener = new Mylistener();
 
+        selectUser();
+
         imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap(),2));
+        name.setText(username);
+        sex.setText(usersex);
+        phone.setText(userphone);
         backbutton.setOnClickListener(mylistener);
         nicknamerl.setOnClickListener(mylistener);
         nicknamebutton.setOnClickListener(mylistener);
@@ -103,12 +130,17 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                 case R.id.user_person_information_nickname_rl:
                     //只实现跳转
                     //2. 指定跳转路线
+
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
+                    intent.putExtra("token",token);
+                    /*intent.putExtra("users",users);*/
                     //3. 进行跳转
                     startActivity(intent);
                     break;
                 case R.id.arrowtip48_nickname:
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
+                    intent.putExtra("token",token);
+                    /*intent.putExtra("users",users);*/
                     startActivity(intent);
                     break;
                 //修改性别
@@ -116,11 +148,13 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeSexActivity.class);
+                    intent.putExtra("token",token);
                     //3. 进行跳转
                     startActivity(intent);
                     break;
                 case R.id.arrowtip48_sex:
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeSexActivity.class);
+                    intent.putExtra("token",token);
                     startActivity(intent);
                     break;
                 //修改电话
@@ -128,22 +162,29 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //只实现跳转
                     //2. 指定跳转路线
                     intent.setClass(getApplicationContext(),UserPersonInformationChangePhneActivity.class);
+                    intent.putExtra("token",token);
                     //3. 进行跳转
                     startActivity(intent);
                     break;
                 case R.id.arrowtip48_phne:
                     intent.setClass(getApplicationContext(),UserPersonInformationChangePhneActivity.class);
+                    intent.putExtra("token",token);
                     startActivity(intent);
                     break;
                 case R.id.user_person_information_exit:
                     //只实现跳转，跳转到登录页面
                     //跳转路线
-                    intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                    //删除shared文件
+                    File file = new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
+                    file.delete();
+                    Log.i("hzl","文件删除成功");
+                  /*  intent.setClass(getApplicationContext(),PersonFragment.class);
                     //进行跳转
-                    startActivity(intent);
+                    startActivity(intent);*/
                     finish();
                     break;
                 case R.id.user_person_informatin_header_img:
+                    intent.putExtra("token",token);
                     showPop(imageView);
 
                     break;
@@ -300,6 +341,19 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             return true;
         } else {
             return false;
+        }
+    }
+    private void selectUser(){
+        SharedPreferences sharedPreferences = this.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("token","");
+        database =new UserTokenSql(this).getReadableDatabase();
+        /*Cursor cursor = database.rawQuery("select * from user where usertoken = "+token,null);*/
+        Cursor cursor = database.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
+        if(cursor.moveToLast()){
+            username = cursor.getString(cursor.getColumnIndex("username"));
+            userheader = cursor.getString(cursor.getColumnIndex("userheader"));
+            usersex = cursor.getString(cursor.getColumnIndex("usersex"));
+            userphone = cursor.getString(cursor.getColumnIndex("userphone"));
         }
     }
 }

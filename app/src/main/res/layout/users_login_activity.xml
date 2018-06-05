@@ -39,7 +39,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:layout_below="@+id/users_login_logo"
-        android:background="@drawable/input">
+        android:background="@drawable/input"
+        >
 
         <ImageView
             android:id="@+id/user_login_userpic"
@@ -47,15 +48,18 @@
             android:layout_height="28dp"
             android:layout_weight="1"
             android:layout_marginTop="3dp"
-            android:src="@mipmap/username"/>
+            android:src="@mipmap/username"
+            />
         <EditText
             android:id="@+id/users_login_username"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
             android:hint="用户名/手机"
+            android:textColorHint="#121212"
             android:layout_weight="5"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:textColor="#121212"/>
 
     </LinearLayout>
     //密码
@@ -81,9 +85,11 @@
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
             android:hint="密码"
+            android:textColorHint="#121212"
             android:inputType="textPassword"
             android:layout_weight="5"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:textColor="#121212"/>
 
     </LinearLayout>
 

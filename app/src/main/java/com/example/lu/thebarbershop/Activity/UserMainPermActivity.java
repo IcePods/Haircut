@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Adapter.PermRecyclerviewAdapter;
 import com.example.lu.thebarbershop.Entity.HairStyle;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.MyTools.PrepareHairStylePicture;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
@@ -129,7 +130,7 @@ public class UserMainPermActivity extends AppCompatActivity {
 
                 RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN,a);
                 Request.Builder builder = new Request.Builder();
-                builder.url("http://192.168.155.2:8080/theBarberShopServers/getHairStyleByTypeInHome.action");
+                builder.url(UrlAddress.url+"getHairStyleByTypeInHome.action");
                 builder.post(body);
                 Request request = builder.build();
                 Call call = okHttpClient.newCall(request);

@@ -35,6 +35,7 @@ import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.HairStyle;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
@@ -377,7 +378,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     //Get请求，带有封装请求参数的请求方式
     private void getUserShopDetail(){
-        Request request = new Request.Builder().url("http://192.168.155.2:8080/theBarberShopServers/AllShop.action").build();
+        Request request = new Request.Builder().url(UrlAddress.url+"AllShop.action").build();
         final Call call = okHttpClient.newCall(request);
         new Thread(){
             @Override

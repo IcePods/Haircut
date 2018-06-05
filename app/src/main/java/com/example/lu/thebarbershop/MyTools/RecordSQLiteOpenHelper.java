@@ -14,6 +14,7 @@ public class RecordSQLiteOpenHelper extends SQLiteOpenHelper {
     private static Integer version = 1;
 
     public RecordSQLiteOpenHelper(Context context) {
+
         super(context, name, null, version);
     }
 

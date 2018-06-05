@@ -36,7 +36,7 @@
         android:layout_marginTop="10dp"
         android:hint="请输入您的电话"
         android:textSize="20sp"
-        android:textColor="#C7C8C8"
+        android:textColorHint="#CACACA"
         android:gravity="center"
         android:padding="10dp"/>
     <Button

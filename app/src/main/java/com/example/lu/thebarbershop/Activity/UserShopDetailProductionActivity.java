@@ -146,4 +146,10 @@ public class UserShopDetailProductionActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        int id = getIntent().getIntExtra("shop",0);
+
+        super.onResume();
+    }
 }

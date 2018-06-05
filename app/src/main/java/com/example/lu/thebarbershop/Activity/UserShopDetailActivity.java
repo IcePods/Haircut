@@ -27,6 +27,7 @@ import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private Button user_shop_detail_address; //店铺地址
     private Button user_shop_detail_phone_btn; //店铺电话
     private TextView user_shopdetail_describe; //店铺简介
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +125,10 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     //跳转到作品展示页面
                     Intent intent2 =  new Intent();
                     intent2.setClass(getApplicationContext(),UserShopDetailProductionActivity.class);
+                    Gson gson = new Gson();
+                    String shop = gson.toJson(userShopDetail);
+                    intent2.putExtra("shop",shop);
+                    intent2.putExtra("id",1);
                     startActivity(intent2);
 
             }

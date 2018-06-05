@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
@@ -39,7 +40,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
     private Mylistener mylistener;
     private TextView errorMessage;
 
-    private final String url = "http://192.168.1.104:8080/theBarberShopServers/register.action";
+
     OkHttpClient okHttpClient;
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
 
@@ -181,7 +182,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
 
                 RequestBody body = RequestBody.create(MEDIA_TYPE_MARKDOWN,a);
                 Request.Builder builder = new Request.Builder();
-                builder.url(url);
+                builder.url(UrlAddress.url+"register.action");
                 builder.post(body);
                 Request request = builder.build();
                 Call call = okHttpClient.newCall(request);
