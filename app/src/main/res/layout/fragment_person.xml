@@ -20,7 +20,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:padding="10dp"><!--
                     <ImageButton
                         android:layout_width="0dp"
                         android:layout_height="40dp"
@@ -38,7 +38,7 @@
                         android:layout_height="40dp"
                         android:layout_weight="1"
                         android:src="@mipmap/user_person_set_button"
-                        android:background="@null"/>
+                        android:background="@null"/>-->
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,8 +95,8 @@
                         android:id="@+id/user_person_appointment_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:drawableTop="@mipmap/user_person_head_cat_img"
+                        android:layout_marginTop="5dp"
+                        android:drawableTop="@mipmap/user_person_appointment_button"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的预约"
@@ -112,8 +112,8 @@
                         android:id="@+id/user_person_collection_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:drawableTop="@mipmap/user_person_head_cat_img"
+                        android:layout_marginTop="5dp"
+                        android:drawableTop="@mipmap/user_person_collection_button"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的收藏"
@@ -128,8 +128,8 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:drawableTop="@mipmap/user_person_head_cat_img"
+                        android:layout_marginTop="5dp"
+                        android:drawableTop="@mipmap/user_person_dynamic_button"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的动态"
@@ -144,8 +144,8 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:drawableTop="@mipmap/user_person_head_cat_img"
+                        android:layout_marginTop="5dp"
+                        android:drawableTop="@mipmap/user_person_comment_button"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的评论"
@@ -171,9 +171,10 @@
                     android:id="@+id/user_person_appoint_information_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/user_person_head_cat_img"
+                    android:drawableLeft="@mipmap/user_person_appointinfo_button"
                     android:drawablePadding="10dp"
                     android:text="预约人信息"
+                    android:textColor="#000000"
                     android:gravity="center_vertical|left"
                     android:background="@null"/>
                 <!--<ImageView
@@ -195,9 +196,10 @@
                     android:id="@+id/user_person_abouts_us_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/user_person_head_cat_img"
+                    android:drawableLeft="@mipmap/user_person_aboutus_button"
                     android:drawablePadding="10dp"
                     android:text="关于我们"
+                    android:textColor="#000000"
                     android:gravity="center_vertical|left"
                     android:background="@null"/>
             </LinearLayout>
@@ -217,9 +219,10 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/user_person_head_cat_img"
+                    android:drawableLeft="@mipmap/user_person_setting_button"
                     android:drawablePadding="10dp"
                     android:text="设置"
+                    android:textColor="#000000"
                     android:gravity="center_vertical|left"
                     android:background="@null"/>
             </LinearLayout>
