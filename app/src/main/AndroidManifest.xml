@@ -34,7 +34,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/wulitou"
+        android:icon="@mipmap/logo3"
         android:label="吾理头"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
