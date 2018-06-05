@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public class PrepareHairStylePicture {
-    public static List<HairStyle> prepareHairStylePicture(){
+   /* public static List<HairStyle> prepareHairStylePicture(){
         List<HairStyle> list = new ArrayList<HairStyle>();
         //第一个发型
         HairStyle hairStyle = new HairStyle();
@@ -87,7 +87,7 @@ public class PrepareHairStylePicture {
         hairStyle6.setHairstyleDetailPicture(pictures6);
         hairStyle6.setHairstyleName("恬静气质卷发");
         hairStyle6.setHairstyleIntroduce("随意的卷发，展现女人可爱又透漏着一丝丝甜美，多了份洋娃娃般的精致");
-        list.add(hairStyle6);
-        return list;
+        list.add(hairStyle6);*/
+        /*return list;*/
     }
-}
+/*}*/

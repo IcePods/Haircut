@@ -28,7 +28,7 @@ public class UserShopDetailProductionHairCut extends Fragment {
         //加载选项卡对应的选项页面
         View view = inflater.inflate(R.layout.fragment_user_shop_detail_production_haicut,container,false);
 
-        //创建静态数据
+     /*   //创建静态数据
         PrepareHairStylePicture hairStyles = new PrepareHairStylePicture();
         mRecyclerView = view.findViewById(R.id.fragment_shop_detail_haircut_recyclerview);
         //设置布局管理器为2列，纵向
@@ -36,7 +36,7 @@ public class UserShopDetailProductionHairCut extends Fragment {
         mAdapter = new HaircolorRecyclerviewAdapter(getActivity().getApplicationContext(), R.layout.item_user_main_haircolor_recyclerview, hairStyles.prepareHairStylePicture());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
         return view;
     }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="@drawable/ic_touch_fg"
+    android:layout_marginBottom="2dp"
+    android:layout_marginTop="2dp"
+    android:paddingBottom="10dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="10dp">
+    <com.example.common.views.PortraitView
+        android:id="@+id/user_portrait"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start|center_vertical"
+        android:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/user_txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_gravity="start"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="52dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        tools:text="Mary Harmon" />
+
+    <TextView
+        android:id="@+id/user_txt_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="24dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:maxLength="32"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        tools:text="Mary Harmon" />
+
+    <TextView
+        android:id="@+id/user_txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:maxLength="32"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        tools:text="17-04-12" />
+</FrameLayout>
+

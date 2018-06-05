@@ -21,7 +21,8 @@
                 android:text="石家庄▼"
                 android:gravity="center"
                 android:layout_weight="1.8"
-                android:layout_marginLeft="1dp"/>
+                android:layout_marginLeft="1dp"
+                android:textColor="#121212"/>
 
             <LinearLayout
                 android:id="@+id/user_index_search"
@@ -67,6 +68,7 @@
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tooltipText="王大厨"
             android:background="#444"/>
 
         <ScrollView
@@ -74,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
+            android:scrollbars="none"
             >
 
             <RelativeLayout
@@ -144,7 +147,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="剪发"
                                 android:textSize="15sp"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:textColor="#121212"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -165,7 +169,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="染发"
                                 android:textSize="15sp"
-                                android:gravity="center"/>
+                                android:gravity="center"
+                                android:textColor="#121212"/>
                         </LinearLayout><LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -184,7 +189,8 @@
                             android:layout_height="wrap_content"
                             android:text="烫发"
                             android:textSize="15sp"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:textColor="#121212"/>
                     </LinearLayout><LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -203,7 +209,8 @@
                             android:layout_height="wrap_content"
                             android:text="护理"
                             android:textSize="15sp"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:textColor="#121212"/>
                     </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -254,6 +261,7 @@
                             android:textSize="14dp"
                             android:text="▼▼推荐好店   Recommend a good shop"
                             android:layout_weight="1"
+                            android:textColor="#121212"
                             />
                         <TextView
                             android:layout_width="wrap_content"
