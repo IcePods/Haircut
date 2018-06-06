@@ -59,6 +59,8 @@ public class HaircolorRecyclerviewAdapter extends RecyclerView.Adapter{
         return 0;
     }
 
+
+
     //定义自己的ViewHolder，将View的控件引用在成员变量上
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private MyItemClickListener mListener;

@@ -2,6 +2,7 @@ package com.example.lu.thebarbershop.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lu.thebarbershop.Activity.HairStyleDetailActivity;
 import com.example.lu.thebarbershop.Adapter.HaircolorRecyclerviewAdapter;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
@@ -86,6 +88,20 @@ public class UserShopDetailProductionNurse extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setItemClickListener(new HaircolorRecyclerviewAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent();
+                //指定跳转路线
+                intent.setClass(getActivity().getApplicationContext(),HairStyleDetailActivity.class);
+                //把点击的商品对象添加到intent对象中去
+                Bundle bundle = new Bundle();
+                HairStyle hairStyle =nurseList.get(position);
+                bundle.putSerializable("hairStyle",hairStyle);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     public void selectCut(final String name,final String id){

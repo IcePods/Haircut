@@ -23,7 +23,7 @@ import com.example.lu.thebarbershop.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HairStyleDetailActivity extends AppCompatActivity {
+public class HairStyleDetailActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     private ViewPager vp;
     private LinearLayout ll_point;
@@ -130,6 +130,11 @@ public class HairStyleDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
     public void onPageSelected(int position) {
         //当前的位置可能很大，为了防止下标越界，对要显示的图片的总数进行取余
         int a = imageViewArrayList.size();
@@ -139,6 +144,11 @@ public class HairStyleDetailActivity extends AppCompatActivity {
         ll_point.getChildAt(lastPosition).setEnabled(false);
         ll_point.getChildAt(newPosition).setEnabled(true);
         lastPosition = newPosition; //记录之前的点
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 
