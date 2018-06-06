@@ -192,6 +192,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_shop_detail_production"
                         android:layout_centerHorizontal="true"
+                        android:textColor="#121212"
                         android:text="很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多
                        内容很多内容很多内容很多内容很多内容"/>
 

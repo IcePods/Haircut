@@ -52,6 +52,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
 
     private List<String> shopPictureList=new ArrayList<String>();//服务器获取的店铺轮播图片集合
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
+    //从服务器获取理发师列表
+    private ArrayList<Barber> barberList = new ArrayList<Barber>();
     private int lastPosition;//轮播图下边点的位置
     private boolean isRunning = false; //viewpager是否在自动轮询
 
@@ -153,24 +155,29 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         Bundle bundle = intent.getExtras();
         userShopDetail = (UserShopDetail) bundle.getSerializable("userShopDetail");
         Log.i("allshoppicture",userShopDetail.getShopPictureSet().size()+"");
+        //获取店铺图片set 填入到list中
         for(ShopPicture i:userShopDetail.getShopPictureSet()){
 
             shopPictureList.add(i.getShoppicture_picture());
             Log.i("allshoppicturestring",i.toString());
         }
-
+        //获取店铺理发师 Set 填入到list中
+        for (Barber barber:userShopDetail.getBarberSet()){
+            barberList.add(barber);
+        }
         //更改控件内容
         user_shopdetail_header_shopname.setText(userShopDetail.getShopName());
         user_shop_detail_address.setText(userShopDetail.getShopAddress());
         user_shop_detail_phone_btn.setText(userShopDetail.getShopPhone());
         user_shopdetail_describe.setText(userShopDetail.getShopIntroduce());
     }
-    //RecyclerView 构建数据
+
+    //RecyclerView Barber 理发师构建数据
     private void initData() {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter = new UserShopDetailBaberRecyclerAdapter(getData());
+        mAdapter = new UserShopDetailBaberRecyclerAdapter(barberList,this);
     }
-    //ReclerView 绑定View
+    //ReclerView 理发师绑定View
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.user_shop_detail_barber_recyclerView);
         // 设置布局管理器

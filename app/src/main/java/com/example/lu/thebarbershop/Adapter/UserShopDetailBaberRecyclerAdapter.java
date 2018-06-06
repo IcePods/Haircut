@@ -1,5 +1,6 @@
 package com.example.lu.thebarbershop.Adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.Barber;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.R;
 
 import java.util.ArrayList;
@@ -18,9 +23,11 @@ import java.util.ArrayList;
 
 public class UserShopDetailBaberRecyclerAdapter  extends RecyclerView.Adapter<UserShopDetailBaberRecyclerAdapter.ViewHolder> {
     private ArrayList<Barber> mData;
+    private Context mContext;
 
-    public UserShopDetailBaberRecyclerAdapter(ArrayList<Barber> data) {
+    public UserShopDetailBaberRecyclerAdapter(ArrayList<Barber> data,Context mContext) {
         this.mData = data;
+        this.mContext = mContext;
     }
 
     public void updateData(ArrayList<Barber> data) {
@@ -40,8 +47,15 @@ public class UserShopDetailBaberRecyclerAdapter  extends RecyclerView.Adapter<Us
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // 绑定数据
-        holder.baberName.setText(mData.get(position).getBarberName());
-        holder.header.setImageResource(mData.get(position).getBarberImg());
+        holder.baberName.setText(mData.get(position).getUser().getUserName());
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .transform(new CircleCrop());
+        Glide.with(mContext)
+                .load(UrlAddress.url+mData.get(position).getUser().getUserHeader())
+                .apply(requestOptions)
+                .into(holder.header);
+        //holder.header.setImageResource(mData.get(position).getBarberImg());
     }
 
     @Override

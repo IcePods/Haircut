@@ -23,6 +23,8 @@ public class UserShopDetail implements Serializable {
     private Set<ShopPicture> ShopPictureSet = new HashSet<>();
     private List<HairStyleDetail> hairStyleDetails = new ArrayList<HairStyleDetail>();
     /*private List<Baber> baberSet = new ArrayList<Baber>();*/
+    //店铺与 理发师 一对多 单项映射
+    private Set<Barber> BarberSet = new HashSet<Barber>();
 
     public int getShopId() {
         return shopId;
@@ -88,5 +90,11 @@ public class UserShopDetail implements Serializable {
         this.hairStyleDetails = hairStyleDetails;
     }
 
+    public Set<Barber> getBarberSet() {
+        return BarberSet;
+    }
 
+    public void setBarberSet(Set<Barber> barberSet) {
+        BarberSet = barberSet;
+    }
 }
