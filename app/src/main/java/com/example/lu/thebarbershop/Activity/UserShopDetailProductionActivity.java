@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.Fragment.UserShopDetailProductionHairColor;
 import com.example.lu.thebarbershop.Fragment.UserShopDetailProductionHairCut;
 import com.example.lu.thebarbershop.Fragment.UserShopDetailProductionNurse;
@@ -38,12 +39,15 @@ public class UserShopDetailProductionActivity extends AppCompatActivity {
     private Fragment FragmentHaiColor;   //染发
     private Fragment FragmentPerm; //烫发
     private Fragment FragmentNurse; //护理
+
+    private UserShopDetail userShopDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_shop_detail_production);
 
         getView();
+        userShopDetail = (UserShopDetail) getIntent().getSerializableExtra("shop");
 
         onClickListenerImpl listener = new onClickListenerImpl();
         user_shop_detail_production_haircut_btn.setOnClickListener(listener);
@@ -51,10 +55,10 @@ public class UserShopDetailProductionActivity extends AppCompatActivity {
         user_shop_detail_production_perm_btn.setOnClickListener(listener);
         user_shop_detail_production_nurse_btn.setOnClickListener(listener);
         //初始化fragment
-        FragmentHairCut = new UserShopDetailProductionHairCut();
-        FragmentHaiColor = new UserShopDetailProductionHairColor();
-        FragmentPerm = new UserShopDetailProductionPerm();
-        FragmentNurse = new UserShopDetailProductionNurse();
+        FragmentHairCut = new UserShopDetailProductionHairCut(userShopDetail);
+        FragmentHaiColor = new UserShopDetailProductionHairColor(userShopDetail);
+        FragmentPerm = new UserShopDetailProductionPerm(userShopDetail);
+        FragmentNurse = new UserShopDetailProductionNurse(userShopDetail);
         //首次
         ChangeFragment(FragmentHairCut);
 
@@ -146,10 +150,4 @@ public class UserShopDetailProductionActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        int id = getIntent().getIntExtra("shop",0);
-
-        super.onResume();
-    }
 }
