@@ -75,7 +75,8 @@
         <activity android:name=".Activity.UserMainHaircolorActivity" />
         <activity android:name=".Activity.UserMainNurseActivity" />
         <activity android:name=".Activity.HairStyleDetailActivity" />
-        <activity android:name=".Activity.ChatActivity"></activity>
+        <activity android:name=".Activity.ChatActivity" />
+        <activity android:name=".Activity.UserAppointmentActivity"></activity>
     </application>
 
 </manifest>

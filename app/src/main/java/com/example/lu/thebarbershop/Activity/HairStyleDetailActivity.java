@@ -108,7 +108,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
                     //携带数据跳转到另一个Activity，进行数据的更新操作
                     Intent intent = new Intent();
                     //指定跳转路线
-                    intent.setClass(getApplicationContext(),MainActivity.class);//跳到预约界面
+                    intent.setClass(getApplicationContext(),UserAppointmentActivity.class);//跳到预约界面
                     //把点击的对象添加到intent对象中去
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("hairStyleDetail",hairStyle);
@@ -119,7 +119,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
                     //携带数据跳转到另一个Activity，进行数据的更新操作
                     Intent intent1 = new Intent();
                     //指定跳转路线
-                    intent1.setClass(getApplicationContext(),MainActivity.class);
+                    intent1.setClass(getApplicationContext(),UserAppointmentActivity.class);
                     //把点击的对象添加到intent对象中去
                     Bundle bundle1 = new Bundle();
                     bundle1.putSerializable("hairStyleDetail",hairStyle);
