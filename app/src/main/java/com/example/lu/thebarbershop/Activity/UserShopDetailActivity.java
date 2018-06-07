@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,6 +29,7 @@ import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
 import com.example.lu.thebarbershop.Entity.ShopPicture;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
+import com.example.lu.thebarbershop.Entity.UserCollections;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
@@ -35,6 +39,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.Call;
@@ -77,6 +82,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private Button user_shop_detail_address; //店铺地址
     private Button user_shop_detail_phone_btn; //店铺电话
     private TextView user_shopdetail_describe; //店铺简介
+    private static UserCollections userCollections;
+    private boolean isColl=false;
     OkHttpClient okHttpClient = new OkHttpClient();
 
     Handler handler = new Handler(){
@@ -87,7 +94,16 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     Bundle bundle = msg.getData();
                     String isCollection =  bundle.getString("isCollection");
                     Gson gson = new Gson();
-                    UserShopDetail userShopDetail = gson.fromJson(isCollection, UserShopDetail.class);
+                    Log.i("collection",isCollection);
+                    userCollections = gson.fromJson(isCollection, UserCollections.class);
+                    if(userCollections.isCollectionCondition()){
+                        user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_on);
+                        isColl = true;
+                    }
+
+                case 2:
+
+
 
             }
             super.handleMessage(msg);
@@ -102,6 +118,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         setContentView(R.layout.activity_user_shop_detail);
         //绑定控件
         getView();
+
         //获取传过来的intent 获取参数 并更改对应控件
         getIntentAndData();
         //实例化监听器
@@ -114,6 +131,8 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         TelephoneLayout.setOnClickListener(listener);
         //点击跳转作品展示页面
         productionLayout.setOnClickListener(listener);
+        //收藏点击事件
+        user_shopdetail_collect.setOnClickListener(listener);
         initData();
         initView();
         //得到轮播图片集合
@@ -126,6 +145,12 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         vp.setFocusable(true);
         vp.setFocusableInTouchMode(true);
         vp.requestFocus();
+        //判断是否收藏
+        if(new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
+            getIsCollection();
+        }
+
+
 
 
     }
@@ -157,6 +182,32 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     intent2.setClass(getApplicationContext(),UserShopDetailProductionActivity.class);
                     intent2.putExtra("shop",userShopDetail);
                     startActivity(intent2);
+                case R.id.user_shopdetail_collect:
+                    if(new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
+                        if(isColl){
+                            user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_un);
+                            Toast.makeText(getApplicationContext(),"取消收藏成功",Toast.LENGTH_SHORT).show();
+                            //向服务器提交数据用户取消哦收藏了这个店铺
+                            addCollection();
+                            isColl=false;
+
+                        }else {
+                            user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_on);
+                            Toast.makeText(getApplicationContext(),"添加收藏成功",Toast.LENGTH_SHORT).show();
+                            //向服务器提交数据用户收藏了这个店铺
+                            addCollection();
+                            isColl = true;
+
+                        }
+                    }else {
+                        Intent intent3 = new Intent();
+                        intent3.setClass(getApplicationContext(),UsersLoginActivity.class);
+                        startActivity(intent3);
+
+                    }
+
+
+
 
             }
         }
@@ -303,19 +354,19 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
      * 判断店铺是否加入收藏
      * */
     public void getIsCollection(){
-        File file = new File(this.getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
-        if(file.exists()){
+
+        if(true){
             SharedPreferences sharedPreferences =this.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String userToken = sharedPreferences.getString("token","");
             String userAccount = sharedPreferences.getString("userAccount","");
             String userPassword = sharedPreferences.getString("userPassword","");
             String shopId = String.valueOf(userShopDetail.getShopId());
             FormBody.Builder builder = new FormBody.Builder();
-            builder.add("userAccount",userAccount);
-            builder.add("userPassword",userPassword);
+            builder.add("UserAccount",userAccount);
+            builder.add("UserPassword",userPassword);
             builder.add("shopId",shopId);
             final FormBody body = builder.build();
-            Request request = new Request.Builder().addHeader("userToken",userToken).post(body).url(UrlAddress.url+".action").build();
+            Request request = new Request.Builder().header("UserTokenSQL",userToken).post(body).url(UrlAddress.url+"CheckIsCollected.action").build();
             Call call = okHttpClient.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -325,7 +376,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    String isCollection = response.body().toString();
+                    String isCollection = response.body().string();
                     Log.i("collection",isCollection);
                     Message message = Message.obtain();
                     message.what = 1;
@@ -335,7 +386,51 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     handler.sendMessage(message);
                 }
             });
+            //未登陆跳转到登陆界面
+        }else {
+          /*  Intent intent = new Intent();
+            intent.setClass(this,UsersLoginActivity.class);
+            startActivity(intent);*/
+        }
+    }
 
+    /**
+     * 添加收藏
+     * */
+    public void addCollection(){
+
+        if(true){
+            SharedPreferences sharedPreferences =this.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+            String userToken = sharedPreferences.getString("token","");
+            String userAccount = sharedPreferences.getString("userAccount","");
+            String userPassword = sharedPreferences.getString("userPassword","");
+            String shopId = String.valueOf(userShopDetail.getShopId());
+            FormBody.Builder builder = new FormBody.Builder();
+            builder.add("UserAccount",userAccount);
+            builder.add("UserPassword",userPassword);
+            builder.add("shopId",shopId);
+            final FormBody body = builder.build();
+            Request request = new Request.Builder().header("UserTokenSQL",userToken).post(body).url(UrlAddress.url+"SaveOrDeleteCollection.action").build();
+            Call call = okHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String isCollection = response.body().string();
+                    Log.i("addcollection",isCollection);
+                    Message message = Message.obtain();
+                    message.what = 2;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("isCollection",isCollection);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+                }
+            });
+            //未登陆跳转到登陆界面
         }
     }
     @Override

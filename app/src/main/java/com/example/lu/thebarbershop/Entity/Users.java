@@ -19,6 +19,7 @@ public class Users implements Serializable{
     private String UserToken;
     private Boolean UserCondition;
     private Set<UserShopDetail> shopSet = new HashSet<UserShopDetail>();
+    private Set<UserCollections> shopCollectionSet = new HashSet<UserCollections>();
 
     public int getUserId() {
         return UserId;
@@ -98,6 +99,14 @@ public class Users implements Serializable{
 
     public void setUserCondition(Boolean userCondition) {
         UserCondition = userCondition;
+    }
+
+    public Set<UserCollections> getShopCollectionSet() {
+        return shopCollectionSet;
+    }
+
+    public void setShopCollectionSet(Set<UserCollections> shopCollectionSet) {
+        this.shopCollectionSet = shopCollectionSet;
     }
 
     public String toString(Users u) {

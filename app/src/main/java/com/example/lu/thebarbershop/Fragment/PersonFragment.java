@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Activity.UserPersonAboutsUsActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
@@ -98,7 +99,10 @@ public class PersonFragment extends Fragment {
                     if(users.getUserCondition()==true){
                         selectUser();
                         name.setText(users.getUserName());
-                        RequestOptions requestOptions = new RequestOptions().centerCrop();
+                        RequestOptions requestOptions = new RequestOptions()
+                                .centerCrop()
+                                .transform(new CircleCrop());
+
                         requestOptions.placeholder(R.mipmap.user_index_nurse);
                         Glide.with(getActivity())
                                 .load(users.getUserHeader())
