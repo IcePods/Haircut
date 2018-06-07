@@ -65,11 +65,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srlAccentColor="@android:color/white">
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+        <com.scwang.smartrefresh.header.PhoenixHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tooltipText="王大厨"
             android:background="#444"/>
+
 
         <ScrollView
             android:id="@+id/user_index_scroll"

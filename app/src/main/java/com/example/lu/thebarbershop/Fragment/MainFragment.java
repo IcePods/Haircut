@@ -144,6 +144,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         haircolortxt.setOnClickListener(mylistener);
         nurse.setOnClickListener(mylistener);
         nursetxt.setOnClickListener(mylistener);
+        //设置刷新
+
         //设置图片为圆形
         setRounded();
         //得到轮播图片集合
@@ -191,6 +193,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         ll_point = view.findViewById(R.id.ll_point);
         looperTextView = view.findViewById(R.id.user_index_loopertextview);
         scrollView =view.findViewById(R.id.user_index_scroll);
+
 
     }
 

@@ -1,6 +1,8 @@
 package com.example.lu.thebarbershop.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -23,14 +25,24 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
 import com.example.lu.thebarbershop.Entity.ShopPicture;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class UserShopDetailActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
     //RecyclerView 控件
@@ -65,6 +77,22 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private Button user_shop_detail_address; //店铺地址
     private Button user_shop_detail_phone_btn; //店铺电话
     private TextView user_shopdetail_describe; //店铺简介
+    OkHttpClient okHttpClient = new OkHttpClient();
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    Bundle bundle = msg.getData();
+                    String isCollection =  bundle.getString("isCollection");
+                    Gson gson = new Gson();
+                    UserShopDetail userShopDetail = gson.fromJson(isCollection, UserShopDetail.class);
+
+            }
+            super.handleMessage(msg);
+        }
+    };
 
 
 
@@ -271,7 +299,45 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         tools.initAdapter();
         vp.setOnPageChangeListener(this);
     }
+    /**
+     * 判断店铺是否加入收藏
+     * */
+    public void getIsCollection(){
+        File file = new File(this.getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
+        if(file.exists()){
+            SharedPreferences sharedPreferences =this.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+            String userToken = sharedPreferences.getString("token","");
+            String userAccount = sharedPreferences.getString("userAccount","");
+            String userPassword = sharedPreferences.getString("userPassword","");
+            String shopId = String.valueOf(userShopDetail.getShopId());
+            FormBody.Builder builder = new FormBody.Builder();
+            builder.add("userAccount",userAccount);
+            builder.add("userPassword",userPassword);
+            builder.add("shopId",shopId);
+            final FormBody body = builder.build();
+            Request request = new Request.Builder().addHeader("userToken",userToken).post(body).url(UrlAddress.url+".action").build();
+            Call call = okHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String isCollection = response.body().toString();
+                    Log.i("collection",isCollection);
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("isCollection",isCollection);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+                }
+            });
+
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
