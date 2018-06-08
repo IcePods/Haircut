@@ -100,6 +100,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                         user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_on);
                         isColl = true;
                     }
+                    break;
 
                 case 2:
 
@@ -157,12 +158,13 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private class OnClickImpListener implements  View.OnClickListener{
         @Override
         public void onClick(View v) {
+            Intent intent = new Intent();
             switch (v.getId()){
                 case R.id.user_shop_detail_back_imgbtn:
                     finish();
                     break;
                 case R.id.user_shop_detail_address_content:
-                    Intent intent =  new Intent();
+                   /* Intent intent =  new Intent();*/
                     //把点击的商品对象添加到intent对象中去
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("userShopDetail",userShopDetail);
@@ -178,10 +180,11 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     break;
                 case R.id.user_shop_detail_production:
                     //跳转到作品展示页面
-                    Intent intent2 =  new Intent();
-                    intent2.setClass(getApplicationContext(),UserShopDetailProductionActivity.class);
-                    intent2.putExtra("shop",userShopDetail);
-                    startActivity(intent2);
+                   /* Intent intent2 =  new Intent();*/
+                    intent.setClass(getApplicationContext(),UserShopDetailProductionActivity.class);
+                    intent.putExtra("shop",userShopDetail);
+                    startActivity(intent);
+                    break;
                 case R.id.user_shopdetail_collect:
                     if(new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
                         if(isColl){
@@ -200,13 +203,13 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
 
                         }
                     }else {
-                        Intent intent3 = new Intent();
-                        intent3.setClass(getApplicationContext(),UsersLoginActivity.class);
-                        startActivity(intent3);
+                       /* Intent intent = new Intent();*/
+                        intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                        startActivity(intent);
 
                     }
 
-
+                    break;
 
 
             }

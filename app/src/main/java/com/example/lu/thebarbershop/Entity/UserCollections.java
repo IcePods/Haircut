@@ -7,7 +7,7 @@ package com.example.lu.thebarbershop.Entity;
 public class UserCollections {
     private int collection_id;
     private Users user;
-    private UserShopDetail userShopDetail;
+    private UserShopDetail shop;
     private boolean CollectionCondition;
 
     public int getCollection_id() {
@@ -26,12 +26,12 @@ public class UserCollections {
         this.user = user;
     }
 
-    public UserShopDetail getUserShopDetail() {
-        return userShopDetail;
+    public UserShopDetail getShop() {
+        return shop;
     }
 
-    public void setUserShopDetail(UserShopDetail userShopDetail) {
-        this.userShopDetail = userShopDetail;
+    public void setShop(UserShopDetail shop) {
+        this.shop = shop;
     }
 
     public boolean isCollectionCondition() {

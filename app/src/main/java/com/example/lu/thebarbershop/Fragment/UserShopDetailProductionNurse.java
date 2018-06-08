@@ -62,6 +62,7 @@ public class UserShopDetailProductionNurse extends Fragment {
                     Gson gson = new Gson();
                     nurseList = gson.fromJson(back,new TypeToken<List<HairStyle>>(){}.getType());
                     initAdapter();
+                    break;
 
             }
             super.handleMessage(msg);

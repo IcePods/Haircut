@@ -111,34 +111,7 @@ public class PersonFragment extends Fragment {
                     }else{
 
                     }
-                   /* selectUser();
-                    name.setText(username);
-                    RequestOptions requestOptions = new RequestOptions().centerCrop();
-                    requestOptions.placeholder(R.mipmap.user_index_nurse);
-                    Glide.with(getActivity())
-                            .load(userheader)
-                            .apply(requestOptions)
-                            .into(imageView);*/
-                 /*case 2:
-                     Bundle c = msg.getData();
-                     String userfromKeep = c.getString("userFromToken");
-                     Gson gson1 = new Gson();
-                     users = gson1.fromJson(userfromKeep,Users.class);
-                     Log.i("lhy",userfromKeep);
-                     if(users.getUserCondition()==true){
-                         selectUser();
-                         name.setText(users.getUserName());
-                         RequestOptions requestOptions = new RequestOptions().centerCrop();
-                         requestOptions.placeholder(R.mipmap.user_index_nurse);
-                         Glide.with(getActivity())
-                                 .load(users.getUserHeader())
-                                 .apply(requestOptions)
-                                 .into(imageView);
-                     }else{
-                         Intent intent = new Intent();
-
-                     }*/
-
+                    break;
 
             }
             super.handleMessage(msg);
@@ -218,9 +191,16 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_collection_btn:
                     //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
                     //2. 指定跳转路线
-                    intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
-                    //3. 进行跳转
-                    startActivity(intent);
+                    if(f.exists()){
+                        intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
+                        //3. 进行跳转
+                        startActivity(intent);
+                    }else {
+                        intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
+                        //3. 进行跳转
+                        startActivity(intent);
+                    }
+
                     break;
                 //预约人信息按钮
                 case R.id.user_person_appoint_information_btn:

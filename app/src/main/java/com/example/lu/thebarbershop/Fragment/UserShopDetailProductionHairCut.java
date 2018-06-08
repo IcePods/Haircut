@@ -65,6 +65,7 @@ Handler handler = new Handler(){
                 Gson gson = new Gson();
                 cutList = gson.fromJson(back,new TypeToken<List<HairStyle>>(){}.getType());
                 initAdapter();
+                break;
 
         }
         super.handleMessage(msg);

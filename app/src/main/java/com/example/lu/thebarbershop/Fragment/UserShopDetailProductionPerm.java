@@ -62,6 +62,7 @@ public class UserShopDetailProductionPerm extends Fragment {
                     Gson gson = new Gson();
                     premList = gson.fromJson(back,new TypeToken<List<HairStyle>>(){}.getType());
                     initAdapter();
+                    break;
 
             }
             super.handleMessage(msg);
