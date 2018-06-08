@@ -40,6 +40,7 @@ import com.example.lu.thebarbershop.Activity.UsersLoginActivity;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
@@ -218,11 +219,14 @@ public class PersonFragment extends Fragment {
     public void getUserInformation(final int num){
         //如果有token
                 if(getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE)!=null){
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+                    /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
                     final String token = sharedPreferences.getString("token","");
                     Log.i("hzl",token);
                     final String userAccount = sharedPreferences.getString("userAccount","");
-                    final String userPassword = sharedPreferences.getString("userPassword","");
+                    final String userPassword = sharedPreferences.getString("userPassword","");*/
+                    final String userAccount =GetUserFromShared.getUserAccountFromShared();
+                    final String userPassword = GetUserFromShared.getUserPasswordFromShared();
+                    final String token = GetUserFromShared.getUserTokenFromShared();
                     new Thread(){
                         @Override
                         public void run() {
