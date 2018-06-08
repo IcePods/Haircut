@@ -138,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:layout_below="@+id/hair_style_detail_introduction">
 
                         <TextView
