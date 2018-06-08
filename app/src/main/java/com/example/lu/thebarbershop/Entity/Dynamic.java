@@ -8,10 +8,9 @@ import java.util.List;
 
 public class Dynamic {
     private int id;
-    private int ImgName; //图片地址 不清楚怎么保存 Glide框架 可以通过String类型保存图片 也可以通过int类型 保存本地图片
-    private String UserName; //用户姓名
+    private Users user;//用户
     private String DynamicContent;  // 动态文字
-    private List<String> DynamicImageList; //动态图片列表
+    private List<String> DynamicImagePathList; //动态图片列表
 
     public int getId() {
         return id;
@@ -19,22 +18,6 @@ public class Dynamic {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getImgName() {
-        return ImgName;
-    }
-
-    public void setImgName(int imgName) {
-        ImgName = imgName;
-    }
-
-    public String getUserName() {
-        return UserName;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
     }
 
     public String getDynamicContent() {
@@ -45,11 +28,19 @@ public class Dynamic {
         DynamicContent = dynamicContent;
     }
 
-    public List<String> getDynamicImageList() {
-        return DynamicImageList;
+    public Users getUser() {
+        return user;
     }
 
-    public void setDynamicImageList(List<String> dynamicImageList) {
-        DynamicImageList = dynamicImageList;
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public List<String> getDynamicImagePathList() {
+        return DynamicImagePathList;
+    }
+
+    public void setDynamicImagePathList(List<String> dynamicImagePathList) {
+        DynamicImagePathList = dynamicImagePathList;
     }
 }
