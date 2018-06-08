@@ -79,21 +79,21 @@
 
     <TextView
         android:id="@+id/tv_user_appointment_username"
-        android:layout_below="@id/user_appointment_img"
+        android:layout_below="@id/user_appointment_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="40dp"
         android:textColor="#121212"
         android:textSize="17sp"
         android:text="预约人"/>
     <EditText
         android:id="@+id/user_appointment_username"
-        android:layout_below="@id/user_appointment_img"
+        android:layout_below="@id/user_appointment_description"
         android:layout_toRightOf="@id/tv_user_appointment_username"
         android:background="@null"
         android:textCursorDrawable="@drawable/color_cursor"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:hint="预约人姓名"

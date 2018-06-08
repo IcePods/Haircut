@@ -30,7 +30,7 @@ public class UserAppointmentActivity extends AppCompatActivity {
     private TextView Selecttime;
     private Spinner master;
     private Button Commit;
-    private String initTime = "2018年1月1日 00:00"; // 初始化开始时间
+    private String initTime = "2018年6月8日 00:00"; // 初始化开始时间
     private static final String[] masterName={"不选择","张","王","李","赵"};
     private ArrayAdapter<String> arrayAdapter;
     private HairStyle hairStyle;
