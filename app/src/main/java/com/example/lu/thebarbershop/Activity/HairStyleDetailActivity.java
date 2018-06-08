@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.HairStyleDetail;
+import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareHairStylePicture;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.R;
@@ -33,6 +34,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
     private ImageView imgAppointment;//底部预约箭头
 
     private HairStyle hairStyle;//hairstyle对象
+    private UserShopDetail userShopDetail;
 
     private TextView hairStyleName;//发型名
     private TextView hairStyleIntroduction;//发型描述
@@ -87,6 +89,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         hairStyle = (HairStyle)bundle.getSerializable("hairStyle");
+        userShopDetail = (UserShopDetail)bundle.getSerializable("userShopDetail");
         for(HairStyleDetail i:hairStyle.getHairStyleDetailSet()){
             hairstyleImgs.add(i.getHairstyle_detail_picture());
             Log.i("hzl",hairstyleImgs.size()+"");
@@ -112,6 +115,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
                     //把点击的对象添加到intent对象中去
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("hairStyleDetail",hairStyle);
+                    bundle.putSerializable("shopDetail",userShopDetail);
                     intent.putExtras(bundle);
                     startActivity(intent);
                     break;
@@ -123,6 +127,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
                     //把点击的对象添加到intent对象中去
                     Bundle bundle1 = new Bundle();
                     bundle1.putSerializable("hairStyleDetail",hairStyle);
+                    bundle1.putSerializable("shopDetail",userShopDetail);
                     intent1.putExtras(bundle1);
                     startActivity(intent1);
                     break;

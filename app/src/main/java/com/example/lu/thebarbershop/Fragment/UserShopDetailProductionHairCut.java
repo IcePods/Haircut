@@ -104,6 +104,7 @@ Handler handler = new Handler(){
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
                 HairStyle hairStyle =cutList.get(position);
+                bundle.putSerializable("userShopDetail",userShopDetail);
                 bundle.putSerializable("hairStyle",hairStyle);
                 intent.putExtras(bundle);
                 startActivity(intent);

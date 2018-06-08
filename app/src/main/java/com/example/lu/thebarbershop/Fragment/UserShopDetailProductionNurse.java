@@ -97,6 +97,7 @@ public class UserShopDetailProductionNurse extends Fragment {
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
                 HairStyle hairStyle =nurseList.get(position);
+                bundle.putSerializable("userShopDetail",userShopDetail);
                 bundle.putSerializable("hairStyle",hairStyle);
                 intent.putExtras(bundle);
                 startActivity(intent);

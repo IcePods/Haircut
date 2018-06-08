@@ -15,7 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.lu.thebarbershop.Entity.Barber;
 import com.example.lu.thebarbershop.Entity.HairStyle;
+import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.DateTimePickDialogUtil;
 import com.example.lu.thebarbershop.R;
 
@@ -31,9 +33,10 @@ public class UserAppointmentActivity extends AppCompatActivity {
     private Spinner master;
     private Button Commit;
     private String initTime = "2018年6月8日 00:00"; // 初始化开始时间
-    private static final String[] masterName={"不选择","张","王","李","赵"};
+    private static String[] masterName={};
     private ArrayAdapter<String> arrayAdapter;
     private HairStyle hairStyle;
+    private UserShopDetail userShopDetail;
     private MyOnclickListener myOnclickListener;
 
 
@@ -48,6 +51,8 @@ public class UserAppointmentActivity extends AppCompatActivity {
         Back.setOnClickListener(myOnclickListener);
         Selecttime.setOnClickListener(myOnclickListener);
         Commit.setOnClickListener(myOnclickListener);
+        //获取传过来的bundle参数
+        getInentData();
         //spinner
         arrayAdapter = new ArrayAdapter<String>(this,R.layout.item_spinner,masterName);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -64,8 +69,7 @@ public class UserAppointmentActivity extends AppCompatActivity {
                 Log.i("ztl","你爱的还是我");
             }
         });
-        //获取传过来的bundle参数
-        getInentData();
+
     }
 
     private void findview() {
@@ -85,6 +89,15 @@ public class UserAppointmentActivity extends AppCompatActivity {
         //获取Intent对象传递的参数
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        userShopDetail = (UserShopDetail)bundle.getSerializable("shopDetail");
+        String[] str = new String[userShopDetail.getBarberSet().size()+1];
+        int i=1;
+        str[0] = "不选择";
+        for (Barber barber:userShopDetail.getBarberSet()){
+            str[i] = barber.getUser().getUserName();
+            i++;
+        }
+        masterName = str;
         hairStyle = (HairStyle)bundle.getSerializable("hairStyleDetail");
         Glide.with(getApplicationContext())
                 .load(hairStyle.getHairstylePicture())
