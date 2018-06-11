@@ -19,22 +19,6 @@ public class PrepareIndexShopDetail {
 
     public List<UserShopDetail> prepareIndexShopDetail(){
         List<UserShopDetail> list = new ArrayList<UserShopDetail>();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
        /* UserShopDetail userShopDetail1 = new UserShopDetail();
         userShopDetail1.setShopId(1);
         userShopDetail1.setShopPicture("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526384959497&di=0ba01c4ae22ea48da90dce1cd243d6be&imgtype=0&src=http%3A%2F%2Fpic1.xtuan.com%2Fupload%2Fxiaoguotu%2F20130513%2F10253745280.jpg");

@@ -7,17 +7,17 @@ import java.util.List;
  */
 
 public class Dynamic {
-    private int id;
+    private int DynamicId;
     private Users user;//用户
     private String DynamicContent;  // 动态文字
     private List<String> DynamicImagePathList; //动态图片列表
 
-    public int getId() {
-        return id;
+    public int getDynamicId() {
+        return DynamicId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDynamicId(int dynamicId) {
+        DynamicId = dynamicId;
     }
 
     public String getDynamicContent() {
