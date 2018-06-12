@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.MyTools.CustomImageView;
 import com.example.lu.thebarbershop.R;
@@ -52,10 +53,10 @@ public class DynamicListAdapter extends RecyclerView.Adapter<DynamicListAdapter.
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         final Dynamic dynamic = dataSource.get(position);
-        holder.DynamicUserHead.setImageResource(dynamic.getImgName());
-        holder.DynamicUserName.setText(dynamic.getUserName());
+        Glide.with(context).load(dynamic.getUser().getUserHeader()).into(holder.DynamicUserHead);
+        holder.DynamicUserName.setText(dynamic.getUser().getUserName());
         holder.DynamicContent.setText(dynamic.getDynamicContent());
-        holder.imgView.setUrlList(dynamic.getDynamicImageList());
+        holder.imgView.setUrlList(dynamic.getDynamicImagePathList());
     }
 
     /**

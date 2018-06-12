@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:id="@+id/create_new_dynamic_back"
+            android:id="@+id/new_dynamic_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -25,7 +24,8 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="发布动态"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textColor="#000" />
     </RelativeLayout>
 
     <EditText
@@ -37,11 +37,27 @@
         android:inputType="textMultiLine"
         android:minLines="4"
         android:gravity="top"
-        android:hint="写点文字发布一下心情吧"/>
+        android:hint="写点文字发布一下心情吧"
+        android:textColorHint="@color/divider"
+        android:textColor="@color/black"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/new_dynamic_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/new_dynamic_content"
+        android:overScrollMode="never" />
 
     <Button
+        android:id="@+id/publish_new_dynamic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="发布"/>
+        android:layout_alignParentStart="true"
+        android:text="发布"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@color/divider"/>
 </RelativeLayout>

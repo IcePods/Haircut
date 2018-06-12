@@ -1,23 +1,30 @@
 package com.example.lu.thebarbershop.Entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lu on 2018/5/11 0011.
  */
 
-public class Dynamic {
-    private int DynamicId;
+public class Dynamic implements Serializable {
+    private int id;
     private Users user;//用户
     private String DynamicContent;  // 动态文字
     private List<String> DynamicImagePathList; //动态图片列表
 
-    public int getDynamicId() {
-        return DynamicId;
+    public Dynamic(){}
+    public Dynamic(String text,List<String> str){
+        this.DynamicContent = text;
+        this.DynamicImagePathList = str;
     }
 
-    public void setDynamicId(int dynamicId) {
-        DynamicId = dynamicId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDynamicContent() {

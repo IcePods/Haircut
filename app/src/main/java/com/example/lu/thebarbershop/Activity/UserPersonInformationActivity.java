@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
@@ -311,7 +312,9 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                 Bitmap bitmap = setImageToHeadView(intent);
                 //上传剪裁后的图片
                 final String url = "http://192.168.155.3:8080/theBarberShopServers/uploadHead.action";
-                uploadPictureUtil.upload(url,bitmap);
+                String picStr = uploadPictureUtil.getStringFromBitmap(bitmap);
+                String token = GetUserFromShared.getUserTokenFromShared();
+                uploadPictureUtil.requestServer(url,picStr,token,null);
                 break;
         }
 

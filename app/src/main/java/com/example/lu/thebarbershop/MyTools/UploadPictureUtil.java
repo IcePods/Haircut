@@ -31,12 +31,12 @@ import okhttp3.Response;
 public class UploadPictureUtil {
 
     /**
-     * 线程里上传对象
+     * 线程里向服务器上传、请求数据
      * @param url 请求地址
      * @param obj 对象的json串
      * @param handler 接收响应信息的handler对象，在主线程里创建
      */
-    public void upload(final String url, final String obj, final Handler handler) {
+    public void requestServer(final String url, final String obj, final String token, final Handler handler) {
         new Thread(){
             @Override
             public void run() {
@@ -57,6 +57,7 @@ public class UploadPictureUtil {
                 builder.post(body);
                 //创建Request请求对象
                 Request request = builder.build();
+                request.header(token);
                 OkHttpClient okHttpClient = new OkHttpClient();
                 //3. 创建Call对象
                 Call call = okHttpClient.newCall(request);
