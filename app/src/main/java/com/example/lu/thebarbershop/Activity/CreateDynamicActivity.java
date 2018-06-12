@@ -57,7 +57,7 @@ public class CreateDynamicActivity extends AppCompatActivity {
     //动态对象
     private Dynamic dynamic;
     //标记用户的token
-    private String token = GetUserFromShared.getUserTokenFromShared();
+    private String token = new GetUserFromShared(this).getUserTokenFromShared();
 
 
 

@@ -313,7 +313,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                 //上传剪裁后的图片
                 final String url = "http://192.168.155.3:8080/theBarberShopServers/uploadHead.action";
                 String picStr = uploadPictureUtil.getStringFromBitmap(bitmap);
-                String token = GetUserFromShared.getUserTokenFromShared();
+                String token = new GetUserFromShared(this).getUserTokenFromShared();
                 uploadPictureUtil.requestServer(url,picStr,token,null);
                 break;
         }

@@ -224,9 +224,9 @@ public class PersonFragment extends Fragment {
                     Log.i("hzl",token);
                     final String userAccount = sharedPreferences.getString("userAccount","");
                     final String userPassword = sharedPreferences.getString("userPassword","");*/
-                    final String userAccount =GetUserFromShared.getUserAccountFromShared();
-                    final String userPassword = GetUserFromShared.getUserPasswordFromShared();
-                    final String token = GetUserFromShared.getUserTokenFromShared();
+                    final String userAccount =new GetUserFromShared(mContext).getUserAccountFromShared();
+                    final String userPassword =new GetUserFromShared(mContext).getUserAccountFromShared();
+                    final String token =new GetUserFromShared(mContext).getUserAccountFromShared();
                     new Thread(){
                         @Override
                         public void run() {
