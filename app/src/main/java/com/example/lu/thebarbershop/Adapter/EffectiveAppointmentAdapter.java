@@ -66,6 +66,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
         TextView tel = convertView.findViewById(R.id.appointment_phone);
         TextView time = convertView.findViewById(R.id.appointment_time);
         TextView person = convertView.findViewById(R.id.appointment_person);
+        TextView hairstyle = convertView.findViewById(R.id.appointment_hairstyle);
 
         //利用传递的数据源给相应的控件对象赋值
         Map<String, Object> effectiveAppointments = appointments.get(position);
@@ -75,6 +76,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
         tel.setText((String)effectiveAppointments.get("tel"));
         time.setText((String)effectiveAppointments.get("time"));
         person.setText((String)effectiveAppointments.get("person"));
+        hairstyle.setText((String)effectiveAppointments.get("hairstyle"));
 
         return convertView;
     }

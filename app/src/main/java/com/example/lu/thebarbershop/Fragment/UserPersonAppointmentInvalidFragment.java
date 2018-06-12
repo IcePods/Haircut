@@ -62,6 +62,7 @@ public class UserPersonAppointmentInvalidFragment extends Fragment {
         appointments1.put("tel","123456789");
         appointments1.put("time","2017-5-6 7:00");
         appointments1.put("person","张三123");
+        appointments1.put("hairstyle","经典烫发");
         appointments.add(appointments1);
 
         Map<String,Object> appointments2 = new HashMap<>();
@@ -71,6 +72,7 @@ public class UserPersonAppointmentInvalidFragment extends Fragment {
         appointments2.put("tel","123456789");
         appointments2.put("time","2017-5-6 7:00");
         appointments2.put("person","张三123");
+        appointments2.put("hairstyle","经典烫发");
         appointments.add(appointments2);
 
         return appointments;

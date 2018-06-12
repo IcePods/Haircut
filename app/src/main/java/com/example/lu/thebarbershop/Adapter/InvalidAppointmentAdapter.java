@@ -65,6 +65,7 @@ public class InvalidAppointmentAdapter extends BaseAdapter {
         TextView tel = convertView.findViewById(R.id.appointment_invalid_phone);
         TextView time = convertView.findViewById(R.id.appointment_invalid_time);
         TextView person = convertView.findViewById(R.id.appointment_invalid_person);
+        TextView hairstyle = convertView.findViewById(R.id.appointment_invalid_hairstyle);
 
         //利用传递的数据源给相应的控件对象赋值
         Map<String, Object> invalidAppointments = appointments.get(position);
@@ -74,6 +75,7 @@ public class InvalidAppointmentAdapter extends BaseAdapter {
         tel.setText((String) invalidAppointments.get("tel"));
         time.setText((String) invalidAppointments.get("time"));
         person.setText((String) invalidAppointments.get("person"));
+        hairstyle.setText((String) invalidAppointments.get("hairstyle"));
 
         return convertView;
     }
