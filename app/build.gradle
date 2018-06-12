@@ -56,4 +56,6 @@ dependencies {
 
     //多图选择
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    //弹出框
+    compile 'com.longsh:OptionFrame:1.0.0'
 }

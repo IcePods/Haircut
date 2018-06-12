@@ -3,6 +3,8 @@ package com.example.lu.thebarbershop.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -33,12 +36,14 @@ import com.example.lu.thebarbershop.Activity.UserMainHaircutActivity;
 import com.example.lu.thebarbershop.Activity.UserMainNurseActivity;
 import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
+import com.example.lu.thebarbershop.Activity.UsersLoginActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.LooperTextView;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
@@ -51,7 +56,12 @@ import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
+import com.longsh.optionframelibrary.OptionMaterialDialog;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -59,6 +69,8 @@ import java.util.List;
 import java.util.Set;
 
 import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -90,6 +102,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private LinearLayout ll_point;
     private List<UserShopDetail> allShopList;
 
+    RefreshLayout refreshLayout;
+
     private List<HairStyle> permsList;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
@@ -120,6 +134,18 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     Log.i("allshop",allShopList.size()+"");
                     initShopAdapter();
                     break;
+                case 2:
+                    Bundle bundle1 = msg.getData();
+                    String fromServiceToken = bundle1.getString("fromServiceToken");
+                    Log.i("fromServiceToken",fromServiceToken);
+                    String localUserToken = new GetUserFromShared(mContext).getUserTokenFromShared();
+                    SharedPreferences sharedPreferences= mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+                    if(fromServiceToken != localUserToken){
+                       //登录失效跳转到登录界面
+                       alertDialog();
+
+                    }
+
             }
             super.handleMessage(msg);
         }
@@ -193,7 +219,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         ll_point = view.findViewById(R.id.ll_point);
         looperTextView = view.findViewById(R.id.user_index_loopertextview);
         scrollView =view.findViewById(R.id.user_index_scroll);
-
+        refreshLayout = view.findViewById(R.id.refreshLayout);
 
     }
 
@@ -407,6 +433,60 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     }
 
+    public void postJudgeUserIsLogin(){
+        //判断usertoken是否为空
+        if(new File(mContext.getApplicationContext().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
+
+            if(mContext.getSharedPreferences("usertoken",Context.MODE_PRIVATE)!=null){
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("UserAccount", new GetUserFromShared(mContext).getUserAccountFromShared());
+                builder.add("UserPassword",new GetUserFromShared(mContext).getUserPasswordFromShared());
+                FormBody body = builder.build();
+                Request request = new Request.Builder().url(UrlAddress.url+"").post(body).build();
+                Call call  = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String fromServiceToken = response.body().string();
+                        Message message = Message.obtain();
+                        message.what = 2;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("fromServiceToken",fromServiceToken);
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+                    }
+                });
+
+            }
+        }
+
+
+    }
+
+    //下拉刷新上滑加载的点击事件
+    public void indexPullRefresher(){
+        //下拉
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
+        //上滑加载的点击事件
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
+    }
+
+
     /**
      * 重写ondestory
      * */
@@ -417,5 +497,44 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         isRunning=false;
     }
 
+    public void alertDialog(){
+        final OptionMaterialDialog mMaterialDialog = new OptionMaterialDialog(mContext);
+        mMaterialDialog.setTitle("登陆失效")
+//                .setTitleTextColor(R.color.colorPrimary)
+//                .setTitleTextSize((float) 22.5)
+                .setMessage("请重新登录")
+//                .setMessageTextColor(R.color.colorPrimary)
+//                .setMessageTextSize((float) 16.5)
+//                .setPositiveButtonTextColor(R.color.colorAccent)
+//                .setNegativeButtonTextColor(R.color.colorPrimary)
+//                .setPositiveButtonTextSize(15)
+//                .setNegativeButtonTextSize(15)
+                .setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       /* mMaterialDialog.dismiss();*/
+                        Intent intent = new Intent();
+                        intent.setClass(mContext, UsersLoginActivity.class);
+                        startActivity(intent);
 
+                    }
+                })
+                .setNegativeButton("取消",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mMaterialDialog.dismiss();
+                            }
+                        })
+                .setCanceledOnTouchOutside(true)
+                .setOnDismissListener(
+                        new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                //对话框消失后回调
+                            }
+                        })
+                .show();
+
+    }
 }

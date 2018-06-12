@@ -158,6 +158,21 @@ public class PersonFragment extends Fragment {
         return view;
     }
 
+   /* @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }*/
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+
+        }
+    }
+
     //监听器
     private class Mylistener implements View.OnClickListener{
 
@@ -176,7 +191,8 @@ public class PersonFragment extends Fragment {
                         startActivity(intent);
                     }else {
                         intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
-                        startActivity(intent);
+                       /* startActivity(intent);*/
+                       startActivityForResult(intent,1);
                     }
 
                     break;
@@ -216,6 +232,7 @@ public class PersonFragment extends Fragment {
             }
         }
     }
+
     public void getUserInformation(final int num){
         //如果有token
                 if(getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE)!=null){
@@ -225,8 +242,8 @@ public class PersonFragment extends Fragment {
                     final String userAccount = sharedPreferences.getString("userAccount","");
                     final String userPassword = sharedPreferences.getString("userPassword","");*/
                     final String userAccount =new GetUserFromShared(mContext).getUserAccountFromShared();
-                    final String userPassword =new GetUserFromShared(mContext).getUserAccountFromShared();
-                    final String token =new GetUserFromShared(mContext).getUserAccountFromShared();
+                    final String userPassword =new GetUserFromShared(mContext).getUserPasswordFromShared();
+                    final String token =new GetUserFromShared(mContext).getUserTokenFromShared();
                     new Thread(){
                         @Override
                         public void run() {
@@ -280,12 +297,41 @@ public class PersonFragment extends Fragment {
 
     }
 
+
+
     @Override
     public void onStart() {
 
         super.onStart();
       /*  getUserInformation(2);*/
 
+       /* SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("token","");
+        //拿到token去sqlite数据库查询用户信息
+        database =new UserTokenSql(mContext).getReadableDatabase();
+        Cursor cursor = database.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
+
+        if(cursor.moveToFirst()){
+            username = cursor.getString(cursor.getColumnIndex("username"));
+            userheader = cursor.getString(cursor.getColumnIndex("userheader"));
+            if(userheader == null){
+                userheader = "";
+            }
+            name.setText(username);
+            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
+            requestOptions.placeholder(R.mipmap.user_index_nurse);
+            Glide.with(getActivity())
+                    .load(userheader)
+                    .apply(requestOptions)
+                    .into(imageView);
+
+        }*/
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("token","");
         //拿到token去sqlite数据库查询用户信息
@@ -299,7 +345,7 @@ public class PersonFragment extends Fragment {
                 userheader = "";
             }
             name.setText(username);
-            RequestOptions requestOptions = new RequestOptions().centerCrop();
+            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
             requestOptions.placeholder(R.mipmap.user_index_nurse);
             Glide.with(getActivity())
                     .load(userheader)

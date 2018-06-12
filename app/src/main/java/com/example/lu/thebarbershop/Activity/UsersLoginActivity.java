@@ -71,6 +71,7 @@ public class UsersLoginActivity extends AppCompatActivity {
                         editor.commit();
                         //登录成功插入数据库
                         insertUserToSql(users);
+                        setResult(2);
                         finish();
 
 
