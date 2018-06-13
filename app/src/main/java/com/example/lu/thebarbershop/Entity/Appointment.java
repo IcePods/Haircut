@@ -12,6 +12,7 @@ public class Appointment implements Serializable{
     private String Appoint_phone;//预约人电话
     private String Appoint_time;//预约时间
     private String Appoint_barber;//预约理发师
+    private String Appoint_state;//预约状态
     private HairStyle Appoint_hairStyle;//预约的发型对象
     private Users Appoint_users;//订单所属用户对象
     private UserShopDetail Appoint_userShopDetail;//预约的店铺对象
@@ -30,6 +31,14 @@ public class Appointment implements Serializable{
 
     public void setAppoint_username(String appoint_username) {
         Appoint_username = appoint_username;
+    }
+
+    public String getAppoint_state() {
+        return Appoint_state;
+    }
+
+    public void setAppoint_state(String appoint_state) {
+        Appoint_state = appoint_state;
     }
 
     public String getAppoint_phone() {

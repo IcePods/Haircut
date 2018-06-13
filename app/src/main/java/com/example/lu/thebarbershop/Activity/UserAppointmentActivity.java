@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.lu.thebarbershop.Entity.Appointment;
@@ -26,6 +27,7 @@ import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -51,7 +53,6 @@ public class UserAppointmentActivity extends AppCompatActivity {
 
     private String initTime = "2018年6月8日 00:00"; // 初始化开始时间
     private String masterString;
-    private String timeString;
     private static String[] masterName={};//理发师列表
     private ArrayAdapter<String> arrayAdapter;
     private HairStyle hairStyle;//发型对象
@@ -141,15 +142,22 @@ public class UserAppointmentActivity extends AppCompatActivity {
                     DateTimePickDialogUtil dateTimePickDialogUtil = new DateTimePickDialogUtil(
                             UserAppointmentActivity.this,initTime);
                     dateTimePickDialogUtil.dateTimePicKDialog(Selecttime);
-                    timeString = Selecttime.getText().toString().trim();
                     break;
                 case R.id.user_appointment_commit:
-                    setAppointment();
-                    Gson gson = new GsonBuilder().serializeNulls().create();
-                    String a = gson.toJson(appointment);
-                    Log.i("ztl",a);
-                    postAppointment(a);
-                    break;
+                        setAppointment();
+                        Gson gson = new GsonBuilder().serializeNulls().create();
+                    /*appointment.setAppoint_time(Selecttime.getText().toString().trim());*/
+                        String a = gson.toJson(appointment);
+                        Log.i("ztl",a);
+                        postAppointment(a);
+                       /* Intent intent = new Intent();
+                        intent.setClass(getApplicationContext(),UserShopDetail.class);
+                        startActivity(intent);*/
+                        Toast.makeText(getApplicationContext(),"预约成功",Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+
+
             }
         }
     }
@@ -160,8 +168,8 @@ public class UserAppointmentActivity extends AppCompatActivity {
         appointment.setAppoint_hairStyle(hairStyle);
         appointment.setAppoint_userShopDetail(userShopDetail);
         appointment.setAppoint_barber(masterString);
-        appointment.setAppoint_time(timeString);
         appointment.setAppoint_users(null);
+        appointment.setAppoint_time(Selecttime.getText().toString().trim());
 
     }
 
@@ -188,6 +196,8 @@ public class UserAppointmentActivity extends AppCompatActivity {
 
                     }
                 });
+
+
 
             }
         }.start();

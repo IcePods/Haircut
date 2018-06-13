@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
 import com.example.lu.thebarbershop.Adapter.InvalidAppointmentAdapter;
 import com.example.lu.thebarbershop.R;
 
@@ -26,7 +27,7 @@ public class UserPersonAppointmentInvalidFragment extends Fragment {
     private Context context;
 
 
-    public UserPersonAppointmentInvalidFragment() {
+    public UserPersonAppointmentInvalidFragment(UserPersonAppointmentActivity userPersonAppointmentActivity) {
         // Required empty public constructor
     }
 

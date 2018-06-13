@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.lu.thebarbershop.Entity.Appointment;
 import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.R;
 
@@ -22,11 +24,11 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
     //上下文环境
     private Context mContext;
     //声明数据源
-    private List<Map<String, Object>> appointments;
+    private List<Appointment> appointments;
     //声明列表项的布局itemID
     private int item_layout_id;
 
-    public EffectiveAppointmentAdapter(Context mContext, List<Map<String, Object>> appointments, int item_layout_id) {
+    public EffectiveAppointmentAdapter(Context mContext, List<Appointment> appointments, int item_layout_id) {
         this.mContext = mContext;
         this.appointments = appointments;
         this.item_layout_id = item_layout_id;
@@ -69,14 +71,14 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
         TextView hairstyle = convertView.findViewById(R.id.appointment_hairstyle);
 
         //利用传递的数据源给相应的控件对象赋值
-        Map<String, Object> effectiveAppointments = appointments.get(position);
-        img.setImageResource((Integer)effectiveAppointments.get("img"));
-        merchantName.setText((String)effectiveAppointments.get("merchantName"));
-        barber.setText((String)effectiveAppointments.get("barber"));
-        tel.setText((String)effectiveAppointments.get("tel"));
-        time.setText((String)effectiveAppointments.get("time"));
-        person.setText((String)effectiveAppointments.get("person"));
-        hairstyle.setText((String)effectiveAppointments.get("hairstyle"));
+        Appointment effectiveAppointments = appointments.get(position);
+        Glide.with(mContext).load(effectiveAppointments.getAppoint_hairStyle().getHairstylePicture()).into(img);
+        merchantName.setText(effectiveAppointments.getAppoint_userShopDetail().getShopName());
+        barber.setText(effectiveAppointments.getAppoint_barber());
+        tel.setText(effectiveAppointments.getAppoint_phone());
+        time.setText(effectiveAppointments.getAppoint_time());
+        person.setText(effectiveAppointments.getAppoint_username());
+        hairstyle.setText(effectiveAppointments.getAppoint_hairStyle().getHairstyleName());
 
         return convertView;
     }
