@@ -21,6 +21,8 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.example.lu.thebarbershop.Adapter.FullyGridLayoutManager;
 import com.example.lu.thebarbershop.Adapter.GridImageAdapter;
 import com.example.lu.thebarbershop.Entity.Dynamic;
+import com.example.lu.thebarbershop.Entity.DynamicPicture;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.R;
@@ -33,7 +35,9 @@ import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.internal.Util;
 
@@ -53,11 +57,13 @@ public class CreateDynamicActivity extends AppCompatActivity {
     //页面风格信息
     private int themeId;
     //上传动态图片的路径
-    final String uploadPictureUrl = "http://192.168.191.3:8080/theBarberShopServers/uploadPictureList.action";
+    final String uploadPictureUrl = UrlAddress.url + "uploadPictureList.action";
+    //发布动态路径
+    final private String publishUrl = UrlAddress.url + "createDynamic.action";
     //动态对象
     private Dynamic dynamic;
     //标记用户的token
-    private String token = new GetUserFromShared(this).getUserTokenFromShared();
+    private String token;
 
 
 
@@ -91,6 +97,14 @@ public class CreateDynamicActivity extends AppCompatActivity {
         publishNewDynamic = findViewById(R.id.publish_new_dynamic);
         //styles.xml中的默认样式
         themeId = R.style.picture_default_style;
+
+        try {
+            token = new GetUserFromShared(this).getUserTokenFromShared();
+        }catch (RuntimeException e){
+            Toast.makeText(this,
+                    "您尚未登录",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -197,19 +211,24 @@ public class CreateDynamicActivity extends AppCompatActivity {
                         String picPathStr = bundle.getString("string");
                         Gson gson = new Gson();
                         List<String> picPathList = gson.fromJson(picPathStr, new TypeToken<List<String>>(){}.getType());
+                        Set<DynamicPicture> dynamicPicPathSet = new HashSet<>();
                         for(String str: picPathList){
+                            DynamicPicture dp = new DynamicPicture();
+                            dp.setDynamicPicture(str);
+                            dynamicPicPathSet.add(dp);
                             Log.i("李垚：：：：：：：图片的访问路径", str);
                         }
                         //设置图片访问路径
-                        dynamic.setDynamicImagePathList(picPathList);
+                        dynamic.setDynamicImagePathSet(dynamicPicPathSet);
                         String newDynamic = gson.toJson(dynamic);
                         //上传动态
-                        new UploadPictureUtil().requestServer(uploadPictureUrl,newDynamic,token,null);
+                        new UploadPictureUtil().requestServer(publishUrl,newDynamic,token,null);
                         Log.i("李垚：：：：：：", "动态对象上传");
                     }
                 };
                 //上传图片、获得访问路径
                 uploadPicAndGetPathList(uploadPicListhandler);
+                finish();
             }
         });
     }

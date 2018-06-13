@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.example.lu.thebarbershop.Activity.CreateDynamicActivity;
 import com.example.lu.thebarbershop.Adapter.DynamicListAdapter;
 import com.example.lu.thebarbershop.Entity.Dynamic;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
@@ -45,13 +47,13 @@ public class DynamicFragment extends Fragment{
     private DynamicListAdapter dynamicListAdapter;
     //数据源
     private List<Dynamic> data;
-    //当前显示的动态数据
-    private List<Dynamic> showData;
+    //当前显示的数据量
+    private int showDataNum=0;
 
     RefreshLayout refreshLayout;
     private Button createNewDynamic;
     //动态请求地址
-    final private String URL = "http://192.168.3.2:8080/theBarberShopServers/dynamic.action";
+    final private String URL = UrlAddress.url + "showAllDynamic.action";
 
 
     @Nullable
@@ -81,7 +83,7 @@ public class DynamicFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context, CreateDynamicActivity.class);
+                intent.setClass(getActivity().getApplicationContext(), CreateDynamicActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,6 +91,7 @@ public class DynamicFragment extends Fragment{
 
     private void initData(){
         //服务器请求动态数据
+        data = new ArrayList<>();
         UploadPictureUtil util = new UploadPictureUtil();
         Handler handler = new Handler(){
             @Override
@@ -97,26 +100,41 @@ public class DynamicFragment extends Fragment{
                 Bundle bundle = msg.getData();
                 String dynamicStrList = bundle.getString("string");
                 Gson gson = new Gson();
-                data = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
-
+                List<Dynamic> list = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                if(list.size() == 0){
+                    Toast.makeText(context,
+                            "还没有人发布动态呦！",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    data.addAll(list);
+                    list.removeAll(list);
+                    //设置显示的数据
+                    if(data.size()<=5){
+                        list.addAll(data);
+                    }else {
+                        for (int i = 0; i < 5; i++) {
+                            list.add(data.get(i));
+                        }
+                    }
+                }
+                //首次显示的数据量
+                showDataNum = list.size();
+                dynamicListAdapter = new DynamicListAdapter(context,list);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                DynamicList.setLayoutManager(linearLayoutManager);
+                DynamicList.setAdapter(dynamicListAdapter);
             }
         };
         util.requestServer(URL,null,null,handler);
-        for(int i=0; i<5; i++){
-            showData.add(data.get(i));
-        }
 
-        dynamicListAdapter = new DynamicListAdapter(context,showData);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        DynamicList.setLayoutManager(linearLayoutManager);
-        DynamicList.setAdapter(dynamicListAdapter);
     }
 
     private void setPullRefresher(){
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                //在这里执行下拉刷新时的具体操作(网络请求、更新UI等)
+                refreshLayout.finishRefresh(2000/*,false*/);
+                //不传时间则立即停止刷新    传入false表示刷新失败
                 //服务器请求动态数据
                 UploadPictureUtil util = new UploadPictureUtil();
                 Handler handler = new Handler(){
@@ -126,32 +144,51 @@ public class DynamicFragment extends Fragment{
                         Bundle bundle = msg.getData();
                         String dynamicStrList = bundle.getString("string");
                         Gson gson = new Gson();
-                        data = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                        List<Dynamic> list = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                        if(list.size() == 0){
+                            Toast.makeText(context,
+                                    "还没有人发布动态呦！",
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            data.removeAll(data);
+                            data.addAll(list);
+                            //设置显示的数据
+                            list.removeAll(list);
+                            if(data.size()<=5){
+                                list.addAll(data);
+                            }else {
+                                for (int i = 0; i < 5; i++) {
+                                    list.add(data.get(i));
+                                }
+                            }
+                        }
 
+                        showDataNum = list.size();
+                        Log.i("李垚：：：：","当前显示的数据量："+list.size());
+                        dynamicListAdapter.refresh(list);
                     }
                 };
+
                 util.requestServer(URL,null,null,handler);
-                showData.clear();
-                for(int i=0; i<5; i++){
-                    showData.add(data.get(i));
-                }
-                dynamicListAdapter.refresh(data);
-                refreshLayout.finishRefresh(2000/*,false*/);
-                //不传时间则立即停止刷新    传入false表示刷新失败
             }
         });
+
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishLoadMore(2000);
                 //在这里执行上滑加载时的具体操作
-                if(showData.size()<data.size()){
-                    if(showData.size()+5 <= data.size()){
+                List<Dynamic> add = new ArrayList<>();
+                if(showDataNum < data.size()){
+                    if(showDataNum+5 <= data.size()){
                         for(int i=0; i<5; i++){
-                            showData.add(data.get(showData.size()+i));
+                            add.add(data.get(showDataNum + i));
                         }
+                        showDataNum+=5;
                     }else {
-                        for(int i=showData.size(); i<data.size(); i++){
-                            showData.add(data.get(i));
+                        for(;showDataNum<data.size(); showDataNum++){
+                            add.add(data.get(showDataNum));
+                            showDataNum = data.size();
                         }
                     }
                 }else {
@@ -159,8 +196,7 @@ public class DynamicFragment extends Fragment{
                             "没有更多啦",
                             Toast.LENGTH_SHORT).show();
                 }
-                dynamicListAdapter.add(showData);
-                refreshLayout.finishLoadMore(2000);
+                dynamicListAdapter.add(add);
             }
         });
     }

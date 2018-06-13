@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
@@ -60,6 +61,8 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     private String userphone;
     private String token = "";
     /*private Users users = (Users)getIntent().getSerializableExtra("users");*/
+    //上传剪裁后的图片
+    final private String uploadPicUrl = UrlAddress.url + "uploadHead.action";
 
     private SQLiteDatabase database;//查询数据库
 
@@ -310,11 +313,10 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             case CODE_RESULT_REQUEST:
                 //剪裁后的图片
                 Bitmap bitmap = setImageToHeadView(intent);
-                //上传剪裁后的图片
-                final String url = "http://192.168.155.3:8080/theBarberShopServers/uploadHead.action";
+
                 String picStr = uploadPictureUtil.getStringFromBitmap(bitmap);
                 String token = new GetUserFromShared(this).getUserTokenFromShared();
-                uploadPictureUtil.requestServer(url,picStr,token,null);
+                uploadPictureUtil.requestServer(uploadPicUrl,picStr,token,null);
                 break;
         }
 

@@ -2,6 +2,7 @@ package com.example.lu.thebarbershop.Entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lu on 2018/5/11 0011.
@@ -11,12 +12,14 @@ public class Dynamic implements Serializable {
     private int id;
     private Users user;//用户
     private String DynamicContent;  // 动态文字
-    private List<String> DynamicImagePathList; //动态图片列表
+    private Set<DynamicPicture> DynamicImagePathSet; //动态图片列表
+    //用户状态是否正确（登录是否过期）
+    private boolean DynamicCondition = true;
 
     public Dynamic(){}
-    public Dynamic(String text,List<String> str){
+    public Dynamic(String text, Set<DynamicPicture> str){
         this.DynamicContent = text;
-        this.DynamicImagePathList = str;
+        this.DynamicImagePathSet = str;
     }
 
     public int getId() {
@@ -43,11 +46,19 @@ public class Dynamic implements Serializable {
         this.user = user;
     }
 
-    public List<String> getDynamicImagePathList() {
-        return DynamicImagePathList;
+    public Set<DynamicPicture> getDynamicImagePathSet() {
+        return DynamicImagePathSet;
     }
 
-    public void setDynamicImagePathList(List<String> dynamicImagePathList) {
-        DynamicImagePathList = dynamicImagePathList;
+    public void setDynamicImagePathSet(Set<DynamicPicture> dynamicImagePathSet) {
+        DynamicImagePathSet = dynamicImagePathSet;
+    }
+
+    public boolean isDynamicCondition() {
+        return DynamicCondition;
+    }
+
+    public void setDynamicCondition(boolean dynamicCondition) {
+        DynamicCondition = dynamicCondition;
     }
 }
