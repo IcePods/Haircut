@@ -216,14 +216,12 @@ public class CreateDynamicActivity extends AppCompatActivity {
                             DynamicPicture dp = new DynamicPicture();
                             dp.setDynamicPicture(str);
                             dynamicPicPathSet.add(dp);
-                            Log.i("李垚：：：：：：：图片的访问路径", str);
                         }
                         //设置图片访问路径
                         dynamic.setDynamicImagePathSet(dynamicPicPathSet);
                         String newDynamic = gson.toJson(dynamic);
                         //上传动态
                         new UploadPictureUtil().requestServer(publishUrl,newDynamic,token,null);
-                        Log.i("李垚：：：：：：", "动态对象上传");
                     }
                 };
                 //上传图片、获得访问路径

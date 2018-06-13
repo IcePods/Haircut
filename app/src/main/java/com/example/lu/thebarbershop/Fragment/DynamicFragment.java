@@ -164,7 +164,6 @@ public class DynamicFragment extends Fragment{
                         }
 
                         showDataNum = list.size();
-                        Log.i("李垚：：：：","当前显示的数据量："+list.size());
                         dynamicListAdapter.refresh(list);
                     }
                 };
