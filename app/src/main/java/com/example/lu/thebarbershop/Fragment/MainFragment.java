@@ -56,7 +56,7 @@ import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
-import com.longsh.optionframelibrary.OptionMaterialDialog;
+
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -142,7 +142,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     SharedPreferences sharedPreferences= mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
                     if(fromServiceToken != localUserToken){
                        //登录失效跳转到登录界面
-                       alertDialog();
+                    /*   alertDialog();*/
 
                     }
 
@@ -497,7 +497,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         isRunning=false;
     }
 
-    public void alertDialog(){
+   /* public void alertDialog(){
         final OptionMaterialDialog mMaterialDialog = new OptionMaterialDialog(mContext);
         mMaterialDialog.setTitle("登陆失效")
 //                .setTitleTextColor(R.color.colorPrimary)
@@ -512,7 +512,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 .setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       /* mMaterialDialog.dismiss();*/
+                       *//* mMaterialDialog.dismiss();*//*
                         Intent intent = new Intent();
                         intent.setClass(mContext, UsersLoginActivity.class);
                         startActivity(intent);
@@ -536,5 +536,5 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                         })
                 .show();
 
-    }
+    }*/
 }
