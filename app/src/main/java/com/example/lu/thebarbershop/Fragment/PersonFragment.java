@@ -200,10 +200,18 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_appointment_btn:
                     //只实现跳转，跳转到预约页面UserPersonAppointmentActivity
                     //2. 指定跳转路线
-                    intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
-                    //3. 进行跳转
-                    startActivity(intent);
-                    break;
+                    if(f.exists()){
+                        intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
+                        //3. 进行跳转
+                        startActivity(intent);
+                        break;
+                    }else {
+                        intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
+                        //3. 进行跳转
+                        startActivity(intent);
+                        break;
+                    }
+
                 //我的收藏按钮
                 case R.id.user_person_collection_btn:
                     //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
@@ -212,13 +220,15 @@ public class PersonFragment extends Fragment {
                         intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
+                        break;
                     }else {
                         intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
+                        break;
                     }
 
-                    break;
+
                 //预约人信息按钮
                 case R.id.user_person_appoint_information_btn:
                     break;

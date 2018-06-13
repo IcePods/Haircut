@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.lu.thebarbershop.Entity.Appointment;
 import com.example.lu.thebarbershop.R;
 
 import java.util.List;
@@ -21,11 +23,11 @@ public class InvalidAppointmentAdapter extends BaseAdapter {
     //上下文环境
     private Context mContext;
     //声明数据源
-    private List<Map<String, Object>> appointments;
+    private List<Appointment> appointments;
     //声明列表项的布局itemID
     private int item_layout_id;
 
-    public InvalidAppointmentAdapter(Context mContext, List<Map<String, Object>> appointments, int item_layout_id) {
+    public InvalidAppointmentAdapter(Context mContext, List<Appointment> appointments, int item_layout_id) {
         this.mContext = mContext;
         this.appointments = appointments;
         this.item_layout_id = item_layout_id;
@@ -66,16 +68,25 @@ public class InvalidAppointmentAdapter extends BaseAdapter {
         TextView time = convertView.findViewById(R.id.appointment_invalid_time);
         TextView person = convertView.findViewById(R.id.appointment_invalid_person);
         TextView hairstyle = convertView.findViewById(R.id.appointment_invalid_hairstyle);
+        TextView state = convertView.findViewById(R.id.state);
 
         //利用传递的数据源给相应的控件对象赋值
-        Map<String, Object> invalidAppointments = appointments.get(position);
-        img.setImageResource((Integer) invalidAppointments.get("img"));
+        Appointment invalidAppointments = appointments.get(position);
+       /* img.setImageResource((Integer) invalidAppointments.get("img"));
         merchantName.setText((String) invalidAppointments.get("merchantName"));
         barber.setText((String) invalidAppointments.get("barber"));
         tel.setText((String) invalidAppointments.get("tel"));
         time.setText((String) invalidAppointments.get("time"));
         person.setText((String) invalidAppointments.get("person"));
-        hairstyle.setText((String) invalidAppointments.get("hairstyle"));
+        hairstyle.setText((String) invalidAppointments.get("hairstyle"));*/
+        Glide.with(mContext).load(invalidAppointments.getAppoint_hairStyle().getHairstylePicture()).into(img);
+        merchantName.setText(invalidAppointments.getAppoint_userShopDetail().getShopName());
+        barber.setText(invalidAppointments.getAppoint_barber());
+        tel.setText(invalidAppointments.getAppoint_phone());
+        time.setText(invalidAppointments.getAppoint_time());
+        person.setText(invalidAppointments.getAppoint_username());
+        hairstyle.setText(invalidAppointments.getAppoint_hairStyle().getHairstyleName());
+        state.setText(invalidAppointments.getAppoint_state());
 
         return convertView;
     }

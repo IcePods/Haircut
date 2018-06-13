@@ -97,32 +97,7 @@ public class UserPersonAppointmentEffectiveFragment extends Fragment {
         appointmentEffectiveList.setDivider(null);
     }
 
-    /*//静态数据模拟
-    private List<Map<String,Object>> prepareDatas() {
-        List<Map<String,Object>> appointments = new ArrayList<>();
-        //第一个商品
-        Map<String,Object> appointments1 = new HashMap<>();
-        appointments1.put("img",R.mipmap.user_person_headimg);
-        appointments1.put("merchantName","美轮美奂理发店");
-        appointments1.put("barber","John");
-        appointments1.put("tel","123456789");
-        appointments1.put("time","2017-5-6 7:00");
-        appointments1.put("person","张三123");
-        appointments1.put("hairstyle","经典染发");
-        appointments.add(appointments1);
 
-        Map<String,Object> appointments2 = new HashMap<>();
-        appointments2.put("img",R.mipmap.user_person_headimg);
-        appointments2.put("merchantName","美轮美奂理发店");
-        appointments2.put("barber","John");
-        appointments2.put("tel","123456789");
-        appointments2.put("time","2017-5-6 7:00");
-        appointments2.put("person","张三123");
-        appointments2.put("hairstyle","经典染发");
-        appointments.add(appointments2);
-
-        return appointments;
-    }*/
     public void getAppointment(){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("token","");
@@ -136,6 +111,7 @@ public class UserPersonAppointmentEffectiveFragment extends Fragment {
                 FormBody.Builder builder1 = new FormBody.Builder();
                 builder1.add("UserAccount",userAccount);
                 builder1.add("UserPassword",userPassword);
+                builder1.add("Appointment_state","进行中");
                 FormBody body = builder1.build();
                 final Request request = builder.header("UserTokenSql",token).post(body).url(UrlAddress.url+"showAllAppointment.action").build();
                 Call call = okHttpClient.newCall(request);

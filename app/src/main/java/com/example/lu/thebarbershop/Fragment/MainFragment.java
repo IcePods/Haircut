@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Dimension;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -30,6 +31,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.listener.DialogUIListener;
 import com.example.lu.thebarbershop.Activity.UserSearchActivity;
 import com.example.lu.thebarbershop.Activity.UserMainHaircolorActivity;
 import com.example.lu.thebarbershop.Activity.UserMainHaircutActivity;
@@ -136,13 +139,17 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     break;
                 case 2:
                     Bundle bundle1 = msg.getData();
-                    String fromServiceToken = bundle1.getString("fromServiceToken");
-                    Log.i("fromServiceToken",fromServiceToken);
+                    String fromServiceUser = bundle1.getString("fromServiceToken");
+                    Log.i("fromServiceToken",fromServiceUser);
+                    Gson gson1 =new Gson();
+                    Users users = gson1.fromJson(fromServiceUser,Users.class);
+                    //得到服务器返回的user的token
+                    String fromServiceToken = users.getUserToken();
                     String localUserToken = new GetUserFromShared(mContext).getUserTokenFromShared();
                     SharedPreferences sharedPreferences= mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
-                    if(fromServiceToken != localUserToken){
+                    if(!fromServiceToken.equals(localUserToken)){
                        //登录失效跳转到登录界面
-                    /*   alertDialog();*/
+                       alertDialog();
 
                     }
 
@@ -193,7 +200,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         MianFragmentListener mianFragmentListener = new MianFragmentListener();
         search.setOnClickListener(mianFragmentListener);
 
-
+        postJudgeUserIsLogin();
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return view;
@@ -442,7 +449,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                 builder.add("UserAccount", new GetUserFromShared(mContext).getUserAccountFromShared());
                 builder.add("UserPassword",new GetUserFromShared(mContext).getUserPasswordFromShared());
                 FormBody body = builder.build();
-                Request request = new Request.Builder().url(UrlAddress.url+"").post(body).build();
+                Request request = new Request.Builder().url(UrlAddress.url+"FindTokenByAccountAndPwd.action").post(body).build();
                 Call call  = okHttpClient.newCall(request);
                 call.enqueue(new Callback() {
                     @Override
@@ -497,44 +504,21 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         isRunning=false;
     }
 
-   /* public void alertDialog(){
-        final OptionMaterialDialog mMaterialDialog = new OptionMaterialDialog(mContext);
-        mMaterialDialog.setTitle("登陆失效")
-//                .setTitleTextColor(R.color.colorPrimary)
-//                .setTitleTextSize((float) 22.5)
-                .setMessage("请重新登录")
-//                .setMessageTextColor(R.color.colorPrimary)
-//                .setMessageTextSize((float) 16.5)
-//                .setPositiveButtonTextColor(R.color.colorAccent)
-//                .setNegativeButtonTextColor(R.color.colorPrimary)
-//                .setPositiveButtonTextSize(15)
-//                .setNegativeButtonTextSize(15)
-                .setPositiveButton("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                       *//* mMaterialDialog.dismiss();*//*
-                        Intent intent = new Intent();
-                        intent.setClass(mContext, UsersLoginActivity.class);
-                        startActivity(intent);
+    public void alertDialog(){
+        DialogUIUtils.showMdAlert(getActivity(), "登录失效", "请重新登录",new DialogUIListener() {
+            @Override
+            public void onPositive() {
+                Intent intent = new Intent();
+                intent.setClass(mContext,UsersLoginActivity.class);
+                startActivity(intent);
+            }
 
-                    }
-                })
-                .setNegativeButton("取消",
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mMaterialDialog.dismiss();
-                            }
-                        })
-                .setCanceledOnTouchOutside(true)
-                .setOnDismissListener(
-                        new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                //对话框消失后回调
-                            }
-                        })
-                .show();
+            @Override
+            public void onNegative() {
 
-    }*/
+            }
+
+        }).show();
+
+    }
 }
