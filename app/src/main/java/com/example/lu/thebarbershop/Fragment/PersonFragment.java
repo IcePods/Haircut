@@ -98,7 +98,7 @@ public class PersonFragment extends Fragment {
                     users = gson.fromJson(userfromToken,Users.class);
                     Log.i("lhy",userfromToken);
                     if(users.getUserCondition()==true){
-                        selectUser();
+                        /*selectUser();*/
                         name.setText(users.getUserName());
                         RequestOptions requestOptions = new RequestOptions()
                                 .centerCrop()
@@ -106,9 +106,10 @@ public class PersonFragment extends Fragment {
 
                         requestOptions.placeholder(R.mipmap.user_index_nurse);
                         Glide.with(getActivity())
-                                .load(users.getUserHeader())
+                                .load(UrlAddress.url+users.getUserHeader())
                                 .apply(requestOptions)
                                 .into(imageView);
+                        Log.i("lhyy",UrlAddress.url+users.getUserHeader());
                     }else{
 
                     }
@@ -342,26 +343,9 @@ public class PersonFragment extends Fragment {
     public void onResume() {
 
         super.onResume();
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("token","");
-        //拿到token去sqlite数据库查询用户信息
-        database =new UserTokenSql(mContext).getReadableDatabase();
-        Cursor cursor = database.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
-
-        if(cursor.moveToFirst()){
-            username = cursor.getString(cursor.getColumnIndex("username"));
-            userheader = cursor.getString(cursor.getColumnIndex("userheader"));
-            if(userheader == null){
-                userheader = "";
-            }
-            name.setText(username);
-            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
-            requestOptions.placeholder(R.mipmap.user_index_nurse);
-            Glide.with(getActivity())
-                    .load(userheader)
-                    .apply(requestOptions)
-                    .into(imageView);
-
+        /*getUserInformation(1);*/
+        if(f.exists()){
+            getUserInformation(1);
         }
     }
 }

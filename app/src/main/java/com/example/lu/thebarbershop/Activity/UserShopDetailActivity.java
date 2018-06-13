@@ -268,33 +268,6 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         mRecyclerView.setAdapter(mAdapter);
 
     }
-    //数据源
-    private ArrayList<Barber> getData() {
-        ArrayList<Barber> data = new ArrayList<>();
-        Barber barber1 = new Barber();
-        barber1.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber1.setBarberName("发型师1");
-        data.add(barber1);
-
-        Barber barber2 = new Barber();
-        barber2.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber2.setBarberName("发型师2");
-        data.add(barber2);
-
-        Barber barber3 = new Barber();
-        barber3.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber3.setBarberName("发型师3");
-        data.add(barber3);
-        Barber barber4 = new Barber();
-        barber4.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber4.setBarberName("发型师4");
-        data.add(barber4);
-        Barber barber5 = new Barber();
-        barber5.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber5.setBarberName("发型师5");
-        data.add(barber5);
-        return data;
-    }
 
     /**
      *将轮播的图片添加到集合中
