@@ -38,6 +38,7 @@
         android:textSize="20sp"
         android:textColorHint="#CACACA"
         android:gravity="center"
+        android:textColor="#121212"
         android:padding="10dp"/>
     <Button
         android:id="@+id/user_person_information_save_nickname_btn"

@@ -2,15 +2,20 @@ package com.example.lu.thebarbershop.Activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
@@ -29,11 +34,36 @@ import okhttp3.Response;
 public class UserPersonInformationChangeNicknameActivity extends AppCompatActivity {
     private ImageButton backbutton;//返回按钮
     private Mylistener mylistener;//监听器
+    private Button save;
     private EditText nickname;
     private String token;
     private Users users;
     private UserTokenSql userTokenSql = new UserTokenSql(this);
+    private SQLiteDatabase sqLiteDatabase;
+
+
     OkHttpClient okHttpClient = new OkHttpClient();
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    Bundle bundle = msg.getData();
+                    String u= bundle.getString("user");
+                    Gson gson = new Gson();
+                    users = gson.fromJson(u,Users.class);
+                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("username",users.getUserName());
+                    sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{users.getUserToken()});
+                    sqLiteDatabase.close();
+
+
+            }
+            super.handleMessage(msg);
+        }
+    };
 
 
     @Override
@@ -43,6 +73,7 @@ public class UserPersonInformationChangeNicknameActivity extends AppCompatActivi
 
         backbutton = findViewById(R.id.user_person_information_change_nickname_back);
         nickname = findViewById(R.id.user_person_information_nickname_edt);
+        save = findViewById(R.id.user_person_information_save_nickname_btn);
 
         //获取User对象
         Intent intent = getIntent();
@@ -52,6 +83,7 @@ public class UserPersonInformationChangeNicknameActivity extends AppCompatActivi
         mylistener = new Mylistener();
 
         backbutton.setOnClickListener(mylistener);
+        save.setOnClickListener(mylistener);
     }
 
     private class Mylistener implements View.OnClickListener {
@@ -62,51 +94,49 @@ public class UserPersonInformationChangeNicknameActivity extends AppCompatActivi
                 //返回按钮
                 case R.id.user_person_information_change_nickname_back:
                     //只销毁当前页面
+
+                    finish();
+                    break;
+                case R.id.user_person_information_save_nickname_btn:
                     String name = nickname.getText().toString();
-                   /* users.setUserName(name);
-                    Gson gson = new Gson();
-                    String gsonChangeName = gson.toJson(users);
-                    postchangeUserAttribute(gsonChangeName);
-*/
+                    postchangeUserAttribute(name);
+                    Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_LONG).show();
                     finish();
                     break;
             }
         }
     }
 
-    private void changeNickName(String name) {
-       /* Intent intent = getIntent();
+  /*  private void changeNickName(String name) {
+       *//* Intent intent = getIntent();
         String token = intent.getStringExtra("token");
         Users users = (Users) getIntent().getSerializableExtra("users");
-        users.setUserName(name);*/
+        users.setUserName(name);*//*
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", name);
         userTokenSql.getWritableDatabase().update("user", contentValues, "usertoken=?", new String[]{token});
 
     }
-
+*/
     private void postchangeUserAttribute(final String gsonUser) {
         new Thread() {
             @Override
             public void run() {
 
                 FormBody.Builder builder = new FormBody.Builder();
-                builder.add("changeUserAttribute", gsonUser);
+                builder.add("userName", gsonUser);
                 FormBody body = builder.build();
-                Request request = new Request.Builder().post(body).url(UrlAddress.url + ".action").build();
+                Request request = new Request.Builder().header("UserTokenSQL",new GetUserFromShared(getApplicationContext()).getUserTokenFromShared()).post(body).url(UrlAddress.url + "changeUserAttribute.action").build();
                 Call call = okHttpClient.newCall(request);
                 try {
                     Response response = call.execute();
                     String a = response.body().string();
-                    Gson gson = new Gson();
-                    Users users = gson.fromJson(a,Users.class);
-                    changeNickName(users.getUserName());
-                  /*  Message message =Message.obtain();
+                    Message message =Message.obtain();
                     message.what =1;
                     Bundle bundle =new Bundle();
                     bundle.putString("user",a);
                     message.setData(bundle);
-                    handler.sendMessage(message);*/
+                    handler.sendMessage(message);
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.LocalServerSocket;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -117,7 +118,10 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         phnebutton.setOnClickListener(mylistener);
         exittologin.setOnClickListener(mylistener);
         imageView.setOnClickListener(mylistener);
+
     }
+
+
     private class Mylistener implements View.OnClickListener{
 
         @Override
@@ -140,6 +144,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     /*intent.putExtra("users",users);*/
                     //3. 进行跳转
                     startActivity(intent);
+
                     break;
                 case R.id.arrowtip48_nickname:
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
@@ -360,5 +365,14 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             usersex = cursor.getString(cursor.getColumnIndex("usersex"));
             userphone = cursor.getString(cursor.getColumnIndex("userphone"));
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+
+        selectUser();
+        name.setText(username);
+        super.onResume();
     }
 }
