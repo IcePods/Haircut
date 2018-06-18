@@ -371,8 +371,15 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
 
+
         selectUser();
+        Log.i("userinformation",username);
+       /* Log.i("userinformation",usersex);
+        Log.i("userinformation",userphone);
+*/
         name.setText(username);
+        sex.setText(usersex);
+        phone.setText(userphone);
         super.onResume();
     }
 }

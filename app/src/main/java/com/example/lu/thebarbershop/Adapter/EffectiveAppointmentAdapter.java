@@ -108,7 +108,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickFinish(effectiveAppointments);
+                clickFinish(effectiveAppointments,"已完成");
                 Log.i("effect_id",String.valueOf(effectiveAppointments.getAppoint_id()));
                 Toast.makeText(mContext,"完成订单",Toast.LENGTH_SHORT).show();
                 appointments.remove(effectiveAppointments);
@@ -118,7 +118,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
         btn_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickFinish(effectiveAppointments);
+                clickFinish(effectiveAppointments,"已取消");
                 Log.i("effect_id",String.valueOf(effectiveAppointments.getAppoint_id()));
                 Toast.makeText(mContext,"取消订单",Toast.LENGTH_SHORT).show();
                 appointments.remove(effectiveAppointments);
@@ -130,7 +130,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
     }
     //确认按钮的单击事件
 
-    public void clickFinish(final Appointment effectiveAppointments){
+    public void clickFinish(final Appointment effectiveAppointments,final String state){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("token","");
         Log.i("hzl",token);
@@ -141,7 +141,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
             public void run() {
                 Request.Builder builder = new Request.Builder();
                 FormBody.Builder builder1 = new FormBody.Builder();
-                builder1.add("Appointment_state","已完成");
+                builder1.add("Appointment_state",state);
                 builder1.add("Appointment_id",String.valueOf(effectiveAppointments.getAppoint_id()));
                 FormBody body = builder1.build();
                 final Request request = builder.header("UserTokenSql",token).post(body).url(UrlAddress.url+"UpdateAppointmentState.action").build();
