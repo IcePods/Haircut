@@ -100,7 +100,7 @@ public class CreateDynamicActivity extends AppCompatActivity {
 
         try {
             token = new GetUserFromShared(this).getUserTokenFromShared();
-        }catch (RuntimeException e){
+        }catch (Exception e){
             Toast.makeText(this,
                     "您尚未登录",
                     Toast.LENGTH_SHORT).show();

@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Activity.MyDynamicActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAboutsUsActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonCollectionActivity;
@@ -70,13 +71,14 @@ public class PersonFragment extends Fragment {
     private Button collectionbutton;//我的收藏按钮 id=user_person_collection_btn
     private Button aboutusbutton;//关于我们按钮 id=user_person_abouts_us_btn
     private Mylistener mylistener;//监听器
-    private File f;
     private UserTokenSql userTokenSql;
     private String username;
     private String userheader;
-    private String Token;
+    private String token;
     private SQLiteDatabase database;
     public static Users users;
+    //我的动态按钮
+    private Button myDynamic;
 
 
 
@@ -127,7 +129,7 @@ public class PersonFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_person,container,false);
 
 
-        f = new File(getActivity().getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
+        token = new GetUserFromShared(getActivity()).getUserTokenFromShared();
         Log.i("hzl",getActivity().getApplication().getFilesDir().getParent()+"");
 
 
@@ -137,13 +139,14 @@ public class PersonFragment extends Fragment {
         collectionbutton = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
         aboutusbutton = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
         name = view.findViewById(R.id.user_person_username_tv);
+        myDynamic = view.findViewById(R.id.my_dynamic);
 
         //更新UI
 
 
 
         mylistener = new Mylistener();
-        if(f.exists()){
+        if(token != null){
             getUserInformation(1);
         }
 
@@ -153,6 +156,7 @@ public class PersonFragment extends Fragment {
         appointmentbutton.setOnClickListener(mylistener);
         collectionbutton.setOnClickListener(mylistener);
         aboutusbutton.setOnClickListener(mylistener);
+        myDynamic.setOnClickListener(mylistener);
 
 
         return view;
@@ -185,7 +189,7 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_information_btn:
                     //只实现跳转，跳转到个人信息详情页面UserPersonInformationActivity
                     //2. 指定跳转路线
-                    if(f.exists()){
+                    if(token != null){
                         intent.setClass(getActivity().getApplicationContext(),UserPersonInformationActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
@@ -200,7 +204,7 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_appointment_btn:
                     //只实现跳转，跳转到预约页面UserPersonAppointmentActivity
                     //2. 指定跳转路线
-                    if(f.exists()){
+                    if(token != null){
                         intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
@@ -216,7 +220,7 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_collection_btn:
                     //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
                     //2. 指定跳转路线
-                    if(f.exists()){
+                    if(token != null){
                         intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
@@ -239,6 +243,19 @@ public class PersonFragment extends Fragment {
                     //3. 进行跳转
                     startActivity(intent);
                     break;
+
+                //我的动态
+                case R.id.my_dynamic:
+                    if(token != null){
+                        intent.setClass(getActivity().getApplicationContext(), MyDynamicActivity.class);
+                        startActivity(intent);
+                        break;
+                    }else {
+                        intent.setClass(getActivity().getApplicationContext(), UsersLoginActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+
             }
         }
     }

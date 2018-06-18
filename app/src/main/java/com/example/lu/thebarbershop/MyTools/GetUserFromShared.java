@@ -28,11 +28,9 @@ public class GetUserFromShared {
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token","");
             return token;
+        }else {
+            return null;
         }
-        Intent intent = new Intent();
-        intent.setClass(mContext, UsersLoginActivity.class);
-        mContext.startActivity(intent);
-        return "";
     }
     //得到用户账号
     public  String getUserAccountFromShared(){
@@ -41,12 +39,11 @@ public class GetUserFromShared {
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String userAccount = sharedPreferences.getString("userAccount","");
             return userAccount;
+        }else {
+            return null;
         }
-        Intent intent = new Intent();
-        intent.setClass(mContext, UsersLoginActivity.class);
-        mContext.startActivity(intent);
-        return "";
     }
+
     //得到用户密码
     public  String getUserPasswordFromShared(){
         file =new File(mContext.getApplicationContext().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
@@ -54,10 +51,8 @@ public class GetUserFromShared {
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String userPassword = sharedPreferences.getString("userPassword","");
             return userPassword;
+        }else {
+            return null;
         }
-        Intent intent = new Intent();
-        intent.setClass(mContext, UsersLoginActivity.class);
-        mContext.startActivity(intent);
-        return "";
     }
 }

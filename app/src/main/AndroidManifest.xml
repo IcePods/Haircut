@@ -42,7 +42,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="6kHItlMROUNkqnD2HYeTu8bOqYghG80c" />
@@ -81,6 +80,7 @@
         <activity android:name=".Activity.HairStyleDetailActivity" />
         <activity android:name=".Activity.ChatActivity" />
         <activity android:name=".Activity.UserAppointmentActivity" />
+        <activity android:name=".Activity.MyDynamicActivity"></activity>
     </application>
 
 </manifest>

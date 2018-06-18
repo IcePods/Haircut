@@ -1,27 +1,20 @@
-package com.example.lu.thebarbershop.Fragment;
+package com.example.lu.thebarbershop.Activity;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.media.session.MediaSession;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.TintContextWrapper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.lu.thebarbershop.Activity.CreateDynamicActivity;
-import com.example.lu.thebarbershop.Activity.UsersLoginActivity;
 import com.example.lu.thebarbershop.Adapter.DynamicListAdapter;
 import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
@@ -36,17 +29,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
-/**
- * Created by lu on 2018/5/9 0009.
- * 动态fragment
- */
-
-public class DynamicFragment extends Fragment{
+public class MyDynamicActivity extends AppCompatActivity {
     //数据显示控件
-    private RecyclerView DynamicList;
-    private Context context;
+    private RecyclerView myDynamicList;
     private DynamicListAdapter dynamicListAdapter;
     //数据源
     private List<Dynamic> data;
@@ -54,113 +40,117 @@ public class DynamicFragment extends Fragment{
     private int showDataNum=0;
     //页面刷新控件
     private RefreshLayout refreshLayout;
-    private Button createNewDynamic;
+    //返回控件
+    private ImageButton back;
     //动态请求地址
-    final private String URL = UrlAddress.url + "showAllDynamic.action";
+    final private String URL = UrlAddress.url + "getUserDynamic.action";
+    UploadPictureUtil util = new UploadPictureUtil();
+    private String token;
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        //加载选项卡对应的选项页面
-        View view = inflater.inflate(R.layout.fragment_dynamic_page,container,false);
-        DynamicList  = view.findViewById(R.id.dynamic_list);
-        refreshLayout = view.findViewById(R.id.refreshLayout);
-        context = getActivity().getApplicationContext();
-        //点击跳转到动态发布界面
-        gotoCreateNewDynamic(view);
-        //初始化冬天页面数据
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_dynamic);
+        //初始化控件对象
+        initControl();
+        //返回按钮绑定事件监听器
+        setBackControlOnClickListener();
+        //初始化显示数据
         initData();
-        //下拉刷新和上滑加载的动作绑定
-        setPullRefresher();
-
-        return view;
+        //设置下拉刷新和上滑加载功能
+        setRefreshAndLoadMore();
     }
 
     /**
-     * 点击发布按钮，跳转到发布新动态页面
+     * 初始化控件对象
      */
-    private void gotoCreateNewDynamic(View view){
-        createNewDynamic = view.findViewById(R.id.create_new_dynamic);
-        createNewDynamic.setOnClickListener(new View.OnClickListener() {
+    private void initControl(){
+        Log.i("李垚：：：：：","初始化控件对象");
+        myDynamicList = findViewById(R.id.my_dynamic_list);
+        data = new ArrayList<>();
+        refreshLayout  = findViewById(R.id.my_dynamic_refreshLayout);
+        back = findViewById(R.id.my_dynamic_back);
+        token = new GetUserFromShared(this).getUserTokenFromShared();
+        if(token == null){
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    /**
+     * 给返回按钮绑定点击事件监听器
+     */
+    private void setBackControlOnClickListener(){
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                String token = new GetUserFromShared(getActivity()).getUserTokenFromShared();
-                if(token != null){
-                    intent.setClass(getActivity().getApplicationContext(), CreateDynamicActivity.class);
-                    startActivity(intent);
-                }else {
-                    intent.setClass(getActivity().getApplicationContext(), UsersLoginActivity.class);
-                    startActivity(intent);
-                }
-
+                finish();
             }
         });
     }
 
+    /**
+     * 服务器请求用户动态数据
+     */
     private void initData(){
-        //服务器请求动态数据
-        data = new ArrayList<>();
-        UploadPictureUtil util = new UploadPictureUtil();
-        Handler handler =   new Handler(){
+        Log.i("李垚：：：：：","初始化数据源");
+        Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 Bundle bundle = msg.getData();
-                String dynamicStrList = bundle.getString("string");
+                String dynamicList = bundle.getString("string");
                 Gson gson = new Gson();
-                List<Dynamic> list = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                List<Dynamic> list = gson.fromJson(dynamicList, new TypeToken<List<Dynamic>>(){}.getType());
                 if(list.size() == 0){
-                    Toast.makeText(context,
-                            "还没有人发布动态呦！",
+                    Toast.makeText(getApplicationContext(),
+                            "您还没有发布过动态呦！",
                             Toast.LENGTH_SHORT).show();
                 }else {
                     data.addAll(list);
-                    //设置显示的数据
-                    if(list.size()>5){
+                    if(data.size()>5){
                         list.removeAll(list);
                         for (int i=0;i<5;i++){
                             list.add(data.get(i));
                         }
                     }
                 }
-                //首次显示的数据量
+                //首次显示的数据
                 showDataNum = list.size();
-                dynamicListAdapter = new DynamicListAdapter(context,list);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-                DynamicList.setLayoutManager(linearLayoutManager);
-                DynamicList.setAdapter(dynamicListAdapter);
+                dynamicListAdapter = new DynamicListAdapter(getApplicationContext(),list);
+                LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+                myDynamicList.setLayoutManager(manager);
+                myDynamicList.setAdapter(dynamicListAdapter);
             }
-        };
-        util.requestServer(URL,null,null,handler);
 
+        };
+        util.requestServer(URL, null,token,handler);
     }
 
-    private void setPullRefresher(){
+    private void setRefreshAndLoadMore(){
+        Log.i("李垚：：：：：","绑定刷新加载的监听器");
+        refreshLayout.finishRefresh(2000);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh(2000/*,false*/);
-                //不传时间则立即停止刷新    传入false表示刷新失败
-                //服务器请求动态数据
-                UploadPictureUtil util = new UploadPictureUtil();
                 Handler handler = new Handler(){
                     @Override
                     public void handleMessage(Message msg) {
                         super.handleMessage(msg);
                         Bundle bundle = msg.getData();
-                        String dynamicStrList = bundle.getString("string");
+                        String dynamicList = bundle.getString("string");
                         Gson gson = new Gson();
-                        List<Dynamic> list = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                        List<Dynamic> list = gson.fromJson(dynamicList, new TypeToken<List<Dynamic>>(){}.getType());
                         if(list.size() == 0){
-                            Toast.makeText(context,
-                                    "还没有人发布动态呦！",
+                            Toast.makeText(getApplicationContext(),
+                                    "您还没有发布动态呦！",
                                     Toast.LENGTH_SHORT).show();
                         }else {
                             data.removeAll(data);
                             data.addAll(list);
-                            //设置显示的数据
                             if(list.size()>5){
                                 list.removeAll(list);
                                 for (int i=0;i<5;i++){
@@ -168,13 +158,12 @@ public class DynamicFragment extends Fragment{
                                 }
                             }
                         }
-
                         showDataNum = list.size();
                         dynamicListAdapter.refresh(list);
                     }
                 };
-
-                util.requestServer(URL,null,null,handler);
+                //重新向服务器获取数据
+                util.requestServer(URL,null,token,handler);
             }
         });
 
@@ -197,7 +186,7 @@ public class DynamicFragment extends Fragment{
                         }
                     }
                 }else {
-                    Toast.makeText(context,
+                    Toast.makeText(getApplicationContext(),
                             "没有更多啦",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -205,4 +194,6 @@ public class DynamicFragment extends Fragment{
             }
         });
     }
+
+
 }
