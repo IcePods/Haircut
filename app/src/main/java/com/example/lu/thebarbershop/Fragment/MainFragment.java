@@ -3,6 +3,8 @@ package com.example.lu.thebarbershop.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 
 import android.content.Intent;
@@ -10,6 +12,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Dimension;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -27,18 +31,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.dou361.dialogui.DialogUIUtils;
+import com.dou361.dialogui.listener.DialogUIListener;
 import com.example.lu.thebarbershop.Activity.UserSearchActivity;
 import com.example.lu.thebarbershop.Activity.UserMainHaircolorActivity;
 import com.example.lu.thebarbershop.Activity.UserMainHaircutActivity;
 import com.example.lu.thebarbershop.Activity.UserMainNurseActivity;
 import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
+import com.example.lu.thebarbershop.Activity.UsersLoginActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.LooperTextView;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
@@ -52,6 +60,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -59,6 +72,8 @@ import java.util.List;
 import java.util.Set;
 
 import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -90,6 +105,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private LinearLayout ll_point;
     private List<UserShopDetail> allShopList;
 
+    RefreshLayout refreshLayout;
+
     private List<HairStyle> permsList;
 
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
@@ -120,6 +137,22 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
                     Log.i("allshop",allShopList.size()+"");
                     initShopAdapter();
                     break;
+                case 2:
+                    Bundle bundle1 = msg.getData();
+                    String fromServiceUser = bundle1.getString("fromServiceToken");
+                    Log.i("fromServiceToken",fromServiceUser);
+                    Gson gson1 =new Gson();
+                    Users users = gson1.fromJson(fromServiceUser,Users.class);
+                    //得到服务器返回的user的token
+                    String fromServiceToken = users.getUserToken();
+                    String localUserToken = new GetUserFromShared(mContext).getUserTokenFromShared();
+                    SharedPreferences sharedPreferences= mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+                    if(!fromServiceToken.equals(localUserToken)){
+                       //登录失效跳转到登录界面
+                       alertDialog();
+
+                    }
+
             }
             super.handleMessage(msg);
         }
@@ -167,7 +200,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         MianFragmentListener mianFragmentListener = new MianFragmentListener();
         search.setOnClickListener(mianFragmentListener);
 
-
+        postJudgeUserIsLogin();
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return view;
@@ -193,7 +226,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         ll_point = view.findViewById(R.id.ll_point);
         looperTextView = view.findViewById(R.id.user_index_loopertextview);
         scrollView =view.findViewById(R.id.user_index_scroll);
-
+        refreshLayout = view.findViewById(R.id.refreshLayout);
 
     }
 
@@ -407,6 +440,60 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     }
 
+    public void postJudgeUserIsLogin(){
+        //判断usertoken是否为空
+        if(new File(mContext.getApplicationContext().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
+
+            if(mContext.getSharedPreferences("usertoken",Context.MODE_PRIVATE)!=null){
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("UserAccount", new GetUserFromShared(mContext).getUserAccountFromShared());
+                builder.add("UserPassword",new GetUserFromShared(mContext).getUserPasswordFromShared());
+                FormBody body = builder.build();
+                Request request = new Request.Builder().url(UrlAddress.url+"FindTokenByAccountAndPwd.action").post(body).build();
+                Call call  = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String fromServiceToken = response.body().string();
+                        Message message = Message.obtain();
+                        message.what = 2;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("fromServiceToken",fromServiceToken);
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+                    }
+                });
+
+            }
+        }
+
+
+    }
+
+    //下拉刷新上滑加载的点击事件
+    public void indexPullRefresher(){
+        //下拉
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
+        //上滑加载的点击事件
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
+    }
+
+
     /**
      * 重写ondestory
      * */
@@ -417,5 +504,21 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         isRunning=false;
     }
 
+    public void alertDialog(){
+        DialogUIUtils.showMdAlert(getActivity(), "登录失效", "请重新登录",new DialogUIListener() {
+            @Override
+            public void onPositive() {
+                Intent intent = new Intent();
+                intent.setClass(mContext,UsersLoginActivity.class);
+                startActivity(intent);
+            }
 
+            @Override
+            public void onNegative() {
+
+            }
+
+        }).show();
+
+    }
 }

@@ -42,8 +42,8 @@ public class UserPersonAppointmentActivity extends AppCompatActivity {
         imageButtonBack.setOnClickListener(listener);
 
         //初始化页面对象
-        EffectiveFragment = new UserPersonAppointmentEffectiveFragment();
-        InvalidFragment = new UserPersonAppointmentInvalidFragment();
+        EffectiveFragment = new UserPersonAppointmentEffectiveFragment(this);
+        InvalidFragment = new UserPersonAppointmentInvalidFragment(this);
         //默认显示第一个页面
         ChangeFragment(EffectiveFragment);
 

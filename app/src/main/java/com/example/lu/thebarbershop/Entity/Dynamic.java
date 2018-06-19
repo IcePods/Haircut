@@ -1,23 +1,33 @@
 package com.example.lu.thebarbershop.Entity;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lu on 2018/5/11 0011.
  */
 
-public class Dynamic {
-    private int DynamicId;
+public class Dynamic implements Serializable {
+    private int id;
     private Users user;//用户
     private String DynamicContent;  // 动态文字
-    private List<String> DynamicImagePathList; //动态图片列表
+    private Set<DynamicPicture> DynamicImagePathSet; //动态图片列表
+    //用户状态是否正确（登录是否过期）
+    private boolean DynamicCondition = true;
 
-    public int getDynamicId() {
-        return DynamicId;
+    public Dynamic(){}
+    public Dynamic(String text, Set<DynamicPicture> str){
+        this.DynamicContent = text;
+        this.DynamicImagePathSet = str;
     }
 
-    public void setDynamicId(int dynamicId) {
-        DynamicId = dynamicId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDynamicContent() {
@@ -36,11 +46,19 @@ public class Dynamic {
         this.user = user;
     }
 
-    public List<String> getDynamicImagePathList() {
-        return DynamicImagePathList;
+    public Set<DynamicPicture> getDynamicImagePathSet() {
+        return DynamicImagePathSet;
     }
 
-    public void setDynamicImagePathList(List<String> dynamicImagePathList) {
-        DynamicImagePathList = dynamicImagePathList;
+    public void setDynamicImagePathSet(Set<DynamicPicture> dynamicImagePathSet) {
+        DynamicImagePathSet = dynamicImagePathSet;
+    }
+
+    public boolean isDynamicCondition() {
+        return DynamicCondition;
+    }
+
+    public void setDynamicCondition(boolean dynamicCondition) {
+        DynamicCondition = dynamicCondition;
     }
 }

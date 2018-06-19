@@ -7,25 +7,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
         android:background="@android:color/transparent">
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="拍照"
+            android:background="#CACACA"
             android:id="@+id/takePicture"/>
         <Button
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/takePicture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="从相册选取"
+            android:background="#CACACA"
             android:id="@+id/chooseFrom"
             />
         <Button
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/chooseFrom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="取消"
+            android:background="#CACACA"
             android:id="@+id/cancel"/>
     </RelativeLayout>
 

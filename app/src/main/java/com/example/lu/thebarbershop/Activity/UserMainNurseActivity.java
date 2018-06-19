@@ -100,7 +100,7 @@ public class UserMainNurseActivity extends AppCompatActivity {
                 intent.setClass(getApplicationContext(),HairStyleDetailActivity.class);
                 //把点击的商品对象添加到intent对象中去
                 Bundle bundle = new Bundle();
-
+                bundle.putString("fromIndex","1");
                 HairStyle hairStyle =nurselist.get(position);
                 bundle.putSerializable("hairStyle",hairStyle);
                 intent.putExtras(bundle);

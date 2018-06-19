@@ -31,12 +31,12 @@ import okhttp3.Response;
 public class UploadPictureUtil {
 
     /**
-     * 线程里上传对象
+     * 线程里向服务器上传、请求数据
      * @param url 请求地址
      * @param obj 对象的json串
      * @param handler 接收响应信息的handler对象，在主线程里创建
      */
-    public void upload(final String url, final String obj, final Handler handler) {
+    public void requestServer(final String url, final String obj, final String token, final Handler handler) {
         new Thread(){
             @Override
             public void run() {
@@ -48,13 +48,22 @@ public class UploadPictureUtil {
                 //参数的类型
                 MediaType type = MediaType.parse("text/plain;charset=UTF-8");
                 //创建RequestBody对象
-                RequestBody body = RequestBody.create(type, obj);
+                RequestBody body;
+                if(obj == null){
+                    body = RequestBody.create(type, "");
+                }else{
+                    body = RequestBody.create(type, obj);
+                }
+
                 // 创建Request.Builder对象
                 Request.Builder builder = new Request.Builder();
                 //设置参数
                 builder.url(url);
                 //设置请求方式为POST
                 builder.post(body);
+                if(token != null){
+                    builder.header("UserTokenSQL",token);
+                }
                 //创建Request请求对象
                 Request request = builder.build();
                 OkHttpClient okHttpClient = new OkHttpClient();
@@ -72,12 +81,14 @@ public class UploadPictureUtil {
                     public void onResponse(Call call, Response r) throws IOException{
                         //正确执行，获取返回数据的回调
                         Log.i("李垚:::::::::","请求成功");
-                        String str = r.body().string();
-                        Message message = Message.obtain();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("string", str);
-                        message.setData(bundle);
-                        handler.sendMessage(message);
+                        if(handler != null){
+                            String str = r.body().string();
+                            Message message = Message.obtain();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("string", str);
+                            message.setData(bundle);
+                            handler.sendMessage(message);
+                        }
                     }
                 });
             }

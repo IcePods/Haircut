@@ -17,6 +17,7 @@ public class HairStyle implements Serializable{
     private String hairstyleIntroduce;//发型简介
 //    private int imgHeight;//发型图片高度
 
+
     public HairStyle() {
     }
 

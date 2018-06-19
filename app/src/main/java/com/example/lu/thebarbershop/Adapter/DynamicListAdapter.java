@@ -3,6 +3,7 @@ package com.example.lu.thebarbershop.Adapter;
 import android.content.Context;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.lu.thebarbershop.Entity.Dynamic;
+import com.example.lu.thebarbershop.Entity.DynamicPicture;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.MyTools.CustomImageView;
 import com.example.lu.thebarbershop.R;
 
 import java.net.CookieStore;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,10 +57,14 @@ public class DynamicListAdapter extends RecyclerView.Adapter<DynamicListAdapter.
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         final Dynamic dynamic = dataSource.get(position);
-        holder.DynamicUserHead.setImageResource(dynamic.getImgName());
-        holder.DynamicUserName.setText(dynamic.getUserName());
+        Glide.with(context).load(UrlAddress.url + dynamic.getUser().getUserHeader()).into(holder.DynamicUserHead);
+        holder.DynamicUserName.setText(dynamic.getUser().getUserName());
         holder.DynamicContent.setText(dynamic.getDynamicContent());
-        holder.imgView.setUrlList(dynamic.getDynamicImageList());
+        List<String> imgUrlList = new ArrayList<>();
+        for (DynamicPicture dp: dynamic.getDynamicImagePathSet()){
+            imgUrlList.add(UrlAddress.url + dp.getDynamicPicture());
+        }
+        holder.imgView.setUrlList(imgUrlList);
     }
 
     /**
@@ -93,10 +102,10 @@ public class DynamicListAdapter extends RecyclerView.Adapter<DynamicListAdapter.
         dataSource.addAll(position,addMessageList);
         notifyItemInserted(position);
     }
+
     public void refresh(List<Dynamic> newList){
         //刷新数据
-        dataSource.removeAll(dataSource);
-        dataSource.addAll(newList);
+        dataSource = newList;
         notifyDataSetChanged();
     }
 

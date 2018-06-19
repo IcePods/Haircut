@@ -3,22 +3,33 @@ package com.example.lu.thebarbershop.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.media.session.MediaSession;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Activity.CreateDynamicActivity;
+import com.example.lu.thebarbershop.Activity.UsersLoginActivity;
 import com.example.lu.thebarbershop.Adapter.DynamicListAdapter;
 import com.example.lu.thebarbershop.Entity.Dynamic;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
+import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -33,13 +44,19 @@ import java.util.zip.Inflater;
  */
 
 public class DynamicFragment extends Fragment{
+    //数据显示控件
     private RecyclerView DynamicList;
     private Context context;
     private DynamicListAdapter dynamicListAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private List<Dynamic> list;
-    RefreshLayout refreshLayout;
+    //数据源
+    private List<Dynamic> data;
+    //当前显示的数据量
+    private int showDataNum=0;
+    //页面刷新控件
+    private RefreshLayout refreshLayout;
     private Button createNewDynamic;
+    //动态请求地址
+    final private String URL = UrlAddress.url + "showAllDynamic.action";
 
 
     @Nullable
@@ -52,14 +69,12 @@ public class DynamicFragment extends Fragment{
         context = getActivity().getApplicationContext();
         //点击跳转到动态发布界面
         gotoCreateNewDynamic(view);
-
+        //初始化冬天页面数据
         initData();
+        //下拉刷新和上滑加载的动作绑定
         setPullRefresher();
-        ////通过listview展示动态列表
-        //ShowDynamicByListView(dataSource(),context);
+
         return view;
-
-
     }
 
     /**
@@ -71,167 +86,122 @@ public class DynamicFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context, CreateDynamicActivity.class);
-                startActivity(intent);
+                String token = new GetUserFromShared(getActivity()).getUserTokenFromShared();
+                if(token != null){
+                    intent.setClass(getActivity().getApplicationContext(), CreateDynamicActivity.class);
+                    startActivity(intent);
+                }else {
+                    intent.setClass(getActivity().getApplicationContext(), UsersLoginActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
-
-    }
-    /*//实现通过listview展示动态列表
-    private void ShowDynamicByListView(List<Dynamic> dataSource, Context context){
-        //管理器对象
-        layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        //实例化DynamicListAdapter对象
-        dynamicListAdapter = new DynamicListAdapter(context,dataSource);
-        //设置布局管理器
-        DynamicList.setLayoutManager(layoutManager);
-        //绑定适配器
-        DynamicList.setAdapter(dynamicListAdapter);
     }
 
-    //假设的数据源  后期通过数据库返回用户的动态
-    private List<Dynamic> dataSource(){
-        List<Dynamic> dataSource = new ArrayList<Dynamic>();
-        List<String> list = new ArrayList<String>();
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        list.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        //定义第一个数据项
-        Dynamic d1 =  new Dynamic();
-        d1.setImgName(R.mipmap.default_header_img);
-        d1.setUserName("用户名1");
-        d1.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                "、巴拉巴拉吧小魔仙、");
-        d1.setDynamicImageList(list);
-        dataSource.add(d1);
-        //定义第2个数据项
-        Dynamic d2 =  new Dynamic();
-        d2.setImgName(R.mipmap.default_header_img);
-        d2.setUserName("用户名2");
-        d2.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                "、巴拉巴拉吧小魔仙、");
-        d2.setDynamicImageList(list);
-        dataSource.add(d2);
-        //定义第一个数据项
-        Dynamic d3 =  new Dynamic();
-        d3.setImgName(R.mipmap.default_header_img);
-        d3.setUserName("用户名3");
-        d3.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                "、巴拉巴拉吧小魔仙、");
-        d3.setDynamicImageList(list);
-        dataSource.add(d3);
-        //定义第一个数据项
-        Dynamic d4 =  new Dynamic();
-        d4.setImgName(R.mipmap.default_header_img);
-        d4.setUserName("用户名4");
-        d4.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                "、巴拉巴拉吧小魔仙、");
-        d4.setDynamicImageList(list);
-        dataSource.add(d4);
-        //定义第一个数据项
-        Dynamic d5 =  new Dynamic();
-        d5.setImgName(R.mipmap.default_header_img);
-        d5.setUserName("用户名5");
-        d5.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                "、巴拉巴拉吧小魔仙、");
-        d5.setDynamicImageList(list);
-        dataSource.add(d5);
-        //定义第一个数据项
-        Dynamic d6 =  new Dynamic();
-        d6.setImgName(R.mipmap.default_header_img);
-        d6.setUserName("用户名6");
-        d6.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                "、巴拉巴拉吧小魔仙、");
-        d6.setDynamicImageList(list);
-        dataSource.add(d6);
-
-        return dataSource;
-    }*/
     private void initData(){
-        list = new ArrayList<Dynamic>();
-        List<String> imglist = new ArrayList<String>();
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        for (int i=0;i<=5;i++){
-            Dynamic dynamic = new Dynamic();
-            dynamic.setImgName(R.mipmap.default_header_img);
-            dynamic.setUserName("用户名"+i);
-            dynamic.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                    "、巴拉巴拉吧小魔仙、");
-            dynamic.setDynamicImageList(imglist);
-            list.add(dynamic);
-        }
-        dynamicListAdapter = new DynamicListAdapter(context,list);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        DynamicList.setLayoutManager(linearLayoutManager);
-        DynamicList.setAdapter(dynamicListAdapter);
+        //服务器请求动态数据
+        data = new ArrayList<>();
+        UploadPictureUtil util = new UploadPictureUtil();
+        Handler handler =   new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Bundle bundle = msg.getData();
+                String dynamicStrList = bundle.getString("string");
+                Gson gson = new Gson();
+                List<Dynamic> list = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                if(list.size() == 0){
+                    Toast.makeText(context,
+                            "还没有人发布动态呦！",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    data.addAll(list);
+                    //设置显示的数据
+                    if(list.size()>5){
+                        list.removeAll(list);
+                        for (int i=0;i<5;i++){
+                            list.add(data.get(i));
+                        }
+                    }
+                }
+                //首次显示的数据量
+                showDataNum = list.size();
+                dynamicListAdapter = new DynamicListAdapter(context,list);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                DynamicList.setLayoutManager(linearLayoutManager);
+                DynamicList.setAdapter(dynamicListAdapter);
+            }
+        };
+        util.requestServer(URL,null,null,handler);
+
     }
+
     private void setPullRefresher(){
-        final List<String> imglist = new ArrayList<String>();
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
-        imglist.add("https://avatars3.githubusercontent.com/u/23027828?v=3&u=3bd94805200528fb9217cde5ed98fce70cd7acc1&s=400");
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                //在这里执行上拉刷新时的具体操作(网络请求、更新UI等)
-
-                //模拟网络请求到的数据
-                ArrayList<Dynamic> newList = new ArrayList<Dynamic>();
-                for (int i=0;i<=5;i++){
-                    Dynamic dynamic = new Dynamic();
-                    dynamic.setImgName(R.mipmap.default_header_img);
-                    dynamic.setUserName("用户名"+i);
-                    dynamic.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                            "、巴拉巴拉吧小魔仙、");
-                    dynamic.setDynamicImageList(imglist);
-                    newList.add(dynamic);
-                }
-                dynamicListAdapter.refresh(newList);
                 refreshLayout.finishRefresh(2000/*,false*/);
                 //不传时间则立即停止刷新    传入false表示刷新失败
+                //服务器请求动态数据
+                UploadPictureUtil util = new UploadPictureUtil();
+                Handler handler = new Handler(){
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        Bundle bundle = msg.getData();
+                        String dynamicStrList = bundle.getString("string");
+                        Gson gson = new Gson();
+                        List<Dynamic> list = gson.fromJson(dynamicStrList, new TypeToken<List<Dynamic>>(){}.getType());
+                        if(list.size() == 0){
+                            Toast.makeText(context,
+                                    "还没有人发布动态呦！",
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            data.removeAll(data);
+                            data.addAll(list);
+                            //设置显示的数据
+                            if(list.size()>5){
+                                list.removeAll(list);
+                                for (int i=0;i<5;i++){
+                                    list.add(data.get(i));
+                                }
+                            }
+                        }
+
+                        showDataNum = list.size();
+                        dynamicListAdapter.refresh(list);
+                    }
+                };
+
+                util.requestServer(URL,null,null,handler);
             }
         });
+
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                //在这里执行上拉刷新时的具体操作(网络请求、更新UI等)
-
-                //模拟网络请求到的数据
-                ArrayList<Dynamic> newList = new ArrayList<Dynamic>();
-                for (int i=0;i<=5;i++){
-                    Dynamic dynamic = new Dynamic();
-                    dynamic.setImgName(R.mipmap.default_header_img);
-                    dynamic.setUserName("用户名"+i);
-                    dynamic.setDynamicContent("巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙、巴拉巴拉吧小魔仙" +
-                            "、巴拉巴拉吧小魔仙、");
-                    dynamic.setDynamicImageList(imglist);
-                    newList.add(dynamic);
-                }
-                dynamicListAdapter.add(newList);
                 refreshLayout.finishLoadMore(2000);
+                //在这里执行上滑加载时的具体操作
+                List<Dynamic> add = new ArrayList<>();
+                if(showDataNum < data.size()){
+                    if(showDataNum+5 <= data.size()){
+                        for(int i=0; i<5; i++){
+                            add.add(data.get(showDataNum + i));
+                        }
+                        showDataNum+=5;
+                    }else {
+                        for(;showDataNum<data.size(); showDataNum++){
+                            add.add(data.get(showDataNum));
+                            showDataNum = data.size();
+                        }
+                    }
+                }else {
+                    Toast.makeText(context,
+                            "没有更多啦",
+                            Toast.LENGTH_SHORT).show();
+                }
+                dynamicListAdapter.add(add);
             }
         });
     }

@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.LocalServerSocket;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,9 +29,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
+import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
@@ -59,6 +62,8 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     private String userphone;
     private String token = "";
     /*private Users users = (Users)getIntent().getSerializableExtra("users");*/
+    //上传剪裁后的图片
+    final private String uploadPicUrl = UrlAddress.url + "uploadHead.action";
 
     private SQLiteDatabase database;//查询数据库
 
@@ -113,7 +118,10 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         phnebutton.setOnClickListener(mylistener);
         exittologin.setOnClickListener(mylistener);
         imageView.setOnClickListener(mylistener);
+
     }
+
+
     private class Mylistener implements View.OnClickListener{
 
         @Override
@@ -136,6 +144,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     /*intent.putExtra("users",users);*/
                     //3. 进行跳转
                     startActivity(intent);
+
                     break;
                 case R.id.arrowtip48_nickname:
                     intent.setClass(getApplicationContext(),UserPersonInformationChangeNicknameActivity.class);
@@ -309,9 +318,10 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             case CODE_RESULT_REQUEST:
                 //剪裁后的图片
                 Bitmap bitmap = setImageToHeadView(intent);
-                //上传剪裁后的图片
-                final String url = "http://192.168.155.3:8080/theBarberShopServers/uploadHead.action";
-                uploadPictureUtil.upload(url,bitmap);
+
+                String picStr = uploadPictureUtil.getStringFromBitmap(bitmap);
+                String token = new GetUserFromShared(this).getUserTokenFromShared();
+                uploadPictureUtil.requestServer(uploadPicUrl,picStr,token,null);
                 break;
         }
 
@@ -355,5 +365,21 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             usersex = cursor.getString(cursor.getColumnIndex("usersex"));
             userphone = cursor.getString(cursor.getColumnIndex("userphone"));
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+
+
+        selectUser();
+        Log.i("userinformation",username);
+       /* Log.i("userinformation",usersex);
+        Log.i("userinformation",userphone);
+*/
+        name.setText(username);
+        sex.setText(usersex);
+        phone.setText(userphone);
+        super.onResume();
     }
 }

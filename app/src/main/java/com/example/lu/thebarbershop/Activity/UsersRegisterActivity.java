@@ -55,8 +55,17 @@ public class UsersRegisterActivity extends AppCompatActivity {
                     Users users = new Users();
                     Gson gson = new Gson();
                     users = gson.fromJson(u,Users.class);
+                    if(users.getUserCondition() == null){
+                        Intent intent = new Intent();
+                        intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                        startActivity(intent);
+                        finish();
 
-                    Log.i("ztlhandler2",users.getUserAccount());
+                    }else if(users.getUserCondition()==false){
+                        errorMessage.setText("用户名已经注册");
+                    }
+
+                   /* Log.i("ztlhandler2",users.getUserAccount());*/
 
                 break;
             }
@@ -165,9 +174,9 @@ public class UsersRegisterActivity extends AppCompatActivity {
                         String RegisterJson = gson.toJson(user);
                         Log.i("ztlto",RegisterJson);
                         postRegisterUser(RegisterJson);
-                        intent.setClass(getApplicationContext(),UsersLoginActivity.class);
+                       /* intent.setClass(getApplicationContext(),UsersLoginActivity.class);
                         startActivity(intent);
-                        finish();
+                        finish();*/
                     }
                     break;
             }

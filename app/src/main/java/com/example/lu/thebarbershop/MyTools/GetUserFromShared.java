@@ -14,50 +14,45 @@ import java.io.File;
  */
 
 public class GetUserFromShared {
-    private static Context mContext;
-    private static File file;
+    private Context mContext;
+    private File file;
 
     public GetUserFromShared(Context mContext) {
         this.mContext = mContext;
     }
 
     //得到用户token
-    public static String getUserTokenFromShared(){
+    public String getUserTokenFromShared(){
         file =new File(mContext.getApplicationContext().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
         if(file.exists()){
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token","");
             return token;
+        }else {
+            return null;
         }
-        Intent intent = new Intent();
-        intent.setClass(mContext, UsersLoginActivity.class);
-        mContext.startActivity(intent);
-        return "";
     }
     //得到用户账号
-    public static String getUserAccountFromShared(){
+    public  String getUserAccountFromShared(){
         file =new File(mContext.getApplicationContext().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
         if(file.exists()){
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String userAccount = sharedPreferences.getString("userAccount","");
             return userAccount;
+        }else {
+            return null;
         }
-        Intent intent = new Intent();
-        intent.setClass(mContext, UsersLoginActivity.class);
-        mContext.startActivity(intent);
-        return "";
     }
+
     //得到用户密码
-    public static String getUserPasswordFromShared(){
+    public  String getUserPasswordFromShared(){
         file =new File(mContext.getApplicationContext().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
         if(file.exists()){
             SharedPreferences sharedPreferences = mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             String userPassword = sharedPreferences.getString("userPassword","");
             return userPassword;
+        }else {
+            return null;
         }
-        Intent intent = new Intent();
-        intent.setClass(mContext, UsersLoginActivity.class);
-        mContext.startActivity(intent);
-        return "";
     }
 }

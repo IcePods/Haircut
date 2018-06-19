@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Activity.MyDynamicActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAboutsUsActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonCollectionActivity;
@@ -70,13 +71,14 @@ public class PersonFragment extends Fragment {
     private Button collectionbutton;//我的收藏按钮 id=user_person_collection_btn
     private Button aboutusbutton;//关于我们按钮 id=user_person_abouts_us_btn
     private Mylistener mylistener;//监听器
-    private File f;
     private UserTokenSql userTokenSql;
     private String username;
     private String userheader;
-    private String Token;
+    private String token;
     private SQLiteDatabase database;
     public static Users users;
+    //我的动态按钮
+    private Button myDynamic;
 
 
 
@@ -127,7 +129,7 @@ public class PersonFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_person,container,false);
 
 
-        f = new File(getActivity().getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
+        token = new GetUserFromShared(getActivity()).getUserTokenFromShared();
         Log.i("hzl",getActivity().getApplication().getFilesDir().getParent()+"");
 
 
@@ -137,13 +139,14 @@ public class PersonFragment extends Fragment {
         collectionbutton = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
         aboutusbutton = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
         name = view.findViewById(R.id.user_person_username_tv);
+        myDynamic = view.findViewById(R.id.my_dynamic);
 
         //更新UI
 
 
 
         mylistener = new Mylistener();
-        if(f.exists()){
+        if(token != null){
             getUserInformation(1);
         }
 
@@ -153,9 +156,25 @@ public class PersonFragment extends Fragment {
         appointmentbutton.setOnClickListener(mylistener);
         collectionbutton.setOnClickListener(mylistener);
         aboutusbutton.setOnClickListener(mylistener);
+        myDynamic.setOnClickListener(mylistener);
 
 
         return view;
+    }
+
+   /* @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }*/
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+
+        }
     }
 
     //监听器
@@ -170,13 +189,14 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_information_btn:
                     //只实现跳转，跳转到个人信息详情页面UserPersonInformationActivity
                     //2. 指定跳转路线
-                    if(f.exists()){
+                    if(token != null){
                         intent.setClass(getActivity().getApplicationContext(),UserPersonInformationActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
                     }else {
                         intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
-                        startActivity(intent);
+                       /* startActivity(intent);*/
+                       startActivityForResult(intent,1);
                     }
 
                     break;
@@ -184,25 +204,35 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_appointment_btn:
                     //只实现跳转，跳转到预约页面UserPersonAppointmentActivity
                     //2. 指定跳转路线
-                    intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
-                    //3. 进行跳转
-                    startActivity(intent);
-                    break;
-                //我的收藏按钮
-                case R.id.user_person_collection_btn:
-                    //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
-                    //2. 指定跳转路线
-                    if(f.exists()){
-                        intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
+                    if(token != null){
+                        intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
+                        break;
                     }else {
                         intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
+                        break;
                     }
 
-                    break;
+                //我的收藏按钮
+                case R.id.user_person_collection_btn:
+                    //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
+                    //2. 指定跳转路线
+                    if(token != null){
+                        intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
+                        //3. 进行跳转
+                        startActivity(intent);
+                        break;
+                    }else {
+                        intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
+                        //3. 进行跳转
+                        startActivity(intent);
+                        break;
+                    }
+
+
                 //预约人信息按钮
                 case R.id.user_person_appoint_information_btn:
                     break;
@@ -213,9 +243,23 @@ public class PersonFragment extends Fragment {
                     //3. 进行跳转
                     startActivity(intent);
                     break;
+
+                //我的动态
+                case R.id.my_dynamic:
+                    if(token != null){
+                        intent.setClass(getActivity().getApplicationContext(), MyDynamicActivity.class);
+                        startActivity(intent);
+                        break;
+                    }else {
+                        intent.setClass(getActivity().getApplicationContext(), UsersLoginActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+
             }
         }
     }
+
     public void getUserInformation(final int num){
         //如果有token
                 if(getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE)!=null){
@@ -224,9 +268,9 @@ public class PersonFragment extends Fragment {
                     Log.i("hzl",token);
                     final String userAccount = sharedPreferences.getString("userAccount","");
                     final String userPassword = sharedPreferences.getString("userPassword","");*/
-                    final String userAccount =GetUserFromShared.getUserAccountFromShared();
-                    final String userPassword = GetUserFromShared.getUserPasswordFromShared();
-                    final String token = GetUserFromShared.getUserTokenFromShared();
+                    final String userAccount =new GetUserFromShared(mContext).getUserAccountFromShared();
+                    final String userPassword =new GetUserFromShared(mContext).getUserPasswordFromShared();
+                    final String token =new GetUserFromShared(mContext).getUserTokenFromShared();
                     new Thread(){
                         @Override
                         public void run() {
@@ -280,12 +324,41 @@ public class PersonFragment extends Fragment {
 
     }
 
+
+
     @Override
     public void onStart() {
 
         super.onStart();
       /*  getUserInformation(2);*/
 
+       /* SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("token","");
+        //拿到token去sqlite数据库查询用户信息
+        database =new UserTokenSql(mContext).getReadableDatabase();
+        Cursor cursor = database.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
+
+        if(cursor.moveToFirst()){
+            username = cursor.getString(cursor.getColumnIndex("username"));
+            userheader = cursor.getString(cursor.getColumnIndex("userheader"));
+            if(userheader == null){
+                userheader = "";
+            }
+            name.setText(username);
+            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
+            requestOptions.placeholder(R.mipmap.user_index_nurse);
+            Glide.with(getActivity())
+                    .load(userheader)
+                    .apply(requestOptions)
+                    .into(imageView);
+
+        }*/
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("token","");
         //拿到token去sqlite数据库查询用户信息
@@ -299,7 +372,7 @@ public class PersonFragment extends Fragment {
                 userheader = "";
             }
             name.setText(username);
-            RequestOptions requestOptions = new RequestOptions().centerCrop();
+            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
             requestOptions.placeholder(R.mipmap.user_index_nurse);
             Glide.with(getActivity())
                     .load(userheader)
