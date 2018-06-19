@@ -86,6 +86,7 @@ public class UserMainHaircutActivity extends AppCompatActivity {
 
     private void initAdapter() {
         mAdapter = new HaircutRecyclerviewAdapter(this, R.layout.item_user_main_haircut_recyclerview, cutlist);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setAdapter(mAdapter);
@@ -103,6 +104,7 @@ public class UserMainHaircutActivity extends AppCompatActivity {
 
                 HairStyle hairStyle =cutlist.get(position);
                 bundle.putSerializable("hairStyle",hairStyle);
+                bundle.putString("fromIndex","1");
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

@@ -57,7 +57,7 @@
                 android:id="@+id/user_search_sousuo"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:text="取消"
+                android:text="搜索"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="#2E2E2E"
@@ -106,6 +106,13 @@
 
 
     </RelativeLayout>
+   <!-- <FrameLayout
+        android:layout_below="@+id/user_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_fragment">
+
+    </FrameLayout>-->
     <RelativeLayout
         android:id="@+id/user_search_history_content"
         android:layout_width="match_parent"
@@ -120,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
 
-        <Button
+        <!--<Button
             android:layout_marginTop="20dp"
             android:id="@+id/user_search_clean"
             android:layout_width="match_parent"
@@ -130,6 +137,14 @@
             android:textColor="#696969"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/user_search_clean"/>
+            android:background="@drawable/user_search_clean"/>-->
+        <ImageView
+            android:id="@+id/search_error"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@mipmap/user_person_headimg"
+            android:visibility="gone"
+
+            />
     </RelativeLayout>
 </RelativeLayout>

@@ -103,4 +103,5 @@ public class HaircutRecyclerviewAdapter extends RecyclerView.Adapter{
     public void setItemClickListener(MyItemClickListener myItemClickListener) {
         this.mItemClickListener = myItemClickListener;
     }
+
 }

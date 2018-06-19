@@ -89,6 +89,13 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
         //获取intent对象传递的参数
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+
+        String fromIndex =bundle.getString("fromIndex");
+        int a = Integer.parseInt(fromIndex);
+        Log.i("fromIndex",fromIndex);
+        if(a == 1){
+            changeHiden();
+        }
         hairStyle = (HairStyle)bundle.getSerializable("hairStyle");
         userShopDetail = (UserShopDetail)bundle.getSerializable("userShopDetail");
         for(HairStyleDetail i:hairStyle.getHairStyleDetailSet()){
@@ -218,7 +225,11 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
             }
         }.start();
     }
-
+//让底部预约隐藏
+    public void changeHiden(){
+        imgAppointment.setVisibility(View.GONE);
+        appointmentbutton.setVisibility(View.GONE);
+    }
     public void onDestroy() {
 
         super.onDestroy();

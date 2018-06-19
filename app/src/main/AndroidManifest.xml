@@ -80,7 +80,9 @@
         <activity android:name=".Activity.HairStyleDetailActivity" />
         <activity android:name=".Activity.ChatActivity" />
         <activity android:name=".Activity.UserAppointmentActivity" />
-        <activity android:name=".Activity.MyDynamicActivity"></activity>
+        <activity android:name=".Activity.MyDynamicActivity" />
+        <activity android:name=".Activity.SearchErrorActivity" />
+        <activity android:name=".Activity.SearchResultShopShowActivity"></activity>
     </application>
 
 </manifest>
