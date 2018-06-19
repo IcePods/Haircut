@@ -128,10 +128,7 @@ public class PersonFragment extends Fragment {
         //加载选项卡对应的选项页面
         View view = inflater.inflate(R.layout.fragment_person,container,false);
 
-
-        token = new GetUserFromShared(getActivity()).getUserTokenFromShared();
-        Log.i("hzl",getActivity().getApplication().getFilesDir().getParent()+"");
-
+        /*token = new GetUserFromShared(getActivity()).getUserTokenFromShared();*/
 
         imageView = view.findViewById(R.id.user_person_head_portrait_img);//头像
         infobutton = view.findViewById(R.id.user_person_information_btn);//个人信息按钮
@@ -146,7 +143,7 @@ public class PersonFragment extends Fragment {
 
 
         mylistener = new Mylistener();
-        if(token != null){
+        if(new GetUserFromShared(getActivity()).getUserTokenFromShared()!= null){
             getUserInformation(1);
         }
 
@@ -168,14 +165,6 @@ public class PersonFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }*/
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-
-        super.onHiddenChanged(hidden);
-        if(!hidden){
-
-        }
-    }
 
     //监听器
     private class Mylistener implements View.OnClickListener{
@@ -189,12 +178,14 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_information_btn:
                     //只实现跳转，跳转到个人信息详情页面UserPersonInformationActivity
                     //2. 指定跳转路线
-                    if(token != null){
+                    if(new GetUserFromShared(getActivity()).getUserTokenFromShared() != null){
                         intent.setClass(getActivity().getApplicationContext(),UserPersonInformationActivity.class);
+                       
                         //3. 进行跳转
                         startActivity(intent);
                     }else {
                         intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
+
                        /* startActivity(intent);*/
                        startActivityForResult(intent,1);
                     }
@@ -204,7 +195,7 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_appointment_btn:
                     //只实现跳转，跳转到预约页面UserPersonAppointmentActivity
                     //2. 指定跳转路线
-                    if(token != null){
+                    if(new GetUserFromShared(getActivity()).getUserTokenFromShared() != null){
                         intent.setClass(getActivity().getApplicationContext(), UserPersonAppointmentActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
@@ -220,7 +211,7 @@ public class PersonFragment extends Fragment {
                 case R.id.user_person_collection_btn:
                     //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
                     //2. 指定跳转路线
-                    if(token != null){
+                    if(new GetUserFromShared(getActivity()).getUserTokenFromShared() != null){
                         intent.setClass(getActivity().getApplicationContext(),UserPersonCollectionActivity.class);
                         //3. 进行跳转
                         startActivity(intent);
@@ -246,7 +237,7 @@ public class PersonFragment extends Fragment {
 
                 //我的动态
                 case R.id.my_dynamic:
-                    if(token != null){
+                    if(new GetUserFromShared(getActivity()).getUserTokenFromShared() != null){
                         intent.setClass(getActivity().getApplicationContext(), MyDynamicActivity.class);
                         startActivity(intent);
                         break;
