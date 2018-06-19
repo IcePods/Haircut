@@ -75,7 +75,7 @@ public class UsersLoginActivity extends AppCompatActivity {
 
 
                     }else {
-                        errorMessage.setText("用户明密码错误");
+                        errorMessage.setText("用户名密码错误");
                         UserLoginUsername.setText("");
                         UserLoginPwd.setText("");
                     }

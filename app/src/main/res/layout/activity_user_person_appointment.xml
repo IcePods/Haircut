@@ -47,7 +47,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:layout_gravity="center_vertical"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#F7A113"
             android:text="有效预约" />
 
         <TextView
