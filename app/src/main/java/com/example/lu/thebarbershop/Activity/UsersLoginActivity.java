@@ -34,6 +34,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import cn.jpush.android.api.JPushInterface;
 
 public class UsersLoginActivity extends AppCompatActivity {
     private Button ToRegister;//跳转注册button
@@ -69,6 +70,7 @@ public class UsersLoginActivity extends AppCompatActivity {
                         editor.putString("userAccount",users.getUserAccount());
                         editor.putString("userPassword",users.getUserPassword());
                         editor.commit();
+                        JPushInterface.setAlias(getApplicationContext(),0,users.getUserToken());
                         //登录成功插入数据库
                         insertUserToSql(users);
                         setResult(2);

@@ -42,6 +42,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageView imageView;//头像
     private ImageButton backbutton;//返回按钮
@@ -190,6 +192,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                   /*  intent.setClass(getApplicationContext(),PersonFragment.class);
                     //进行跳转
                     startActivity(intent);*/
+                    JPushInterface.setAlias(getApplicationContext(),0,"exitLogin");
                     finish();
                     break;
                 case R.id.user_person_informatin_header_img:
