@@ -37,6 +37,8 @@ import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -186,6 +188,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //只实现跳转，跳转到登录页面
                     //跳转路线
                     //删除shared文件
+                    signOut();
                     File file = new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
                     file.delete();
                     Log.i("hzl","文件删除成功");
@@ -368,6 +371,29 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             usersex = cursor.getString(cursor.getColumnIndex("usersex"));
             userphone = cursor.getString(cursor.getColumnIndex("userphone"));
         }
+    }
+    /**
+     * 环信退出登录
+     */
+    private void signOut() {
+        // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
+        EMClient.getInstance().logout(false, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.i("lzan13", "logout success");
+                // 调用退出成功，结束app
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.i("lzan13", "logout error " + i + " - " + s);
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
     }
 
 

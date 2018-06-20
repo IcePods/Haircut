@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.dou361.dialogui.DialogUIUtils;
 import com.dou361.dialogui.listener.DialogUIListener;
 import com.example.lu.thebarbershop.Activity.UserSearchActivity;
@@ -328,13 +327,14 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         //得到图片集合
         PrepareIndexViewPagerDate prepareIndexViewPagerDate = new PrepareIndexViewPagerDate();
         List<String> list = prepareIndexViewPagerDate.date();
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
-        requestOptions.placeholder(R.mipmap.user_index_nurse);
+        //RequestOptions requestOptions = new RequestOptions().centerCrop();
+        //requestOptions.placeholder(R.mipmap.user_index_nurse);
         for(int i=0;i<list.size();i++){
             ImageView imageView =new ImageView(mContext);
             Glide.with(mContext)
                     .load(list.get(i))
-                    .apply(requestOptions)
+                    .placeholder(R.mipmap.user_index_nurse)
+                    .centerCrop()
                     .into(imageView);
             imageViewArrayList.add(imageView);
             Log.i("hzl",imageViewArrayList.size()+"");

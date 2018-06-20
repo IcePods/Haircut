@@ -30,8 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Activity.MyDynamicActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAboutsUsActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
@@ -45,10 +43,13 @@ import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import java.io.File;
 import java.io.IOException;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -102,14 +103,16 @@ public class PersonFragment extends Fragment {
                     if(users.getUserCondition()==true){
                         selectUser();
                         name.setText(users.getUserName());
-                        RequestOptions requestOptions = new RequestOptions()
+                        /*RequestOptions requestOptions = new RequestOptions()
                                 .centerCrop()
                                 .transform(new CircleCrop());
 
-                        requestOptions.placeholder(R.mipmap.user_index_nurse);
+                        requestOptions.placeholder(R.mipmap.user_index_nurse);*/
                         Glide.with(getActivity())
                                 .load(users.getUserHeader())
-                                .apply(requestOptions)
+                                .placeholder(R.mipmap.user_index_nurse)
+                                .centerCrop()
+                                .bitmapTransform(new CropCircleTransformation(getActivity()))
                                 .into(imageView);
                     }else{
 
@@ -363,11 +366,13 @@ public class PersonFragment extends Fragment {
                 userheader = "";
             }
             name.setText(username);
-            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
-            requestOptions.placeholder(R.mipmap.user_index_nurse);
+            //RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
+            //requestOptions.placeholder(R.mipmap.user_index_nurse);
             Glide.with(getActivity())
                     .load(userheader)
-                    .apply(requestOptions)
+                    .placeholder(R.mipmap.user_index_nurse)
+                    .centerCrop()
+                    .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(imageView);
 
         }

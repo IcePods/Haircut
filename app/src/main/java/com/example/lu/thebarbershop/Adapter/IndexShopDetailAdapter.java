@@ -10,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.R;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by lu on 2018/5/11 0011.
@@ -98,12 +99,13 @@ public class IndexShopDetailAdapter extends BaseAdapter {
        }else{
            viewHolder = (ViewHolder) convertView.getTag();
        }
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
-        requestOptions.placeholder(R.mipmap.user_index_perm);
+        /*RequestOptions requestOptions = new RequestOptions().centerCrop();
+        requestOptions.placeholder(R.mipmap.user_index_perm);*/
        final UserShopDetail userShopDetail = dataSource.get(position);
         Glide.with(context)
                 .load(userShopDetail.getShopPicture())
-                .apply(requestOptions)
+                .placeholder(R.mipmap.user_index_perm)
+                .centerCrop()
                 .into(viewHolder.indexshopPicture);
         viewHolder.indexshopName.setText(userShopDetail.getShopName());
         viewHolder.indexshopAddress.setText(userShopDetail.getShopAddress());

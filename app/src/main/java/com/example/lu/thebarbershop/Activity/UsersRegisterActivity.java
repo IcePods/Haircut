@@ -1,5 +1,6 @@
 package com.example.lu.thebarbershop.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -12,12 +13,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.io.IOException;
 
@@ -30,6 +35,8 @@ import okhttp3.Response;
 
 public class UsersRegisterActivity extends AppCompatActivity {
 
+    // 弹出框
+    private ProgressDialog mDialog;
     private Button ToLogin;
     private ImageView RegisterLogo;
     private EditText UserRegisterUsername;
@@ -167,6 +174,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
                     }else if (!registerPwd.equals(registerPwd2)){
                         errorMessage.setText("两次密码不一致");
                     }else {
+                        signUp();
                         Gson gson = new GsonBuilder().serializeNulls().create();
                         Users user = new Users();
                         user.setUserAccount(registerUsername);
@@ -213,6 +221,77 @@ public class UsersRegisterActivity extends AppCompatActivity {
         }.start();
 
 
+    }
+    /**
+     * 注册方法
+     */
+    private void signUp() {
+        // 注册是耗时过程，所以要显示一个dialog来提示下用户
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("注册中，请稍后...");
+        mDialog.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String username = UserRegisterUsername.getText().toString().trim();
+                    String password = UserRegisterPwd.getText().toString().trim();
+                    EMClient.getInstance().createAccount(username, password);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!UsersRegisterActivity.this.isFinishing()) {
+                                mDialog.dismiss();
+                            }
+                        }
+                    });
+                } catch (final HyphenateException e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!UsersRegisterActivity.this.isFinishing()) {
+                                mDialog.dismiss();
+                            }
+                            /**
+                             * 关于错误码可以参考官方api详细说明
+                             * http://www.easemob.com/apidoc/android/chat3.0/classcom_1_1hyphenate_1_1_e_m_error.html
+                             */
+                            int errorCode = e.getErrorCode();
+                            String message = e.getMessage();
+                            Log.d("lzan13", String.format("sign up - errorCode:%d, errorMsg:%s", errorCode, e.getMessage()));
+                            switch (errorCode) {
+                                // 网络错误
+                                case EMError.NETWORK_ERROR:
+                                    Toast.makeText(UsersRegisterActivity.this, "网络错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                    break;
+                                // 用户已存在
+                                case EMError.USER_ALREADY_EXIST:
+                                    Toast.makeText(UsersRegisterActivity.this, "用户已存在 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                    break;
+                                // 参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册
+                                case EMError.USER_ILLEGAL_ARGUMENT:
+                                    Toast.makeText(UsersRegisterActivity.this, "参数不合法，一般情况是username 使用了uuid导致，不能使用uuid注册 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                    break;
+                                // 服务器未知错误
+                                case EMError.SERVER_UNKNOWN_ERROR:
+                                    Toast.makeText(UsersRegisterActivity.this, "服务器未知错误 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                    break;
+                                case EMError.USER_REG_FAILED:
+                                    Toast.makeText(UsersRegisterActivity.this, "账户注册失败 code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                    break;
+                                default:
+                                    Toast.makeText(UsersRegisterActivity.this, "ml_sign_up_failed code: " + errorCode + ", message:" + message, Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 

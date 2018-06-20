@@ -23,8 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
 import com.example.lu.thebarbershop.Entity.ShopPicture;
@@ -35,6 +35,8 @@ import com.example.lu.thebarbershop.MyTools.PrepareIndexViewPagerDate;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -53,7 +56,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     //RecyclerView 控件
     private RecyclerView mRecyclerView;
     //RecycleAdapter
-    private RecyclerView.Adapter mAdapter;
+    private UserShopDetailBaberRecyclerAdapter mAdapter;
     //RecycleView 管理器
     private RecyclerView.LayoutManager mLayoutManager;
     //图片轮训控件
@@ -266,35 +269,28 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         mRecyclerView.setLayoutManager(mLayoutManager);
         // 设置adapter
         mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter.setMyItemClickListener(new UserShopDetailBaberRecyclerAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Barber barber = barberList.get(position);
+                String chatId = barber.getUser().getUserAccount();
+                String chatPwd = barber.getUser().getUserPassword();
+                Log.i("ztl","理发师账户名"+chatId);
+                Log.i("ztl","理发师mima"+chatPwd);
+                String currUsername = EMClient.getInstance().getCurrentUser();
+                if (chatId.equals(currUsername)) {
+                    Toast.makeText(UserShopDetailActivity.this, "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(UserShopDetailActivity.this, ECChatActivity.class);
+                // EaseUI封装的聊天界面需要这两个参数，聊天者的username，以及聊天类型，单聊还是群聊
+                intent.putExtra("userId", chatId);
+                intent.putExtra("chatType", EMMessage.ChatType.Chat);
+                startActivity(intent);
+            }
+        });
     }
-    //数据源
-    private ArrayList<Barber> getData() {
-        ArrayList<Barber> data = new ArrayList<>();
-        Barber barber1 = new Barber();
-        barber1.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber1.setBarberName("发型师1");
-        data.add(barber1);
 
-        Barber barber2 = new Barber();
-        barber2.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber2.setBarberName("发型师2");
-        data.add(barber2);
-
-        Barber barber3 = new Barber();
-        barber3.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber3.setBarberName("发型师3");
-        data.add(barber3);
-        Barber barber4 = new Barber();
-        barber4.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber4.setBarberName("发型师4");
-        data.add(barber4);
-        Barber barber5 = new Barber();
-        barber5.setBarberImg(R.mipmap.user_shop_detail_baber_header);
-        barber5.setBarberName("发型师5");
-        data.add(barber5);
-        return data;
-    }
 
     /**
      *将轮播的图片添加到集合中
@@ -303,13 +299,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         //得到图片集合
        /* PrepareIndexViewPagerDate prepareIndexViewPagerDate = new PrepareIndexViewPagerDate();
         List<String> list = prepareIndexViewPagerDate.date();*/
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
-        requestOptions.placeholder(R.mipmap.user_index_nurse);
+        //RequestOptions requestOptions = new RequestOptions().centerCrop();
+        //requestOptions.placeholder(R.mipmap.user_index_nurse);
         for(int i=0;i<shopPictureList.size();i++){
             ImageView imageView =new ImageView(this);
             Glide.with(this)
                     .load(shopPictureList.get(i))
-                    .apply(requestOptions)
+                    .placeholder(R.mipmap.user_index_nurse)
+                    .centerCrop()
                     .into(imageView);
             imageViewArrayList.add(imageView);
             Log.i("hzl",imageViewArrayList.size()+"");

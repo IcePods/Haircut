@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.HairStyleDetail;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
@@ -24,6 +23,8 @@ import com.example.lu.thebarbershop.R;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class HairStyleDetailActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
@@ -183,13 +184,13 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
 
     public void addViewPagerImages() {
         List<String> list = hairstyleImgs;
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        //RequestOptions requestOptions = new RequestOptions().centerCrop();
         //requestOptions.placeholder(R.mipmap.user_index_nurse);
         for (int i = 0; i < list.size(); i++) {
             ImageView imageView = new ImageView(mContext);
             Glide.with(mContext)
                     .load(list.get(i))
-                    .apply(requestOptions)
+                    .centerCrop()
                     .into(imageView);
             imageViewArrayList.add(imageView);
         }

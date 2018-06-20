@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.R;
@@ -26,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -106,11 +106,12 @@ public class CollectionAdapter extends BaseAdapter {
         //
         //利用传递的数据源给相应的控件对象赋值
         UserShopDetail shops = favouriteshops.get(position);
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
-        requestOptions.placeholder(R.mipmap.user_index_perm);
+        //RequestOptions requestOptions = new RequestOptions().centerCrop();
+        //requestOptions.placeholder(R.mipmap.user_index_perm);
         Glide.with(mContext)
                 .load(shops.getShopPicture())
-                .apply(requestOptions)
+                .placeholder(R.mipmap.user_index_perm)
+                .centerCrop()
                 .into(img);
         String str = shops.getShopAddress();
         if(str.length() > 10){
