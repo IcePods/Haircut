@@ -293,11 +293,13 @@ Handler handler = new Handler(){
                         Intent intent = new Intent();
                         intent.setClass(getApplicationContext(),SearchErrorActivity.class);
                         startActivity(intent);
+
                     }else{
                         Intent intent1= new Intent();
                         intent1.setClass(getApplicationContext(),SearchResultShopShowActivity.class);
                         intent1.putExtra("searchShopShowList",(Serializable)userShopDetails);
                         startActivity(intent1);
+
                     }
                     userSearchEdit.setText("");
                 }
@@ -321,5 +323,13 @@ Handler handler = new Handler(){
 
         //判断是否有下一个
         return cursor.moveToNext();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(null!= recordSQLiteOpenHelper){
+            recordSQLiteOpenHelper.close();
+        }
     }
 }

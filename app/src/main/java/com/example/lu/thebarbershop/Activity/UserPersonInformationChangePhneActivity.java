@@ -53,12 +53,12 @@ public class UserPersonInformationChangePhneActivity extends AppCompatActivity {
                     String u= bundle.getString("user");
                     Gson gson = new Gson();
                     users = gson.fromJson(u,Users.class);
-                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                   /* sqLiteDatabase = userTokenSql.getWritableDatabase();
                     ContentValues contentValues = new ContentValues();
                     contentValues.put("userphone",users.getUserPhone());
                     sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{users.getUserToken()});
                     sqLiteDatabase.close();
-
+*/
 
 
             }
@@ -74,6 +74,9 @@ public class UserPersonInformationChangePhneActivity extends AppCompatActivity {
         backbutton = findViewById(R.id.user_person_information_change_phne_back);
         save = findViewById(R.id.user_person_information_save_phne_btn);
         phne = findViewById(R.id.user_person_information_phne_edt);
+        //获取User对象
+        Intent intent = getIntent();
+        token = intent.getStringExtra("token");
 
         mylistener = new Mylistener();
 
@@ -92,6 +95,12 @@ public class UserPersonInformationChangePhneActivity extends AppCompatActivity {
                     break;
                 case R.id.user_person_information_save_phne_btn:
                     String p = phne.getText().toString().trim();
+                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("userphone",p);
+                    sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{token});
+                    sqLiteDatabase.close();
+
                     postchangeUserAttribute(p);
                     finish();
                     break;

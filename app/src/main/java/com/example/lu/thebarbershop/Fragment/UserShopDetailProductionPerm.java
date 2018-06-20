@@ -100,6 +100,7 @@ public class UserShopDetailProductionPerm extends Fragment {
                 HairStyle hairStyle =premList.get(position);
                 bundle.putSerializable("userShopDetail",userShopDetail);
                 bundle.putSerializable("hairStyle",hairStyle);
+                bundle.putString("fromIndex","2");
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

@@ -43,8 +43,6 @@ import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,22 +97,20 @@ public class PersonFragment extends Fragment {
                     String userfromToken = b.getString("userFromToken");
                     Gson gson = new Gson();
                     users = gson.fromJson(userfromToken,Users.class);
-                    Log.i("lhy",userfromToken);
+                    Log.i("llhhyy",userfromToken);
                     if(users.getUserCondition()==true){
-                        selectUser();
                         name.setText(users.getUserName());
-                        /*RequestOptions requestOptions = new RequestOptions()
-                                .centerCrop()
-                                .transform(new CircleCrop());
 
-                        requestOptions.placeholder(R.mipmap.user_index_nurse);*/
-                        Glide.with(getActivity())
-                                .load(users.getUserHeader())
-                                .placeholder(R.mipmap.user_index_nurse)
-                                .centerCrop()
-                                .bitmapTransform(new CropCircleTransformation(getActivity()))
-                                .into(imageView);
-                    }else{
+                        if(users.getUserHeader()==null){
+                            Glide.with(getActivity()).load(R.mipmap.default_header_img).centerCrop()
+                                    .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+                        }else{
+                            Glide.with(getActivity())
+                                    .load(users.getUserHeader())
+                                    .centerCrop()
+                                    .bitmapTransform(new CropCircleTransformation(getActivity()))
+                                    .into(imageView);
+                        }
 
                     }
                     break;
@@ -183,14 +179,14 @@ public class PersonFragment extends Fragment {
                     //2. 指定跳转路线
                     if(new GetUserFromShared(getActivity()).getUserTokenFromShared() != null){
                         intent.setClass(getActivity().getApplicationContext(),UserPersonInformationActivity.class);
-                       
+
                         //3. 进行跳转
                         startActivity(intent);
                     }else {
                         intent.setClass(getActivity().getApplicationContext(),UsersLoginActivity.class);
 
                        /* startActivity(intent);*/
-                       startActivityForResult(intent,1);
+                        startActivityForResult(intent,1);
                     }
 
                     break;
@@ -210,7 +206,7 @@ public class PersonFragment extends Fragment {
                         break;
                     }
 
-                //我的收藏按钮
+                    //我的收藏按钮
                 case R.id.user_person_collection_btn:
                     //只实现跳转，跳转到我的收藏页面UserPersonCollectionActivity
                     //2. 指定跳转路线
@@ -227,7 +223,7 @@ public class PersonFragment extends Fragment {
                     }
 
 
-                //预约人信息按钮
+                    //预约人信息按钮
                 case R.id.user_person_appoint_information_btn:
                     break;
                 //关于我们按钮
@@ -256,47 +252,42 @@ public class PersonFragment extends Fragment {
 
     public void getUserInformation(final int num){
         //如果有token
-                if(getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE)!=null){
-                    /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
-                    final String token = sharedPreferences.getString("token","");
-                    Log.i("hzl",token);
-                    final String userAccount = sharedPreferences.getString("userAccount","");
-                    final String userPassword = sharedPreferences.getString("userPassword","");*/
-                    final String userAccount =new GetUserFromShared(mContext).getUserAccountFromShared();
-                    final String userPassword =new GetUserFromShared(mContext).getUserPasswordFromShared();
-                    final String token =new GetUserFromShared(mContext).getUserTokenFromShared();
-                    new Thread(){
-                        @Override
-                        public void run() {
-                            Request.Builder builder = new Request.Builder();
-                            FormBody.Builder builder1 = new FormBody.Builder();
-                            builder1.add("UserAccount",userAccount);
-                            builder1.add("UserPassword",userPassword);
-                            FormBody body = builder1.build();
-                            final Request request = builder.header("UserTokenSql",token).post(body).url(UrlAddress.url+"keepLogin.action").build();
-                            Log.i("qqt",request+"");
-                            Call call = okHttpClient.newCall(request);
-                            try {
-                                Response response = call.execute();
-                                String a = response.body().string();
-                                Log.i("lhy",a);
-                                Message message = Message.obtain();
-                                message.what = num;
-                                Bundle bundle = new Bundle();
-                                bundle.putString("userFromToken",a);
-                                message.setData(bundle);
-                                handler.sendMessage(message);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }.start();
-
-                }else{
-                    //不做处理
-
+        if(getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE)!=null){
+            final String userAccount =new GetUserFromShared(mContext).getUserAccountFromShared();
+            final String userPassword =new GetUserFromShared(mContext).getUserPasswordFromShared();
+            final String token =new GetUserFromShared(mContext).getUserTokenFromShared();
+            new Thread(){
+                @Override
+                public void run() {
+                    Request.Builder builder = new Request.Builder();
+                    FormBody.Builder builder1 = new FormBody.Builder();
+                    builder1.add("UserAccount",userAccount);
+                    builder1.add("UserPassword",userPassword);
+                    FormBody body = builder1.build();
+                    final Request request = builder.header("UserTokenSql",token).post(body).url(UrlAddress.url+"keepLogin.action").build();
+                    Log.i("qqt",request+"");
+                    Call call = okHttpClient.newCall(request);
+                    try {
+                        Response response = call.execute();
+                        String a = response.body().string();
+                        Log.i("lhy",a);
+                        Message message = Message.obtain();
+                        message.what = num;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userFromToken",a);
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
+            }.start();
+
+        }else{
+            //不做处理
+
+        }
+    }
     private void selectUser(){
         //第二次登录从sharendpreference拿到token取数据库查询用户信息
         if(getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE)!=null){
@@ -309,9 +300,6 @@ public class PersonFragment extends Fragment {
             if(cursor.moveToFirst()){
                 username = cursor.getString(cursor.getColumnIndex("username"));
                 userheader = cursor.getString(cursor.getColumnIndex("userheader"));
-                if(userheader == null){
-                    userheader = "";
-                }
             }
         }
 
@@ -353,28 +341,30 @@ public class PersonFragment extends Fragment {
     public void onResume() {
 
         super.onResume();
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("token","");
-        //拿到token去sqlite数据库查询用户信息
-        database =new UserTokenSql(mContext).getReadableDatabase();
-        Cursor cursor = database.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
 
-        if(cursor.moveToFirst()){
-            username = cursor.getString(cursor.getColumnIndex("username"));
-            userheader = cursor.getString(cursor.getColumnIndex("userheader"));
-            if(userheader == null){
-                userheader = "";
+        if(new GetUserFromShared(mContext).getUserTokenFromShared()!=null) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+            final String token = sharedPreferences.getString("token", "");
+            //拿到token去sqlite数据库查询用户信息
+            database = new UserTokenSql(mContext).getReadableDatabase();
+            Cursor cursor = database.query("user", null, "usertoken" + "=?", new String[]{token}, null, null, null);
+            if (cursor.moveToFirst()) {
+                username = cursor.getString(cursor.getColumnIndex("username"));
+                userheader = cursor.getString(cursor.getColumnIndex("userheader"));
+                if(userheader == null){
+                    Glide.with(mContext).load(R.mipmap.default_header_img).centerCrop()
+                            .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+                }else {
+                    Glide.with(mContext).load(UrlAddress.url+userheader).centerCrop()
+                            .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+                }
+                name.setText(username);
             }
-            name.setText(username);
-            //RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
-            //requestOptions.placeholder(R.mipmap.user_index_nurse);
-            Glide.with(getActivity())
-                    .load(userheader)
-                    .placeholder(R.mipmap.user_index_nurse)
-                    .centerCrop()
-                    .bitmapTransform(new CropCircleTransformation(getActivity()))
-                    .into(imageView);
-
+        }else{
+           /* RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());*/
+            Glide.with(mContext).load(R.mipmap.default_header_img).centerCrop()
+                    .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+            name.setText("未登录");
         }
     }
 }

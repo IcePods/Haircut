@@ -100,6 +100,7 @@ Handler handler = new Handler(){
                 HairStyle hairStyle =colorList.get(position);
                 bundle.putSerializable("userShopDetail",userShopDetail);
                 bundle.putSerializable("hairStyle",hairStyle);
+                bundle.putString("fromIndex","2");
                 intent.putExtras(bundle);
 
                 startActivity(intent);

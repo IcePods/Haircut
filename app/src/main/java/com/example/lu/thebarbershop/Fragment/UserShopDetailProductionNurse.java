@@ -100,6 +100,7 @@ public class UserShopDetailProductionNurse extends Fragment {
                 HairStyle hairStyle =nurseList.get(position);
                 bundle.putSerializable("userShopDetail",userShopDetail);
                 bundle.putSerializable("hairStyle",hairStyle);
+                bundle.putString("fromIndex","2");
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

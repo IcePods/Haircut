@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.LocalServerSocket;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
@@ -37,14 +39,15 @@ import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 
 import cn.jpush.android.api.JPushInterface;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 
 public class UserPersonInformationActivity extends AppCompatActivity {
     private ImageView imageView;//头像
@@ -188,7 +191,6 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //只实现跳转，跳转到登录页面
                     //跳转路线
                     //删除shared文件
-                    signOut();
                     File file = new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml");
                     file.delete();
                     Log.i("hzl","文件删除成功");
@@ -372,43 +374,26 @@ public class UserPersonInformationActivity extends AppCompatActivity {
             userphone = cursor.getString(cursor.getColumnIndex("userphone"));
         }
     }
-    /**
-     * 环信退出登录
-     */
-    private void signOut() {
-        // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
-        EMClient.getInstance().logout(false, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                Log.i("lzan13", "logout success");
-                // 调用退出成功，结束app
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                Log.i("lzan13", "logout error " + i + " - " + s);
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-
-            }
-        });
-    }
 
 
     @Override
     protected void onResume() {
-
-
+        super.onResume();
+        //每次进入该activity查询用户信息
         selectUser();
-        Log.i("userinformation",username);
-       /* Log.i("userinformation",usersex);
-        Log.i("userinformation",userphone);
-*/
+        //如果用户头像为空则加载默认的
+        if(userheader!=null){
+           /* RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());*/
+            Glide.with(this).load(UrlAddress.url+userheader).centerCrop()
+                    .bitmapTransform(new CropCircleTransformation(this)).into(imageView);
+        }else{
+            /*RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());*/
+            Glide.with(this).load(R.mipmap.default_header_img).centerCrop()
+                    .bitmapTransform(new CropCircleTransformation(this)).into(imageView);
+        }
         name.setText(username);
         sex.setText(usersex);
         phone.setText(userphone);
-        super.onResume();
+
     }
 }

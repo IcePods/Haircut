@@ -58,10 +58,10 @@ public class UserPersonInformationChangeSexActivity extends AppCompatActivity {
                     String u= bundle.getString("user");
                     Gson gson = new Gson();
                     users = gson.fromJson(u,Users.class);
-                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                  /*  sqLiteDatabase = userTokenSql.getWritableDatabase();
                     ContentValues contentValues = new ContentValues();
                     contentValues.put("usersex",users.getUserSex());
-                    sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{users.getUserToken()});
+                    sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{users.getUserToken()});*/
                     sqLiteDatabase.close();
 
 
@@ -80,7 +80,9 @@ public class UserPersonInformationChangeSexActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.user_person_information_change_sex);
         male = (RadioButton) findViewById(R.id.user_person_information_change_sex_male);
         female = (RadioButton) findViewById(R.id.user_person_information_change_sex_fmale);
-
+        //获取User对象
+        Intent intent = getIntent();
+        token = intent.getStringExtra("token");
 
         mylistener = new Mylistener();
 
@@ -110,6 +112,10 @@ public class UserPersonInformationChangeSexActivity extends AppCompatActivity {
                     finish();
                     break;
                 case R.id.user_person_information_save_sex_btn:
+                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("usersex",sex);
+                    sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{token});
                     postchangeUserAttribute(sex);
                     finish();
 

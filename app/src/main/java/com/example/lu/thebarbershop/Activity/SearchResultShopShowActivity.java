@@ -5,19 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.R;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
+
 import java.util.List;
 
 public class SearchResultShopShowActivity extends AppCompatActivity {
     private List<UserShopDetail> shopList;
     private IndexShopDetailAdapter indexShopDetailAdapter;//主页店铺展示的adapter
     private ListView shopListView;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,15 @@ public class SearchResultShopShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_result_shop_show);
 
         shopListView=findViewById(R.id.user_search_result_shop_show);
+        back = findViewById(R.id.search_shop_show_back_imgbtn);
         shopList = (List<UserShopDetail>)getIntent().getSerializableExtra("searchShopShowList");
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         initShopAdapter();
     }

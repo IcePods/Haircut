@@ -12,7 +12,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp">
         <ImageButton
-            android:id="@+id/user_shop_detail_back_imgbtn"
+            android:id="@+id/search_shop_show_back_imgbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/user_shaop_detail_back"

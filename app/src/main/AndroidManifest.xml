@@ -223,6 +223,9 @@
         <activity android:name=".Activity.ShopDetailBaiduMap" />
         <activity android:name=".Activity.UserSearchActivity" />
         <activity android:name=".Activity.UserShopDetailProductionActivity" />
+        <activity android:name=".Activity.SearchResultShopShowActivity"/>
+        <activity android:name=".Activity.SearchErrorActivity"/>
+        <activity android:name=".Activity.MyDynamicActivity"/>
 
         <service
             android:name="com.baidu.location.f"

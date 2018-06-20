@@ -1,7 +1,9 @@
 package com.example.lu.thebarbershop.Activity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
@@ -53,13 +55,11 @@ public class UserPersonInformationChangeNicknameActivity extends AppCompatActivi
                     String u= bundle.getString("user");
                     Gson gson = new Gson();
                     users = gson.fromJson(u,Users.class);
-                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                   /* sqLiteDatabase = userTokenSql.getWritableDatabase();
                     ContentValues contentValues = new ContentValues();
                     contentValues.put("username",users.getUserName());
                     sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{users.getUserToken()});
-                    sqLiteDatabase.close();
-
-
+                    sqLiteDatabase.close();*/
             }
             super.handleMessage(msg);
         }
@@ -99,6 +99,13 @@ public class UserPersonInformationChangeNicknameActivity extends AppCompatActivi
                     break;
                 case R.id.user_person_information_save_nickname_btn:
                     String name = nickname.getText().toString();
+                    /*SharedPreferences sharedPreferences = getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+                    token = sharedPreferences.getString("token","");*/
+                    sqLiteDatabase = userTokenSql.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("username",name);
+                    sqLiteDatabase.update("user",contentValues,"usertoken =?",new String[]{token});
+                    sqLiteDatabase.close();
                     postchangeUserAttribute(name);
                     Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_LONG).show();
                     finish();
