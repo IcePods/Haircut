@@ -6,7 +6,8 @@
     <RelativeLayout
         android:id="@+id/user_index_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="40dp"
+        android:background="@mipmap/banner">
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:gravity="center"
                 android:layout_weight="1.8"
                 android:layout_marginLeft="1dp"
-                android:textColor="#121212"/>
+                android:textColor="#ffffff"/>
 
             <LinearLayout
                 android:id="@+id/user_index_search"
@@ -124,7 +125,7 @@
                     android:id="@+id/user_index_forselect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="#F5F5F5"
                     android:layout_below="@+id/user_index_viewpager">
                     <LinearLayout
@@ -140,16 +141,16 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:src="@mipmap/user_index_hirecolor"
+                                android:src="@mipmap/user_index_haircut"
                                 />
                             <TextView
                                 android:id="@+id/user_index_haircut_txt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="剪发"
-                                android:textSize="15sp"
+                                android:textSize="12sp"
                                 android:gravity="center"
-                                android:textColor="#121212"/>
+                                android:textColor="#4B4B4B"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -162,16 +163,16 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:src="@mipmap/user_index_hirecolor"
+                                android:src="@mipmap/user_index_haircolor"
                                 />
                             <TextView
                                 android:id="@+id/user_index_haircolor_txt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="染发"
-                                android:textSize="15sp"
+                                android:textSize="12sp"
                                 android:gravity="center"
-                                android:textColor="#121212"/>
+                                android:textColor="#4B4B4B"/>
                         </LinearLayout><LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -189,9 +190,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="烫发"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:gravity="center"
-                            android:textColor="#121212"/>
+                            android:textColor="#4B4B4B"/>
                     </LinearLayout><LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -209,9 +210,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="护理"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:gravity="center"
-                            android:textColor="#121212"/>
+                            android:textColor="#4B4B4B"/>
                     </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -257,10 +258,11 @@
                             android:layout_weight="1"
                             />
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:gravity="center"
                             android:textSize="14dp"
-                            android:text="▼▼推荐好店   Recommend a good shop"
+                            android:text="—  推荐好店   Recommend a good shop  —"
                             android:layout_weight="1"
                             android:textColor="#121212"
                             />
