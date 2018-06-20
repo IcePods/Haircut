@@ -91,17 +91,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <Button
                         android:id="@+id/user_person_appointment_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:drawableTop="@mipmap/user_person_appointment_button"
-                        android:background="@null"
                         android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:drawableTop="@mipmap/person_appointment"
                         android:text="我的预约"
-                        android:textSize="12sp"
-                        android:textColor="#000000"/>
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -113,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:drawableTop="@mipmap/user_person_collection_button"
+                        android:drawableTop="@mipmap/person_collection"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的收藏"
@@ -130,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:drawableTop="@mipmap/user_person_dynamic_button"
+                        android:drawableTop="@mipmap/person_dynamic"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的动态"
@@ -146,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:drawableTop="@mipmap/user_person_comment_button"
+                        android:drawableTop="@mipmap/person_comment"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:text="我的评论"
@@ -172,7 +173,7 @@
                     android:id="@+id/user_person_appoint_information_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/user_person_appointinfo_button"
+                    android:drawableLeft="@mipmap/person_message"
                     android:drawablePadding="10dp"
                     android:text="预约人信息"
                     android:textColor="#000000"
@@ -197,7 +198,7 @@
                     android:id="@+id/user_person_abouts_us_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/user_person_aboutus_button"
+                    android:drawableLeft="@mipmap/person_about_us"
                     android:drawablePadding="10dp"
                     android:text="关于我们"
                     android:textColor="#000000"
@@ -220,7 +221,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/user_person_setting_button"
+                    android:drawableLeft="@mipmap/person_settings"
                     android:drawablePadding="10dp"
                     android:text="设置"
                     android:textColor="#000000"
