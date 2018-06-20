@@ -14,11 +14,15 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.lu.thebarbershop.Fragment.DynamicFragment;
 import com.example.lu.thebarbershop.Fragment.MainFragment;
 import com.example.lu.thebarbershop.Fragment.NewsFragment;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.R;
+import com.jaeger.library.StatusBarUtil;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -42,16 +46,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //获取控件
 
-        getView();
+        StatusBarUtil.setTranslucent(this,50);
+        //设置底部栏
+        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar
+                .addItem(new BottomNavigationItem(R.mipmap.index_on, "首页"))
+                .addItem(new BottomNavigationItem(R.mipmap.news_on, "消息"))
+                .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动"))
+                .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的"))
+                .initialise();
+        //获取控件
+        /*getView();*/
         /*changeSPLocation();*/
         //给选项卡绑定事件监听器
-        onClickListenerImpl listener = new onClickListenerImpl();
+        /*onClickListenerImpl listener = new onClickListenerImpl();
         BtnFragmentIndex.setOnClickListener(listener);
         BtnFragmentNews.setOnClickListener(listener);
         BtnFragmentDynameic.setOnClickListener(listener);
         BtnFragmentPerson.setOnClickListener(listener);
+*/
         //初始化页面对象
             FragmentIndex = new MainFragment();
             FragmentNews = new NewsFragment();
@@ -60,14 +74,39 @@ public class MainActivity extends AppCompatActivity {
 
         //默认显示第一个页面
         ChangeFragment(FragmentIndex);
+
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener(){
+            @Override
+            public void onTabSelected(int position) {
+                switch (position) {
+                    case 0: //显示“主页”
+                        ChangeFragment(FragmentIndex);
+                        break;
+                    case 1:
+                        ChangeFragment(FragmentNews);//消息
+                        break;
+                    case 2:
+                        ChangeFragment(FragmentDynameic);//互动
+                        break;
+                    case 3: ChangeFragment(FragmentPerson);//我的
+                        break;
+                }
+            }
+            @Override
+            public void onTabUnselected(int position) {
+            }
+            @Override
+            public void onTabReselected(int position) {
+            }
+        });
     }
     //获取布局文件中的控件对象
-    private void getView(){
+ /*   private void getView(){
         BtnFragmentIndex =  findViewById(R.id.btn_fragment_main);
         BtnFragmentNews = findViewById(R.id.btn_fragment_news);
         BtnFragmentDynameic = findViewById(R.id.btn_fragment_dynamic);
         BtnFragmentPerson = findViewById(R.id.btn_fragment_mine);
-    }
+    }*/
 
     //切换页面的选项卡
     private void ChangeFragment(Fragment fragment){
@@ -95,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     //FragmentManage的监听器 点击切换页面
-    private  class onClickListenerImpl implements View.OnClickListener{
+    /*private  class onClickListenerImpl implements View.OnClickListener{
         @Override
         public void onClick(View view) {
             switch (view.getId()){
@@ -159,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
+    }*/
     /**
      * 摁下两次返回键退出程序
      * @param keyCode
