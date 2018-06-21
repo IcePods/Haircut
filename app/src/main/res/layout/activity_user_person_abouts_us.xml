@@ -9,12 +9,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/headerlistborder">
+
+        android:background="#292929">
         <ImageButton
             android:id="@+id/user_person_about_us_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/user_shaop_detail_back"
+            android:src="@mipmap/arrowtip_back64"
             android:background="@null"
             android:layout_margin="10dp"/>
         <TextView
@@ -24,7 +25,7 @@
             android:gravity="center"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="40dp"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="17sp"/>
     </LinearLayout>
     <TextView

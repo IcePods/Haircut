@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/headerlistborder">
+        android:background="#292929">
 
         <ImageButton
             android:id="@+id/user_person_collection_back"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@null"
-            android:src="@mipmap/user_shaop_detail_back" />
+            android:src="@mipmap/arrowtip_back64" />
 
         <TextView
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_marginRight="40dp"
             android:gravity="center"
             android:text="我的预约"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="17sp" />
     </LinearLayout>
 
