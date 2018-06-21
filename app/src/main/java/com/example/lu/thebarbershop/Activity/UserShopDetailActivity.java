@@ -274,9 +274,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
             public void onItemClick(View view, int position) {
                 Barber barber = barberList.get(position);
                 String chatId = barber.getUser().getUserAccount();
-                String chatPwd = barber.getUser().getUserPassword();
                 Log.i("ztl","理发师账户名"+chatId);
-                Log.i("ztl","理发师mima"+chatPwd);
                 String currUsername = EMClient.getInstance().getCurrentUser();
                 if (chatId.equals(currUsername)) {
                     Toast.makeText(UserShopDetailActivity.this, "不能和自己聊天", Toast.LENGTH_SHORT).show();

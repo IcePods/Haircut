@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,9 +20,11 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.lu.thebarbershop.Fragment.DynamicFragment;
 import com.example.lu.thebarbershop.Fragment.MainFragment;
-import com.example.lu.thebarbershop.Fragment.NewsFragment;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.R;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.jaeger.library.StatusBarUtil;
 
 import java.io.File;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment FragmentDynameic; //动态
     private Fragment FragmentPerson; //我的
     private long fistKeyDownTime;//记录第一次按下返回的时间（毫秒数）
+    private EaseConversationListFragment conversationListFragment;//环信会话列表页面
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动"))
                 .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的"))
                 .initialise();
+        conversationListFragment = new EaseConversationListFragment();
+
+        conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+            @Override
+            public void onListItemClicked(EMConversation conversation) {
+                startActivity(new Intent(MainActivity.this, ECChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID,conversation.conversationId()));
+            }
+        });
+
         //获取控件
         /*getView();*/
         /*changeSPLocation();*/
@@ -67,10 +80,9 @@ public class MainActivity extends AppCompatActivity {
         BtnFragmentPerson.setOnClickListener(listener);
 */
         //初始化页面对象
-            FragmentIndex = new MainFragment();
-            FragmentNews = new NewsFragment();
-            FragmentDynameic = new DynamicFragment();
-            FragmentPerson = new PersonFragment(this);
+        FragmentIndex = new MainFragment();
+        FragmentDynameic = new DynamicFragment();
+        FragmentPerson = new PersonFragment(this);
 
         //默认显示第一个页面
         ChangeFragment(FragmentIndex);
@@ -80,15 +92,35 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(int position) {
                 switch (position) {
                     case 0: //显示“主页”
+                        if (currentFragment == null){
+                            getSupportFragmentManager().beginTransaction().hide(conversationListFragment).commit();
+                        }
                         ChangeFragment(FragmentIndex);
                         break;
                     case 1:
-                        ChangeFragment(FragmentNews);//消息
+                        //更改页面
+                        if (currentFragment!=null){
+                            ChangeFragment();
+                            if (!conversationListFragment.isAdded()){
+                                getSupportFragmentManager().beginTransaction().add(R.id.activity_main_fl_content, conversationListFragment).commit();
+                            }
+                            getSupportFragmentManager().beginTransaction().show(conversationListFragment).commit();
+                            currentFragment = null;
+                        }
                         break;
                     case 2:
-                        ChangeFragment(FragmentDynameic);//互动
+                        //更改页面
+                        if (currentFragment == null){
+                            getSupportFragmentManager().beginTransaction().hide(conversationListFragment).commit();
+                        }
+                        ChangeFragment(FragmentDynameic);
                         break;
-                    case 3: ChangeFragment(FragmentPerson);//我的
+                    case 3:
+                        //更改页面
+                        if (currentFragment == null){
+                            getSupportFragmentManager().beginTransaction().hide(conversationListFragment).commit();
+                        }
+                        ChangeFragment(FragmentPerson);
                         break;
                 }
             }
@@ -120,7 +152,9 @@ public class MainActivity extends AppCompatActivity {
             //创建事务
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             //隐藏当前页面
-            transaction.hide(currentFragment);
+            if (currentFragment!=null){
+                transaction.hide(currentFragment);
+            }
             //判断待显示的页面是是否已经添加过
             if(!fragment.isAdded()){//待显示的页面没有被添加过
                 transaction.add(R.id.activity_main_fl_content,fragment);
@@ -132,6 +166,14 @@ public class MainActivity extends AppCompatActivity {
             //赋值给当前页面
             currentFragment = fragment;
         }
+    }
+    private void ChangeFragment(){
+        //切换页面每次切换页面，进行页面切换事物
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        //隐藏当前页面
+        transaction.hide(currentFragment);
+        transaction.commit();
+        //赋值给当前页面
     }
     //FragmentManage的监听器 点击切换页面
     /*private  class onClickListenerImpl implements View.OnClickListener{
