@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/create_new_dynamic_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="40dp"
+        android:background="@drawable/headerlistborder">
 
         <ImageButton
             android:id="@+id/new_dynamic_back"
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@null"
-            android:src="@mipmap/arrowtip_backblue" />
+            android:src="@mipmap/user_shaop_detail_back" />
 
         <TextView
             android:layout_width="match_parent"

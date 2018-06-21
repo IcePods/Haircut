@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -66,9 +67,10 @@ public class PersonFragment extends Fragment {
     private ImageView imageView;//头像
     private TextView name;
     private Button infobutton;//个人信息按钮 id=user_person_information_btn
-    private Button appointmentbutton;//我的预约
-    private Button collectionbutton;//我的收藏按钮 id=user_person_collection_btn
-    private Button aboutusbutton;//关于我们按钮 id=user_person_abouts_us_btn
+    private LinearLayout appointmentLL;//我的预约
+    private LinearLayout collectionLL;//我的收藏按钮 id=user_person_collection_btn
+    private LinearLayout aboutusLL;//关于我们按钮 id=user_person_abouts_us_btn
+    private LinearLayout myDynamicLL;//我的动态按钮
     private Mylistener mylistener;//监听器
     private UserTokenSql userTokenSql;
     private String username;
@@ -76,8 +78,7 @@ public class PersonFragment extends Fragment {
     private String token;
     private SQLiteDatabase database;
     public static Users users;
-    //我的动态按钮
-    private Button myDynamic;
+
 
 
 
@@ -131,11 +132,11 @@ public class PersonFragment extends Fragment {
 
         imageView = view.findViewById(R.id.user_person_head_portrait_img);//头像
         infobutton = view.findViewById(R.id.user_person_information_btn);//个人信息按钮
-        appointmentbutton = view.findViewById(R.id.user_person_appointment_btn);//我的预约按钮
-        collectionbutton = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
-        aboutusbutton = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
+        appointmentLL = view.findViewById(R.id.user_person_appointment_btn);//我的预约按钮
+        collectionLL = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
+        aboutusLL = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
         name = view.findViewById(R.id.user_person_username_tv);
-        myDynamic = view.findViewById(R.id.my_dynamic);
+        myDynamicLL = view.findViewById(R.id.my_dynamic);
 
         //更新UI
 
@@ -149,10 +150,10 @@ public class PersonFragment extends Fragment {
 
         imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap(),2));
         infobutton.setOnClickListener(mylistener);
-        appointmentbutton.setOnClickListener(mylistener);
-        collectionbutton.setOnClickListener(mylistener);
-        aboutusbutton.setOnClickListener(mylistener);
-        myDynamic.setOnClickListener(mylistener);
+        appointmentLL.setOnClickListener(mylistener);
+        collectionLL.setOnClickListener(mylistener);
+        aboutusLL.setOnClickListener(mylistener);
+        myDynamicLL.setOnClickListener(mylistener);
 
 
         return view;
@@ -221,11 +222,6 @@ public class PersonFragment extends Fragment {
                         startActivity(intent);
                         break;
                     }
-
-
-                    //预约人信息按钮
-                case R.id.user_person_appoint_information_btn:
-                    break;
                 //关于我们按钮
                 case R.id.user_person_abouts_us_btn:
                     //2. 指定跳转路线
