@@ -80,7 +80,7 @@
                     android:background="@drawable/appointround"
                     android:layout_marginRight="5dp"
                     android:drawableTop="@mipmap/person_appointment"
-                    android:paddingTop="15dp"
+                    android:paddingTop="25dp"
                     android:text="我的预约"
                     android:textSize="15sp"
                     android:drawableTint="#EFEFEF"/>
@@ -92,7 +92,7 @@
                     android:background="@drawable/collectionround"
                     android:layout_marginLeft="5dp"
                     android:drawableTop="@mipmap/person_collection"
-                    android:paddingTop="15dp"
+                    android:paddingTop="25dp"
                     android:text="我的收藏"
                     android:textSize="15sp"
                     android:drawableTint="#EFEFEF"/>
@@ -112,7 +112,7 @@
                     android:background="@drawable/dynamicround"
                     android:layout_marginRight="5dp"
                     android:drawableTop="@mipmap/person_dynamic"
-                    android:paddingTop="15dp"
+                    android:paddingTop="25dp"
                     android:text="我的动态"
                     android:textSize="15sp"
                     android:drawableTint="#EFEFEF"/>
@@ -124,7 +124,7 @@
                     android:background="@drawable/aboutusround"
                     android:layout_marginLeft="5dp"
                     android:drawableTop="@mipmap/person_about_us"
-                    android:paddingTop="15dp"
+                    android:paddingTop="25dp"
                     android:text="关于我们"
                     android:textSize="15sp"
                     android:drawableTint="#EFEFEF"/>
