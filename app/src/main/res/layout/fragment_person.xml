@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7F7F9">
-
+    android:background="@mipmap/personbuttonbanner">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -66,102 +65,70 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="20dp"-->
                 <!--android:background="#F7F7F9"/>-->
-            <!--我的预约-->
             <LinearLayout
-                android:id="@+id/user_person_appointment_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/listborder"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal">
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="40dp">
                 <Button
+                    android:id="@+id/user_person_appointment_btn"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="60dp"
-                    android:paddingLeft="30dp"
-                    android:drawableLeft="@mipmap/person_appointment"
-                    android:drawableTint="#EFEFEF"
-                    android:gravity="center"
-                    android:background="#ACACAC"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/appointround"
+                    android:layout_marginRight="5dp"
+                    android:drawableTop="@mipmap/person_appointment"
+                    android:paddingTop="15dp"
                     android:text="我的预约"
-                    android:textColor="#000000"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <!--我的收藏-->
-            <LinearLayout
-                android:id="@+id/user_person_collection_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/listborder">
+                    android:textSize="15sp"
+                    android:drawableTint="#EFEFEF"/>
                 <Button
+                    android:id="@+id/user_person_collection_btn"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="60dp"
-                    android:paddingLeft="30dp"
-                    android:drawableLeft="@mipmap/person_collection"
-                    android:drawableTint="#EFEFEF"
-                    android:background="#8D8D8D"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/collectionround"
+                    android:layout_marginLeft="5dp"
+                    android:drawableTop="@mipmap/person_collection"
+                    android:paddingTop="15dp"
                     android:text="我的收藏"
-                    android:textColor="#000000"
-                    android:gravity="center"/>
+                    android:textSize="15sp"
+                    android:drawableTint="#EFEFEF"/>
             </LinearLayout>
-            <!--我的动态-->
             <LinearLayout
-                android:id="@+id/my_dynamic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/listborder">
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
                 <Button
+                    android:id="@+id/my_dynamic"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="60dp"
-                    android:paddingLeft="30dp"
-                    android:drawableLeft="@mipmap/person_dynamic"
-                    android:drawableTint="#EFEFEF"
-                    android:background="#6E6E6E"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dynamicround"
+                    android:layout_marginRight="5dp"
+                    android:drawableTop="@mipmap/person_dynamic"
+                    android:paddingTop="15dp"
                     android:text="我的动态"
-                    android:textColor="#000000"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <!--关于我们-->
-            <LinearLayout
-                android:id="@+id/user_person_abouts_us_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/listborder">
+                    android:textSize="15sp"
+                    android:drawableTint="#EFEFEF"/>
                 <Button
+                    android:id="@+id/user_person_abouts_us_btn"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="60dp"
-                    android:paddingLeft="30dp"
-                    android:drawableLeft="@mipmap/person_about_us"
-                    android:drawableTint="#EFEFEF"
-                    android:background="#5B5B5B"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/aboutusround"
+                    android:layout_marginLeft="5dp"
+                    android:drawableTop="@mipmap/person_about_us"
+                    android:paddingTop="15dp"
                     android:text="关于我们"
-                    android:textColor="#000000"
-                    android:gravity="center"/>
+                    android:textSize="15sp"
+                    android:drawableTint="#EFEFEF"/>
             </LinearLayout>
-            <!--分界线-->
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="60dp"-->
-                <!--android:background="#F7F7F9" />-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

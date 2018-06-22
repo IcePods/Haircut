@@ -67,10 +67,10 @@ public class PersonFragment extends Fragment {
     private ImageView imageView;//头像
     private TextView name;
     private Button infobutton;//个人信息按钮 id=user_person_information_btn
-    private LinearLayout appointmentLL;//我的预约
-    private LinearLayout collectionLL;//我的收藏按钮 id=user_person_collection_btn
-    private LinearLayout aboutusLL;//关于我们按钮 id=user_person_abouts_us_btn
-    private LinearLayout myDynamicLL;//我的动态按钮
+    private Button appointmentbtn;//我的预约
+    private Button collectionbtn;//我的收藏按钮 id=user_person_collection_btn
+    private Button aboutusbtn;//关于我们按钮 id=user_person_abouts_us_btn
+    private Button myDynamicbtn;//我的动态按钮
     private Mylistener mylistener;//监听器
     private UserTokenSql userTokenSql;
     private String username;
@@ -132,11 +132,11 @@ public class PersonFragment extends Fragment {
 
         imageView = view.findViewById(R.id.user_person_head_portrait_img);//头像
         infobutton = view.findViewById(R.id.user_person_information_btn);//个人信息按钮
-        appointmentLL = view.findViewById(R.id.user_person_appointment_btn);//我的预约按钮
-        collectionLL = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
-        aboutusLL = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
+        appointmentbtn = view.findViewById(R.id.user_person_appointment_btn);//我的预约按钮
+        collectionbtn = view.findViewById(R.id.user_person_collection_btn);//我的收藏按钮
+        aboutusbtn = view.findViewById(R.id.user_person_abouts_us_btn);//关于我们按钮
         name = view.findViewById(R.id.user_person_username_tv);
-        myDynamicLL = view.findViewById(R.id.my_dynamic);
+        myDynamicbtn = view.findViewById(R.id.my_dynamic);
 
         //更新UI
 
@@ -150,10 +150,10 @@ public class PersonFragment extends Fragment {
 
         imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap(),2));
         infobutton.setOnClickListener(mylistener);
-        appointmentLL.setOnClickListener(mylistener);
-        collectionLL.setOnClickListener(mylistener);
-        aboutusLL.setOnClickListener(mylistener);
-        myDynamicLL.setOnClickListener(mylistener);
+        appointmentbtn.setOnClickListener(mylistener);
+        collectionbtn.setOnClickListener(mylistener);
+        aboutusbtn.setOnClickListener(mylistener);
+        myDynamicbtn.setOnClickListener(mylistener);
 
 
         return view;
