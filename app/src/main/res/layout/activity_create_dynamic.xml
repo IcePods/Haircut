@@ -9,7 +9,7 @@
         android:id="@+id/create_new_dynamic_top"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/headerlistborder">
+        android:background="#292929">
 
         <ImageButton
             android:id="@+id/new_dynamic_back"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@null"
-            android:src="@mipmap/user_shaop_detail_back" />
+            android:src="@mipmap/arrowtip_back64" />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:padding="10dp"
             android:text="发布动态"
             android:textSize="17sp"
-            android:textColor="#000" />
+            android:textColor="#ffffff" />
     </RelativeLayout>
 
     <EditText
@@ -60,5 +60,5 @@
         android:text="发布"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:background="@color/divider"/>
+        android:background="#292929"/>
 </RelativeLayout>

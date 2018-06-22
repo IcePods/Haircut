@@ -19,7 +19,7 @@
                 android:id="@+id/user_index_address"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="石家庄▼"
+                android:text="石家庄 ▼"
                 android:gravity="center"
                 android:layout_weight="1.8"
                 android:layout_marginLeft="1dp"
@@ -35,7 +35,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
+                    android:layout_weight="5"
                     android:src="@mipmap/user_index_search_button"
                     />
                 <TextView
@@ -43,16 +43,17 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
 
-                    android:hint="你想搜索啥" />
+                    android:hint="搜搜喜欢的店铺吧" />
 
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/user_index_plus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:src="@mipmap/user_index_plus_button"/>
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/user_index_add"/>
 
         </LinearLayout>
     </RelativeLayout>

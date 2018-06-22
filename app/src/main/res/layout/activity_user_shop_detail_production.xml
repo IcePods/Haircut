@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/user_shop_detail_production_header"
-        android:background="@drawable/headerlistborder">
+        android:background="#292929">
         <ImageButton
             android:id="@+id/user_shop_detail_production_back_imgbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/user_shaop_detail_back"
+            android:src="@mipmap/arrowtip_back64"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:background="#00000000"
+            android:background="#292929"
+            android:layout_margin="10dp"
             />
         <TextView
             android:id="@+id/user_shopdetail_header_shopname"
@@ -27,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="17sp"
             android:text="作品展示"
-            android:textColor="#4D4D4D"/>
+            android:textColor="#ffffff"/>
     </RelativeLayout>
 
     <!--选项卡组件-->

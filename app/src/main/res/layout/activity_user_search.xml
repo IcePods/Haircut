@@ -36,14 +36,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@mipmap/user_index_search_button"
-                    android:layout_weight="3"/>
+                    android:layout_weight="5"/>
                 <EditText
                     android:id="@+id/user_search_edit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#00000000"
-                    android:hint="你想搜啥"
+                    android:hint="搜搜喜欢的店铺吧"
                     android:textSize="15dp"
                     android:textColor="#2E2E2E"
                     android:focusable="true"

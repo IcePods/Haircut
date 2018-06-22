@@ -100,7 +100,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     Log.i("collection",isCollection);
                     userCollections = gson.fromJson(isCollection, UserCollections.class);
                     if(userCollections.isCollectionCondition()){
-                        user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_on);
+                        user_shopdetail_collect.setBackgroundResource(R.mipmap.user_person_collection2);
                         isColl = true;
                     }
                     break;
@@ -191,14 +191,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                 case R.id.user_shopdetail_collect:
                     if(new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
                         if(isColl){
-                            user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_un);
+                            user_shopdetail_collect.setBackgroundResource(R.mipmap.user_person_collection1);
                             Toast.makeText(getApplicationContext(),"取消收藏成功",Toast.LENGTH_SHORT).show();
                             //向服务器提交数据用户取消哦收藏了这个店铺
                             addCollection();
                             isColl=false;
 
                         }else {
-                            user_shopdetail_collect.setBackgroundResource(R.mipmap.user_shop_detail_collect_on);
+                            user_shopdetail_collect.setBackgroundResource(R.mipmap.user_person_collection2);
                             Toast.makeText(getApplicationContext(),"添加收藏成功",Toast.LENGTH_SHORT).show();
                             //向服务器提交数据用户收藏了这个店铺
                             addCollection();
