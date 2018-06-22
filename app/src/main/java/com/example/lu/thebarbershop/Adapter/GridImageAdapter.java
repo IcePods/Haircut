@@ -10,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.R;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -158,12 +161,15 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             if (mimeType == PictureMimeType.ofAudio()) {
                 viewHolder.mImg.setImageResource(R.drawable.audio_placeholder);
             } else {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.color.color_f6);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+                requestOptions.centerCrop();
                 Glide.with(viewHolder.itemView.getContext())
                         .load(path)
-                        .placeholder(R.color.color_f6)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .centerCrop()
+                        .apply(requestOptions)
                         .into(viewHolder.mImg);
+
             }
             //itemView 的点击事件
             if (mItemClickListener != null) {

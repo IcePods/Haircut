@@ -150,4 +150,10 @@ public class UserPersonAppointmentInvalidFragment extends Fragment {
             }
         }.start();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getInvaAppointment();
+    }
 }

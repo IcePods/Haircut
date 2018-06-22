@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Activity.MyDynamicActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAboutsUsActivity;
 import com.example.lu.thebarbershop.Activity.UserPersonAppointmentActivity;
@@ -99,17 +100,18 @@ public class PersonFragment extends Fragment {
                     Gson gson = new Gson();
                     users = gson.fromJson(userfromToken,Users.class);
                     Log.i("llhhyy",userfromToken);
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.centerCrop();
+                    requestOptions.circleCrop();
                     if(users.getUserCondition()==true){
                         name.setText(users.getUserName());
 
                         if(users.getUserHeader()==null){
-                            Glide.with(getActivity()).load(R.mipmap.default_header_img).centerCrop()
-                                    .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+                            Glide.with(getActivity()).load(R.mipmap.default_header_img).apply(requestOptions).into(imageView);
                         }else{
                             Glide.with(getActivity())
                                     .load(users.getUserHeader())
-                                    .centerCrop()
-                                    .bitmapTransform(new CropCircleTransformation(getActivity()))
+                                    .apply(requestOptions)
                                     .into(imageView);
                         }
 
@@ -337,29 +339,30 @@ public class PersonFragment extends Fragment {
     public void onResume() {
 
         super.onResume();
-
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
+        requestOptions.circleCrop();
         if(new GetUserFromShared(mContext).getUserTokenFromShared()!=null) {
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usertoken", Context.MODE_PRIVATE);
             final String token = sharedPreferences.getString("token", "");
             //拿到token去sqlite数据库查询用户信息
             database = new UserTokenSql(mContext).getReadableDatabase();
             Cursor cursor = database.query("user", null, "usertoken" + "=?", new String[]{token}, null, null, null);
+
             if (cursor.moveToFirst()) {
                 username = cursor.getString(cursor.getColumnIndex("username"));
                 userheader = cursor.getString(cursor.getColumnIndex("userheader"));
                 if(userheader == null){
-                    Glide.with(mContext).load(R.mipmap.default_header_img).centerCrop()
-                            .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+
+                    Glide.with(mContext).load(R.mipmap.default_header_img).apply(requestOptions).into(imageView);
                 }else {
-                    Glide.with(mContext).load(UrlAddress.url+userheader).centerCrop()
-                            .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+                    Glide.with(mContext).load(UrlAddress.url+userheader).apply(requestOptions).into(imageView);
                 }
                 name.setText(username);
             }
         }else{
            /* RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());*/
-            Glide.with(mContext).load(R.mipmap.default_header_img).centerCrop()
-                    .bitmapTransform(new CropCircleTransformation(getActivity())).into(imageView);
+            Glide.with(mContext).load(R.mipmap.default_header_img).apply(requestOptions).into(imageView);
             name.setText("未登录");
         }
     }

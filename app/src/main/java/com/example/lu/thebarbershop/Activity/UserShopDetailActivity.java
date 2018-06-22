@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
 import com.example.lu.thebarbershop.Entity.ShopPicture;
@@ -297,14 +298,13 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         //得到图片集合
        /* PrepareIndexViewPagerDate prepareIndexViewPagerDate = new PrepareIndexViewPagerDate();
         List<String> list = prepareIndexViewPagerDate.date();*/
-        //RequestOptions requestOptions = new RequestOptions().centerCrop();
-        //requestOptions.placeholder(R.mipmap.user_index_nurse);
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        requestOptions.placeholder(R.mipmap.user_index_nurse);
         for(int i=0;i<shopPictureList.size();i++){
             ImageView imageView =new ImageView(this);
             Glide.with(this)
                     .load(shopPictureList.get(i))
-                    .placeholder(R.mipmap.user_index_nurse)
-                    .centerCrop()
+                    .apply(requestOptions)
                     .into(imageView);
             imageViewArrayList.add(imageView);
             Log.i("hzl",imageViewArrayList.size()+"");

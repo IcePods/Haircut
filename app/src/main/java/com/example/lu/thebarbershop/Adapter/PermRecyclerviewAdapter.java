@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.HairStyle;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.R;
 
 import java.util.List;
@@ -44,10 +46,10 @@ public class PermRecyclerviewAdapter extends RecyclerView.Adapter{
         MyViewHolder holder2 = (MyViewHolder) holder;
         HairStyle hairStyle = hairs.get(position);
 //        Uri uri = Uri.parse(hairStyle.getHairstylePicture());
-        //RequestOptions requestOptions = new RequestOptions().centerCrop();
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
         Glide.with(mContext)
-                .load(hairStyle.getHairstylePicture())
-                .centerCrop()
+                .load(UrlAddress.url+hairStyle.getHairstylePicture())
+                .apply(requestOptions)
                 .into(holder2.hairstyleimg);
         holder2.hairstylename.setText(hairStyle.getHairstyleName());
     }

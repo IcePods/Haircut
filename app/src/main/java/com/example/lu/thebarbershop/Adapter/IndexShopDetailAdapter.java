@@ -1,6 +1,7 @@
 package com.example.lu.thebarbershop.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.Dynamic;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.R;
 
@@ -99,13 +102,13 @@ public class IndexShopDetailAdapter extends BaseAdapter {
        }else{
            viewHolder = (ViewHolder) convertView.getTag();
        }
-        /*RequestOptions requestOptions = new RequestOptions().centerCrop();
-        requestOptions.placeholder(R.mipmap.user_index_perm);*/
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        requestOptions.placeholder(R.mipmap.user_index_perm);
        final UserShopDetail userShopDetail = dataSource.get(position);
+        Log.i("indexShopPictureAddress",UrlAddress.url+userShopDetail.getShopPicture());
         Glide.with(context)
-                .load(userShopDetail.getShopPicture())
-                .placeholder(R.mipmap.user_index_perm)
-                .centerCrop()
+                .load(UrlAddress.url+userShopDetail.getShopPicture())
+                .apply(requestOptions)
                 .into(viewHolder.indexshopPicture);
         viewHolder.indexshopName.setText(userShopDetail.getShopName());
         viewHolder.indexshopAddress.setText(userShopDetail.getShopAddress());

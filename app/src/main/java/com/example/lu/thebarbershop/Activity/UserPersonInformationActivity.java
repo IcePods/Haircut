@@ -1,20 +1,15 @@
 package com.example.lu.thebarbershop.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.net.LocalServerSocket;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Message;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,9 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
-import com.example.lu.thebarbershop.Entity.Users;
-import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.MyTools.GetRoundedCornerBitmap;
 import com.example.lu.thebarbershop.MyTools.GetUserFromShared;
 import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
@@ -41,12 +36,8 @@ import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
 
 import cn.jpush.android.api.JPushInterface;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class UserPersonInformationActivity extends AppCompatActivity {
@@ -383,13 +374,13 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         selectUser();
         //如果用户头像为空则加载默认的
         if(userheader!=null){
-           /* RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());*/
-            Glide.with(this).load(UrlAddress.url+userheader).centerCrop()
-                    .bitmapTransform(new CropCircleTransformation(this)).into(imageView);
+            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
+            Glide.with(this).load(UrlAddress.url+userheader).apply(requestOptions)
+                    .into(imageView);
         }else{
-            /*RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());*/
-            Glide.with(this).load(R.mipmap.default_header_img).centerCrop()
-                    .bitmapTransform(new CropCircleTransformation(this)).into(imageView);
+            RequestOptions requestOptions = new RequestOptions().centerCrop().transform(new CircleCrop());
+            Glide.with(this).load(R.mipmap.default_header_img).apply(requestOptions)
+                  .into(imageView);
         }
         name.setText(username);
         sex.setText(usersex);

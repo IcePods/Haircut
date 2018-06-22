@@ -97,7 +97,7 @@ public class EffectiveAppointmentAdapter extends BaseAdapter {
 
         //利用传递的数据源给相应的控件对象赋值
         final Appointment effectiveAppointments = appointments.get(position);
-        Glide.with(mContext).load(effectiveAppointments.getAppoint_hairStyle().getHairstylePicture()).into(img);
+        Glide.with(mContext).load(UrlAddress.url+effectiveAppointments.getAppoint_hairStyle().getHairstylePicture()).into(img);
         merchantName.setText(effectiveAppointments.getAppoint_userShopDetail().getShopName());
         barber.setText(effectiveAppointments.getAppoint_barber());
         tel.setText(effectiveAppointments.getAppoint_phone());

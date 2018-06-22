@@ -4,10 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.Users;
-import com.example.lu.thebarbershop.Fragment.PersonFragment;
-import com.example.lu.thebarbershop.MyTools.RecordSQLiteOpenHelper;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
@@ -37,7 +35,6 @@ import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import cn.jpush.android.api.JPushInterface;
 
@@ -51,6 +48,7 @@ public class UsersLoginActivity extends AppCompatActivity {
     private TextView errorMessage;
     private UserTokenSql userTokenSql = new UserTokenSql(this);//数据库连接
     private SQLiteDatabase sqLiteDatabase;
+
 
     /* private final String url = "http://192.168.155.3:8080/theBarberShopServers/loginCheck.action";*/
     OkHttpClient okHttpClient;
@@ -203,21 +201,53 @@ public class UsersLoginActivity extends AppCompatActivity {
 
 
     }
+    //插入用户信息
     private void insertUserToSql(Users users){
-        sqLiteDatabase = userTokenSql.getReadableDatabase();
-        Log.i("hzl","logininsert"+users.toString());
+        //如果存在更新用户信息
+        if(queryUserToSql(users.getUserAccount())){
+            sqLiteDatabase = userTokenSql.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put("userpassword",users.getUserPassword());
+            cv.put("username",users.getUserName());
+            cv.put("usersex",users.getUserSex());
+            cv.put("userphone",users.getUserPhone());
+            cv.put("userheader",users.getUserHeader());
+            cv.put("usertoken",users.getUserToken());
+            long update = sqLiteDatabase.update("user",cv,"useraccount"+"=?",new String[]{users.getUserAccount()});
+            Log.i("hzl","user更新成功");
+            sqLiteDatabase.close();
+        }else{//如果不存在插入
+            sqLiteDatabase = userTokenSql.getReadableDatabase();
+            Log.i("hzl","logininsert"+users.toString());
 
-        ContentValues cv = new ContentValues();
-        cv.put("useraccount",users.getUserAccount());
-        cv.put("userpassword",users.getUserPassword());
-        cv.put("username",users.getUserName());
-        cv.put("usersex",users.getUserSex());
-        cv.put("userphone",users.getUserPhone());
-        cv.put("userheader",users.getUserHeader());
-        cv.put("usertoken",users.getUserToken());
-        long insert =  sqLiteDatabase.insert("user",null,cv);
-        Log.i("insert111",insert+"");
-        Log.i("hzl","user插入成功");
+            ContentValues cv = new ContentValues();
+            cv.put("useraccount",users.getUserAccount());
+            cv.put("userpassword",users.getUserPassword());
+            cv.put("username",users.getUserName());
+            cv.put("usersex",users.getUserSex());
+            cv.put("userphone",users.getUserPhone());
+            cv.put("userheader",users.getUserHeader());
+            cv.put("usertoken",users.getUserToken());
+            long insert =  sqLiteDatabase.insert("user",null,cv);
+            Log.i("insert111",insert+"");
+            Log.i("hzl","user插入成功");
+            sqLiteDatabase.close();
+        }
+
+    }
+    //判断本地数据库用户是否已经存在
+    private boolean queryUserToSql(String useraccount){
+        sqLiteDatabase =new UserTokenSql(this).getReadableDatabase();
+        /*Cursor cursor = database.rawQuery("select * from user where usertoken = "+token,null);*/
+        Cursor cursor = sqLiteDatabase.query("user",null,"useraccount"+"=?",new String[]{useraccount},null,null,null);
+        if(cursor.moveToFirst()){
+            sqLiteDatabase.close();
+            return true;
+        }else {
+            sqLiteDatabase.close();
+            return false;
+        }
+
     }
     /**
      * 登录方法

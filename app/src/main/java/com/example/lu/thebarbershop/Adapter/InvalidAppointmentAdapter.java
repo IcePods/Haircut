@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.lu.thebarbershop.Entity.Appointment;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.R;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class InvalidAppointmentAdapter extends BaseAdapter {
         time.setText((String) invalidAppointments.get("time"));
         person.setText((String) invalidAppointments.get("person"));
         hairstyle.setText((String) invalidAppointments.get("hairstyle"));*/
-        Glide.with(mContext).load(invalidAppointments.getAppoint_hairStyle().getHairstylePicture()).into(img);
+        Glide.with(mContext).load(UrlAddress.url+invalidAppointments.getAppoint_hairStyle().getHairstylePicture()).into(img);
         merchantName.setText(invalidAppointments.getAppoint_userShopDetail().getShopName());
         barber.setText(invalidAppointments.getAppoint_barber());
         tel.setText(invalidAppointments.getAppoint_phone());
