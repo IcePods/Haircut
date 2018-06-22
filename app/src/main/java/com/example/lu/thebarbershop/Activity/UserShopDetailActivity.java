@@ -275,6 +275,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
             public void onItemClick(View view, int position) {
                 Barber barber = barberList.get(position);
                 String chatId = barber.getUser().getUserAccount();
+                String chatName = barber.getUser().getUserName();
                 Log.i("ztl","理发师账户名"+chatId);
                 String currUsername = EMClient.getInstance().getCurrentUser();
                 if (chatId.equals(currUsername)) {
@@ -285,6 +286,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                 // EaseUI封装的聊天界面需要这两个参数，聊天者的username，以及聊天类型，单聊还是群聊
                 intent.putExtra("userId", chatId);
                 intent.putExtra("chatType", EMMessage.ChatType.Chat);
+                intent.putExtra("username",chatName);
                 startActivity(intent);
             }
         });

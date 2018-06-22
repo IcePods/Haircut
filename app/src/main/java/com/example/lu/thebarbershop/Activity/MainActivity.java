@@ -3,28 +3,45 @@ package com.example.lu.thebarbershop.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
+import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.Fragment.DynamicFragment;
 import com.example.lu.thebarbershop.Fragment.MainFragment;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
 import com.example.lu.thebarbershop.R;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.jaeger.library.StatusBarUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private Button BtnFragmentIndex;
@@ -37,11 +54,35 @@ public class MainActivity extends AppCompatActivity {
     private Fragment currentFragment = new Fragment();
     //定义页面
     private Fragment FragmentIndex; //首页
-    private Fragment FragmentNews;   //消息
     private Fragment FragmentDynameic; //动态
     private Fragment FragmentPerson; //我的
+    private Users users;
+    private String userName="";
+    private String userAccount="";
     private long fistKeyDownTime;//记录第一次按下返回的时间（毫秒数）
+    private OkHttpClient okHttpClient;
     private EaseConversationListFragment conversationListFragment;//环信会话列表页面
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    Bundle bundle = msg.getData();
+                    String st = bundle.getString("UserName");
+                    users = new Users();
+                    Gson gson = new Gson();
+                    users = gson.fromJson(st,Users.class);
+                    userName = users.getUserName();
+                    startActivity(new Intent(MainActivity.this, ECChatActivity.class)
+                            .putExtra(EaseConstant.EXTRA_USER_ID,userAccount)
+                            .putExtra(EaseConstant.EXTRA_USER_NAME,userName));
+
+
+
+            }
+            super.handleMessage(msg);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动"))
                 .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的"))
                 .initialise();
+        okHttpClient = new OkHttpClient();
         conversationListFragment = new EaseConversationListFragment();
-
         conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
             @Override
             public void onListItemClicked(EMConversation conversation) {
-                startActivity(new Intent(MainActivity.this, ECChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID,conversation.conversationId()));
+                userAccount = conversation.conversationId();
+                postUserName(conversation.conversationId());
             }
         });
-
         //获取控件
         /*getView();*/
         /*changeSPLocation();*/
@@ -127,6 +168,30 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(int position) {
             }
         });
+    }
+    private void postUserName(final String UserAccount){
+        new Thread(){
+            @Override
+            public void run() {
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("BarberAccount",UserAccount);
+                FormBody body = builder.build();
+                Request request = new Request.Builder().post(body).url(UrlAddress.url+"queryUserName.action").build();
+                Call call = okHttpClient.newCall(request);
+                try {
+                    Response response = call.execute();
+                    String s = response.body().string();
+                    Message message = Message.obtain();
+                    message.what = 1;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserName",s);
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
     //获取布局文件中的控件对象
  /*   private void getView(){
