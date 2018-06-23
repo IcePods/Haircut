@@ -86,6 +86,7 @@ public class UploadPictureUtil {
                             Message message = Message.obtain();
                             Bundle bundle = new Bundle();
                             bundle.putString("string", str);
+                            Log.i("李垚", str);
                             message.setData(bundle);
                             handler.sendMessage(message);
                         }
