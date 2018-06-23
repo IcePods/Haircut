@@ -92,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
         //设置底部栏
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.index_on, "首页"))
-                .addItem(new BottomNavigationItem(R.mipmap.news_on, "消息"))
-                .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动"))
-                .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的"))
+                .addItem(new BottomNavigationItem(R.mipmap.index_on, "首页").setActiveColorResource(R.color.black_alpha_112))
+                .addItem(new BottomNavigationItem(R.mipmap.news_on, "消息").setActiveColorResource(R.color.black_alpha_112))
+                .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动").setActiveColorResource(R.color.black_alpha_112))
+                .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的").setActiveColor(R.color.black_alpha_112))
                 .initialise();
+        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         okHttpClient = new OkHttpClient();
         conversationListFragment = new EaseConversationListFragment();
         conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
