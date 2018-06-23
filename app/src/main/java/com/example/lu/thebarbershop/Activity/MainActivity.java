@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,12 +93,18 @@ public class MainActivity extends AppCompatActivity {
         //设置底部栏
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.index_on, "首页").setActiveColorResource(R.color.black_alpha_112))
-                .addItem(new BottomNavigationItem(R.mipmap.news_on, "消息").setActiveColorResource(R.color.black_alpha_112))
-                .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动").setActiveColorResource(R.color.black_alpha_112))
-                .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的").setActiveColor(R.color.black_alpha_112))
+                .addItem(new BottomNavigationItem(R.mipmap.index_on, "首页"))
+                .addItem(new BottomNavigationItem(R.mipmap.news_on, "消息"))
+                .addItem(new BottomNavigationItem(R.mipmap.dynamic_un, "互动"))
+                .addItem(new BottomNavigationItem(R.mipmap.person_un, "我的"))
                 .initialise();
-        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+
+      /*  bottomNavigationBar
+      .setActiveColor(R.color.black_alpha_240)
+                .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
+                .setActiveColor(R.color.black_alpha_240)
+                .setInActiveColor("#292929");*/
+
         okHttpClient = new OkHttpClient();
         conversationListFragment = new EaseConversationListFragment();
         conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {

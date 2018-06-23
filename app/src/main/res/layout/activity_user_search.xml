@@ -12,55 +12,57 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#292929">
 
-            <ImageView
+           <ImageView
                 android:id="@+id/user_search_back"
-                android:src="@mipmap/user_search_back"
+                android:src="@mipmap/arrowtip_back64"
+                android:background="#292929"
                 android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_weight="4"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/user_search_activity_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:layout_margin="2dp"
                 android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/user_index_search_button"
-                    android:layout_weight="5"/>
+                <!--<ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/search"
+                    android:layout_weight="0.6"/>-->
+
                 <EditText
                     android:id="@+id/user_search_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:hint="搜搜喜欢的店铺吧"
-                    android:textSize="15dp"
-                    android:textColor="#2E2E2E"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="5"
                     android:focusable="true"
-                    android:focusableInTouchMode="true"/>
+                    android:focusableInTouchMode="true"
+                    android:hint="搜搜喜欢的店铺吧"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp" />
 
 
             </LinearLayout>
 
             <TextView
-
                 android:id="@+id/user_search_sousuo"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_weight="1"
                 android:text="搜索"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:textColor="#2E2E2E"
+                android:textColor="#ffffff"
                 android:layout_gravity="center"
                 android:gravity="center"
                 />

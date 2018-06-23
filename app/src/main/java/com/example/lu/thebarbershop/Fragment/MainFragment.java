@@ -96,7 +96,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private ImageView nurse;//护理 id=user_index_nurse
     private TextView nursetxt;
     private TextView address;
-    private LinearLayout search;
+    private ImageView search;
     private ImageView plus;
     private ScrollView scrollView;
     private LooperTextView looperTextView;
@@ -212,7 +212,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     public void init(View view){
         address = view.findViewById(R.id.user_index_address);
         search = view.findViewById(R.id.user_index_search);
-        plus = view.findViewById(R.id.user_index_plus);
+        //plus = view.findViewById(R.id.user_index_plus);
         perm = view.findViewById(R.id.user_index_perm);//烫发
         permtxt = view.findViewById(R.id.user_index_perm_txt);
         haircut = view.findViewById(R.id.user_index_haircut);//剪发

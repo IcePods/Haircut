@@ -6,299 +6,293 @@
     <RelativeLayout
         android:id="@+id/user_index_header"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@mipmap/banner">
+
         <LinearLayout
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal"
-            >
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_weight="6"
+                />
             <TextView
                 android:id="@+id/user_index_address"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="石家庄 ▼"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_weight="1.8"
-                android:layout_marginLeft="1dp"
-                android:textColor="#ffffff"/>
-
-            <LinearLayout
+                android:text="WLT"
+                android:textColor="#ffffff"
+                android:textSize="35dp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+            <ImageView
                 android:id="@+id/user_index_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.7"
-
-                android:background="@drawable/search">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:src="@mipmap/user_index_search_button"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-
-                    android:hint="搜搜喜欢的店铺吧" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/user_index_plus"
-                android:layout_margin="10dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/user_index_add"/>
+                android:layout_weight="6"
+                android:src="@mipmap/search2" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"/>
 
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/user_index_header">
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srlAccentColor="@android:color/white">
-        <com.scwang.smartrefresh.header.PhoenixHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tooltipText="王大厨"
-            android:background="#444"/>
+
+            <com.scwang.smartrefresh.header.PhoenixHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#444"
+                android:tooltipText="王大厨" />
 
 
-        <ScrollView
-            android:id="@+id/user_index_scroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:scrollbars="none"
-            >
-
-            <RelativeLayout
-                android:layout_marginTop="5dp"
+            <ScrollView
+                android:id="@+id/user_index_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                >
+                android:layout_alignParentBottom="true"
+                android:scrollbars="none">
 
                 <RelativeLayout
-                    android:id="@+id/user_index_viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
-
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/user_index_viewpager_content"
+                    <RelativeLayout
+                        android:id="@+id/user_index_viewpager"
                         android:layout_width="match_parent"
-                        android:layout_height="190dp">
-                    </android.support.v4.view.ViewPager>
+                        android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:orientation="vertical"
-                        android:layout_alignParentBottom="true"
-                        android:padding="5dp"
-                        android:background="#00000000"
-                        android:gravity="center_horizontal">
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/user_index_viewpager_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="190dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"></android.support.v4.view.ViewPager>
 
                         <LinearLayout
-                            android:id="@+id/ll_point"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp"
-                            >
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="#00000000"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/ll_point"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal"></LinearLayout>
+
                         </LinearLayout>
+                    </RelativeLayout>
 
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/user_index_forselect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="#F5F5F5"
-                    android:layout_below="@+id/user_index_viewpager">
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/user_index_forselect"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_index_viewpager"
+                        android:layout_marginTop="10dp"
+                        android:background="#F5F5F5">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/user_index_haircut"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/user_index_haircut" />
+
+                                <TextView
+                                    android:id="@+id/user_index_haircut_txt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="剪发"
+                                    android:textColor="#4B4B4B"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/user_index_haircolor"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/user_index_haircolor" />
+
+                                <TextView
+                                    android:id="@+id/user_index_haircolor_txt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="染发"
+                                    android:textColor="#4B4B4B"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/user_index_perm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/user_index_perm" />
+
+                                <TextView
+                                    android:id="@+id/user_index_perm_txt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="烫发"
+                                    android:textColor="#4B4B4B"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/user_index_nurse"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/user_index_nurse" />
+
+                                <TextView
+                                    android:id="@+id/user_index_nurse_txt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="护理"
+                                    android:textColor="#4B4B4B"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/user_index_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/user_index_forselect"
+                        android:layout_marginTop="10dp">
+
+                        <com.example.lu.thebarbershop.MyTools.LooperTextView
+                            android:id="@+id/user_index_loopertextview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="1dp"
+                            android:background="#F5F5F5">
+
+                        </com.example.lu.thebarbershop.MyTools.LooperTextView>
+
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/user_person_index_lvshop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_index_message"
+                        android:layout_marginTop="10dp"
+                        android:background="#F5F5F5">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical">
-                            <ImageView
-                                android:id="@+id/user_index_haircut"
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+
+                                android:textSize="14dp" />
+
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:src="@mipmap/user_index_haircut"
-                                />
-                            <TextView
-                                android:id="@+id/user_index_haircut_txt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="剪发"
-                                android:textSize="12sp"
                                 android:gravity="center"
-                                android:textColor="#4B4B4B"/>
+                                android:text="—  推荐好店   Recommend a good shop  —"
+                                android:textColor="#121212"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+
+                                android:textSize="14dp" />
                         </LinearLayout>
 
-                        <LinearLayout
+                        <com.example.lu.thebarbershop.MyTools.IndexListView
+                            android:id="@+id/user_person_index_lvshop_content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <ImageView
-                                android:id="@+id/user_index_haircolor"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:src="@mipmap/user_index_haircolor"
-                                />
-                            <TextView
-                                android:id="@+id/user_index_haircolor_txt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="染发"
-                                android:textSize="12sp"
-                                android:gravity="center"
-                                android:textColor="#4B4B4B"/>
-                        </LinearLayout><LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:id="@+id/user_index_perm"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@mipmap/user_index_perm"
-                            />
-                        <TextView
-                            android:id="@+id/user_index_perm_txt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="烫发"
-                            android:textSize="12sp"
-                            android:gravity="center"
-                            android:textColor="#4B4B4B"/>
-                    </LinearLayout><LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:id="@+id/user_index_nurse"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@mipmap/user_index_nurse"
-                            />
-                        <TextView
-                            android:id="@+id/user_index_nurse_txt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="护理"
-                            android:textSize="12sp"
-                            android:gravity="center"
-                            android:textColor="#4B4B4B"/>
-                    </LinearLayout>
-                    </LinearLayout>
-                </RelativeLayout>
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="50dp"
+                            android:background="#FFFFFFFF"
+                            android:divider="#F5F5F5"
+                            android:dividerHeight="15dp">
 
-                <RelativeLayout
-                    android:id="@+id/user_index_message"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/user_index_forselect">
-
-                    <com.example.lu.thebarbershop.MyTools.LooperTextView
-                        android:id="@+id/user_index_loopertextview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#F5F5F5"
-                        android:layout_marginEnd="1dp">
-
-                    </com.example.lu.thebarbershop.MyTools.LooperTextView>
+                        </com.example.lu.thebarbershop.MyTools.IndexListView>
+                    </RelativeLayout>
 
 
                 </RelativeLayout>
+            </ScrollView>
 
-
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/user_person_index_lvshop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_index_message"
-                    android:background="#F5F5F5"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textSize="14dp"
-
-                            android:layout_weight="1"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textSize="14dp"
-                            android:text="—  推荐好店   Recommend a good shop  —"
-                            android:layout_weight="1"
-                            android:textColor="#121212"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textSize="14dp"
-
-                            android:layout_weight="1"
-                            />
-                    </LinearLayout>
-
-                    <com.example.lu.thebarbershop.MyTools.IndexListView
-                        android:layout_marginTop="50dp"
-                        android:id="@+id/user_person_index_lvshop_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="#FFFFFFFF"
-                        android:divider="#F5F5F5"
-                        android:dividerHeight="15dp">
-
-                    </com.example.lu.thebarbershop.MyTools.IndexListView>
-                </RelativeLayout>
-
-
-
-            </RelativeLayout>
-        </ScrollView>
             <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#444"
-                app:srlAccentColor="#fff"/>
+                app:srlAccentColor="#fff" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </RelativeLayout>
 

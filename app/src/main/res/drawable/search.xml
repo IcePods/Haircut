@@ -11,10 +11,10 @@
 
     <!-- 四个角的弧度 -->
     <corners
-        android:bottomLeftRadius="5dp"
-        android:bottomRightRadius="5dp"
-        android:topLeftRadius="5dp"
-        android:topRightRadius="5dp" />
+        android:bottomLeftRadius="13dp"
+        android:bottomRightRadius="13dp"
+        android:topLeftRadius="13dp"
+        android:topRightRadius="13dp" />
     <!-- padding：TextView里面的文字与TextView边界的间隔 -->
 
 
