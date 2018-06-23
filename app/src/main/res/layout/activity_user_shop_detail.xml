@@ -81,14 +81,72 @@
                     android:layout_height="match_parent"
                     android:layout_below="@id/user_shop_detail_viewpager">
                     <RelativeLayout
+                        android:id="@+id/user_shop_detail_activity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:id="@+id/user_shop_detail_activity_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:onClick="onClick"
+                            >
+                            <TextView
+                                android:layout_marginLeft="20dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="活动"
+                                android:textSize="15sp"
+                                android:textColor="#A9A9A9"/>
 
+                            <ImageView
+                                android:layout_marginRight="20dp"
+                                android:id="@+id/my_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/activitydown" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear_hidden"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:layout_below="@+id/user_shop_detail_activity_1">
+
+                            <ListView
+                                android:id="@+id/user_shop_activity_lv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </ListView>
+                            <TextView
+                                android:id="@+id/shop_not_activity_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="20dip"
+                                android:visibility="gone"
+                                android:text="该店铺暂无活动"
+                                android:textColor="#121212"
+                                android:textSize="16sp" />
+
+                            <!--<TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.00"
+                                android:textColor="#121212"
+                                android:textSize="35sp" />&ndash;&gt;-->
+                        </LinearLayout>
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/user_shop_detail_address_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_shop_detail_activity"
                         android:layout_margin="7dp">
                         <ImageButton
                             android:id="@+id/user_shop_detail_location_imgbtn"

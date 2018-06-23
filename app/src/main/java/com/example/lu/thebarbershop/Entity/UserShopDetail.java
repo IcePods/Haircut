@@ -1,5 +1,6 @@
 package com.example.lu.thebarbershop.Entity;
 
+import android.app.Activity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -22,6 +23,8 @@ public class UserShopDetail implements Serializable {
     private String shopIntroduce;//店铺简介
     private Set<ShopPicture> ShopPictureSet = new HashSet<>();
     private List<HairStyleDetail> hairStyleDetails = new ArrayList<HairStyleDetail>();
+    //店铺与 活动 一对多
+    private Set<ShopActivity> ActivitySet = new HashSet<ShopActivity>();
     /*private List<Baber> baberSet = new ArrayList<Baber>();*/
     //店铺与 理发师 一对多 单项映射
     private Set<Barber> BarberSet = new HashSet<Barber>();
@@ -96,5 +99,13 @@ public class UserShopDetail implements Serializable {
 
     public void setBarberSet(Set<Barber> barberSet) {
         BarberSet = barberSet;
+    }
+
+    public Set<ShopActivity> getActivitySet() {
+        return ActivitySet;
+    }
+
+    public void setActivitySet(Set<ShopActivity> activitySet) {
+        ActivitySet = activitySet;
     }
 }

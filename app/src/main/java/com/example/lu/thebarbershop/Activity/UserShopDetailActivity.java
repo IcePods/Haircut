@@ -1,5 +1,8 @@
 package com.example.lu.thebarbershop.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +18,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +33,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lu.thebarbershop.Adapter.ShopActivityAdapter;
 import com.example.lu.thebarbershop.Adapter.UserShopDetailBaberRecyclerAdapter;
 import com.example.lu.thebarbershop.Entity.Barber;
+import com.example.lu.thebarbershop.Entity.ShopActivity;
 import com.example.lu.thebarbershop.Entity.ShopPicture;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserCollections;
@@ -89,7 +98,15 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private static UserCollections userCollections;
     private boolean isColl=false;
     OkHttpClient okHttpClient = new OkHttpClient();
-
+    ///////下拉活动所需要的控件
+    private  TextView shop_not_activity_tv;
+    private LinearLayout mHiddenLayout;
+    private float mDensity;
+    private int mHiddenViewMeasuredHeight;
+    private ImageView mIv;
+    private ListView user_shop_activity_lv;
+    List<ShopActivity> shopActivityList = new ArrayList<ShopActivity>();
+    ///////////////////
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -154,7 +171,18 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         if(new File(getApplication().getFilesDir().getParent()+"/shared_prefs/usertoken.xml").exists()){
             getIsCollection();
         }
-
+        if (shopActivityList.size()==0){
+            shop_not_activity_tv.setVisibility(View.VISIBLE);
+            user_shop_activity_lv.setVisibility(View.GONE);
+            mDensity = getResources().getDisplayMetrics().density;
+            mHiddenViewMeasuredHeight = (int) (mDensity * 100 + 0.5);
+        }else{
+            ShopActivityAdapter adapter = new ShopActivityAdapter(getApplicationContext(),R.layout.item_shop_activity,shopActivityList);
+            user_shop_activity_lv.setAdapter(adapter);
+            //活动下拉
+            mDensity = getResources().getDisplayMetrics().density;
+            mHiddenViewMeasuredHeight = (int) (mDensity * 75*shopActivityList.size() + 0.5);
+        }
 
 
 
@@ -233,6 +261,11 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         LocationMap = findViewById(R.id.user_shop_detail_address_content);
         TelephoneLayout = findViewById(R.id.user_shop_detail_phone_content);
         productionLayout = findViewById(R.id.user_shop_detail_production);
+        //活动下拉
+        mHiddenLayout = (LinearLayout) findViewById(R.id.linear_hidden);
+        mIv = (ImageView) findViewById(R.id.my_iv);
+        user_shop_activity_lv = findViewById(R.id.user_shop_activity_lv);
+        shop_not_activity_tv = findViewById(R.id.shop_not_activity_tv);
     }
     //获取传过来的intent 获取参数
     private void getIntentAndData(){
@@ -250,6 +283,10 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         //获取店铺理发师 Set 填入到list中
         for (Barber barber:userShopDetail.getBarberSet()){
             barberList.add(barber);
+        }
+        //获取店铺活动
+        for (ShopActivity shopActivity :userShopDetail.getActivitySet()) {
+            shopActivityList.add(shopActivity);
         }
         //更改控件内容
         user_shopdetail_header_shopname.setText(userShopDetail.getShopName());
@@ -305,7 +342,7 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         for(int i=0;i<shopPictureList.size();i++){
             ImageView imageView =new ImageView(this);
             Glide.with(this)
-                    .load(shopPictureList.get(i))
+                    .load(UrlAddress.url+shopPictureList.get(i))
                     .apply(requestOptions)
                     .into(imageView);
             imageViewArrayList.add(imageView);
@@ -433,6 +470,74 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
             //未登陆跳转到登陆界面
         }
     }
+    //活动下拉
+    public void onClick(View v) {
+        if (mHiddenLayout.getVisibility() == View.GONE) {
+            animateOpen(mHiddenLayout);
+            animationIvOpen();
+        } else {
+            animateClose(mHiddenLayout);
+            animationIvClose();
+        }
+    }
+
+    private void animateOpen(View v) {
+        v.setVisibility(View.VISIBLE);
+        ValueAnimator animator = createDropAnimator(v, 0,
+                mHiddenViewMeasuredHeight);
+        animator.start();
+
+    }
+
+    private void animationIvOpen() {
+        RotateAnimation animation = new RotateAnimation(0, 180,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(100);
+        mIv.startAnimation(animation);
+    }
+
+    private void animationIvClose() {
+        RotateAnimation animation = new RotateAnimation(180, 0,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        animation.setFillAfter(true);
+        animation.setDuration(100);
+        mIv.startAnimation(animation);
+    }
+
+    private void animateClose(final View view) {
+        int origHeight = view.getHeight();
+        ValueAnimator animator = createDropAnimator(view, origHeight, 0);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setVisibility(View.GONE);
+            }
+
+        });
+        animator.start();
+    }
+
+    private ValueAnimator createDropAnimator(final View v, int start, int end) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator arg0) {
+                int value = (int) arg0.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+
+            }
+        });
+        return animator;
+    }
+
+
+    //////////活动下啦//////
     @Override
     protected void onDestroy() {
         super.onDestroy();

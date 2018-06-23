@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/item_user_activity_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="520情人节活动"
+            android:textColor="#121212"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/item_user_activity_content"
+            android:layout_below="@+id/item_user_activity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="一次性消费满500元送倒膜一套，买瓶洗发水。送护发素买倒膜一套送一套倒膜！数量有限，先到先得哦"
+            android:textColor="#121212"
+            android:textSize="9sp"/>
+        <TextView
+            android:id="@+id/item_user_activity_time"
+            android:layout_below="@+id/item_user_activity_content"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-05-20 至 2018-05-25"
+            android:textColor="#121212"
+            android:textSize="12sp"
+            />
+    </RelativeLayout>
+</LinearLayout>
