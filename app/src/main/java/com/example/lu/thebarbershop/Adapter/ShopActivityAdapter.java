@@ -70,7 +70,7 @@ public class ShopActivityAdapter extends BaseAdapter {
 
         Activity_Name.setText(shopActivities.get(position).getActivityName());
         Activity_Content.setText(shopActivities.get(position).getActivityContent());
-        Activity_Time.setText(shopActivities.get(position).getActivityStartTime()+"至"+shopActivities.get(position).getActivityEndTime());
+        Activity_Time.setText(shopActivities.get(position).getActivityStartTime()+" 至 "+shopActivities.get(position).getActivityEndTime());
         //返回子项目布局视图
         return convertView;
     }

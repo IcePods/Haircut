@@ -6,8 +6,17 @@
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/shop_activity_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/activity_ball"
+            />
         <TextView
             android:id="@+id/item_user_activity_name"
+            android:layout_toRightOf="@+id/shop_activity_logo"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
