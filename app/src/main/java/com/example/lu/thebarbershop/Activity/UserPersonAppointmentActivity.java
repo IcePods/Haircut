@@ -7,17 +7,23 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Fragment.UserPersonAppointmentEffectiveFragment;
 import com.example.lu.thebarbershop.Fragment.UserPersonAppointmentInvalidFragment;
 import com.example.lu.thebarbershop.R;
 
-public class UserPersonAppointmentActivity extends AppCompatActivity {
+public class UserPersonAppointmentActivity extends AppCompatActivity implements View.OnTouchListener{
+    private GestureDetector mGesture;
+    private LinearLayout gustrure;
     private TextView tvFragmentEffective;//有效预约标签
     private TextView tvFragmentInvalid;//失效预约标签
     private ImageButton imageButtonBack;//顶部返回箭头
@@ -33,6 +39,10 @@ public class UserPersonAppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_person_appointment);
+        mGesture = new GestureDetector(getApplicationContext(),new GestureListener());
+        gustrure = findViewById(R.id.appointment_gesture);
+        gustrure.setOnTouchListener(this);
+
         //获取控件
         getView();
         //给选项卡绑定事件监听器
@@ -67,6 +77,7 @@ public class UserPersonAppointmentActivity extends AppCompatActivity {
         if (currentFragment != fragment) {//如果当前显示的页面和目标要显示的页面不同
             //创建事务
             FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             //隐藏当前页面
             transaction.hide(currentFragment);
             //判断待显示的页面是是否已经添加过
@@ -80,6 +91,61 @@ public class UserPersonAppointmentActivity extends AppCompatActivity {
             //赋值给当前页面
             currentFragment = fragment;
         }
+    }
+
+
+   private class GestureListener implements GestureDetector.OnGestureListener{
+       @Override
+       public boolean onDown(MotionEvent e) {
+           //Toast.makeText(getApplicationContext(),"onDown",Toast.LENGTH_SHORT).show();
+           return true;
+       }
+
+       @Override
+       public void onShowPress(MotionEvent e) {
+
+       }
+
+       @Override
+       public boolean onSingleTapUp(MotionEvent e) {
+           return false;
+       }
+
+       @Override
+       public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+           return false;
+       }
+
+       @Override
+       public void onLongPress(MotionEvent e) {
+           //Toast.makeText(getApplicationContext(),"onLongPress",Toast.LENGTH_SHORT).show();
+       }
+
+       @Override
+       public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+           Toast.makeText(getApplicationContext(),"onFling",Toast.LENGTH_SHORT).show();
+           if(e1.getX()-e2.getX()>50){//向左滑
+               tvFragmentInvalid.setTextColor(0xFFF7A113);//更改标签颜色
+               //更改页面
+               ChangeFragment(InvalidFragment);
+               tvFragmentEffective.setTextColor(Color.GRAY);
+               return true;
+           }
+           if(e2.getX()-e1.getX()>50){
+               tvFragmentEffective.setTextColor(0xFFF7A113);//更改标签颜色
+               //更改页面
+               ChangeFragment(EffectiveFragment);
+               tvFragmentInvalid.setTextColor(Color.GRAY);
+               return true;
+           }
+
+           return false;
+       }
+   }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGesture.onTouchEvent(event);
     }
 
     // ragmentManage的监听器 点击切换页面

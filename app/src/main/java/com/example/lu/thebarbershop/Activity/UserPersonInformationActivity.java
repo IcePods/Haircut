@@ -17,7 +17,9 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -47,7 +49,9 @@ import java.io.File;
 import cn.jpush.android.api.JPushInterface;
 
 
-public class UserPersonInformationActivity extends AppCompatActivity {
+public class UserPersonInformationActivity extends AppCompatActivity implements View.OnTouchListener{
+    private GestureDetector mGesture;
+    private RelativeLayout gestureContent;
     private ImageView imageView;//头像
     private ImageButton backbutton;//返回按钮
     private RelativeLayout nicknamerl;//修改昵称RelativeLayout
@@ -89,6 +93,10 @@ public class UserPersonInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_person_information);
+        mGesture = new GestureDetector(getApplicationContext(),new gestureListener());
+
+        gestureContent = findViewById(R.id.user_person_infromation_gesture);
+        gestureContent.setOnTouchListener(this);
 
         imageView = findViewById(R.id.user_person_informatin_header_img);
         backbutton = findViewById(R.id.user_person_informatin_back);
@@ -126,7 +134,69 @@ public class UserPersonInformationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGesture.onTouchEvent(event);
+    }
+    //手势滑动监听************/
+    private class gestureListener implements GestureDetector.OnGestureListener{
 
+        @Override
+        public boolean onDown(MotionEvent e) {
+           // Toast.makeText(getApplicationContext(),"onDown",Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+           // Toast.makeText(getApplicationContext(),"onShowPress",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+           // Toast.makeText(getApplicationContext(),"onSingleTapUp",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+           // Toast.makeText(getApplicationContext(),"onScroll",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+           // Toast.makeText(getApplicationContext(),"onLongPress",Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+           // Toast.makeText(getApplicationContext(),"onFling",Toast.LENGTH_SHORT).show();
+            if (e1.getX() - e2.getX() > 50) {
+                Log.i("MYTAG", "向左滑...");
+                return true;
+            }
+            if (e2.getX() - e1.getX() > 50) {
+                Log.i("MYTAG", "向右滑...");
+                finish();
+                return true;
+            }
+            if (e1.getY() - e2.getY() > 50) {
+                Log.i("MYTAG", "向上滑...");
+                return true;
+            }
+            if (e2.getY() - e1.getY() > 50) {
+                Log.i("MYTAG", "向下滑...");
+                return true;
+            }
+
+            Log.d("TAG", e2.getX() + " " + e2.getY());
+
+            return false;
+        }
+    }
+    /***************************/
     private class Mylistener implements View.OnClickListener{
 
         @Override
