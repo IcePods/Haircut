@@ -13,6 +13,7 @@ import com.hyphenate.easeui.EaseUI.EaseUserProfileProvider;
 import com.hyphenate.easeui.domain.EaseUser;
 
 public class EaseUserUtils {
+
     
     static EaseUserProfileProvider userProvider;
     
@@ -69,5 +70,10 @@ public class EaseUserUtils {
         	}
         }
     }
+
+    public void getLocalUserInfo(String name){
+
+    }
+
     
 }

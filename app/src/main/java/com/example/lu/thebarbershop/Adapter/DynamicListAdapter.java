@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.Entity.DynamicPicture;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
@@ -57,9 +58,13 @@ public class DynamicListAdapter extends RecyclerView.Adapter<DynamicListAdapter.
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         final Dynamic dynamic = dataSource.get(position);
-        Glide.with(context).load(UrlAddress.url + dynamic.getUser().getUserHeader()).into(holder.DynamicUserHead);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.circleCrop();
+        Glide.with(context).load(UrlAddress.url + dynamic.getUser().getUserHeader()).apply(requestOptions).into(holder.DynamicUserHead);
         holder.DynamicUserName.setText(dynamic.getUser().getUserName());
         holder.DynamicContent.setText(dynamic.getDynamicContent());
+        holder.DynamicTime.setText(dynamic.getDynamicTime());
+        Log.i("DynamicTime",dynamic.toString());
         List<String> imgUrlList = new ArrayList<>();
         for (DynamicPicture dp: dynamic.getDynamicImagePathSet()){
             imgUrlList.add(UrlAddress.url + dp.getDynamicPicture());
@@ -86,12 +91,15 @@ public class DynamicListAdapter extends RecyclerView.Adapter<DynamicListAdapter.
         TextView DynamicContent;
         //动态图片列表
         CustomImageView imgView;
+        //动态发布时间
+        TextView DynamicTime;
 
         public Holder(View itemView) {
             super(itemView);
             DynamicUserHead = itemView.findViewById(R.id.dynamic_user_head);
             DynamicUserName = itemView.findViewById(R.id.dynamic_user_name);
             DynamicContent = itemView.findViewById(R.id.dynamic_content);
+            DynamicTime = itemView.findViewById(R.id.dynamic_time);
             imgView = (CustomImageView) itemView.findViewById(R.id.custom_image);
         }
     }

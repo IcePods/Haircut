@@ -2,10 +2,15 @@ package com.example.lu.thebarbershop;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -16,6 +21,8 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends Application {
     // 上下文菜单
     private Context mContext;
+    private String token;
+    private SQLiteDatabase sqLiteDatabase;
 
     // 记录是否已经初始化
     private boolean isInit = false;
@@ -81,4 +88,28 @@ public class MyApplication extends Application {
 
         return options;
     }
+    private void setEaseUser() {
+        EaseUI easeUI = EaseUI.getInstance();
+        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                return getUserInfo(username);
+            }
+        });
+    }
+
+    private EaseUser getUserInfo(String username) {
+        EaseUser easeUser = new EaseUser(username);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("token","");
+        sqLiteDatabase =new UserTokenSql(this).getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
+        if(cursor.moveToLast()){
+            String usernamefromLocal = cursor.getString(cursor.getColumnIndex("username"));
+            String userheaderfromLocal = cursor.getString(cursor.getColumnIndex("userheader"));
+            easeUser.setAvatar(userheaderfromLocal);
+            easeUser.setNickname(usernamefromLocal);
+        }
+        return easeUser;
+    }//即可正常显示头像昵称
 }

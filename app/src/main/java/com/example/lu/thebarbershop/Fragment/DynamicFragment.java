@@ -3,6 +3,9 @@ package com.example.lu.thebarbershop.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
@@ -131,6 +134,22 @@ public class DynamicFragment extends Fragment{
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 DynamicList.setLayoutManager(linearLayoutManager);
                 DynamicList.setAdapter(dynamicListAdapter);
+                //设置分隔线样式
+                DynamicList.addItemDecoration(new RecyclerView.ItemDecoration() {
+                    @Override
+                    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                        super.onDraw(c, parent, state);
+                        c.drawColor(Color.rgb(211,211,211));
+                    }
+
+                    @Override
+                    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                        super.getItemOffsets(outRect, view, parent, state);
+                        outRect.set(0,10,0,10);
+
+                    }
+                });
+
             }
         };
         util.requestServer(URL,null,null,handler);
@@ -205,4 +224,7 @@ public class DynamicFragment extends Fragment{
             }
         });
     }
+    /*private class MyItemDecortion extends RecyclerView.ItemDecoration {
+
+    }*/
 }

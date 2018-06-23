@@ -105,7 +105,6 @@ public class PersonFragment extends Fragment {
                     requestOptions.circleCrop();
                     if(users.getUserCondition()==true){
                         name.setText(users.getUserName());
-
                         if(users.getUserHeader()==null){
                             Glide.with(getActivity()).load(R.mipmap.default_header_img).apply(requestOptions).into(imageView);
                         }else{
@@ -145,9 +144,9 @@ public class PersonFragment extends Fragment {
 
 
         mylistener = new Mylistener();
-        if(new GetUserFromShared(getActivity()).getUserTokenFromShared()!= null){
+       /* if(new GetUserFromShared(getActivity()).getUserTokenFromShared()!= null){
             getUserInformation(1);
-        }
+        }*/
 
 
         imageView.setImageBitmap(GetRoundedCornerBitmap.getRoundedCornerBitmap(((BitmapDrawable)imageView.getDrawable()).getBitmap(),2));

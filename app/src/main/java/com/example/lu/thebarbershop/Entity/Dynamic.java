@@ -13,6 +13,7 @@ public class Dynamic implements Serializable {
     private Users user;//用户
     private String DynamicContent;  // 动态文字
     private Set<DynamicPicture> DynamicImagePathSet; //动态图片列表
+    private String DynamicTime;
     //用户状态是否正确（登录是否过期）
     private boolean DynamicCondition = true;
 
@@ -48,6 +49,14 @@ public class Dynamic implements Serializable {
 
     public Set<DynamicPicture> getDynamicImagePathSet() {
         return DynamicImagePathSet;
+    }
+
+    public String getDynamicTime() {
+        return DynamicTime;
+    }
+
+    public void setDynamicTime(String dynamicTime) {
+        DynamicTime = dynamicTime;
     }
 
     public void setDynamicImagePathSet(Set<DynamicPicture> dynamicImagePathSet) {

@@ -39,6 +39,8 @@ import com.example.lu.thebarbershop.MyTools.UploadPictureUtil;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import java.io.File;
 
@@ -194,6 +196,7 @@ public class UserPersonInformationActivity extends AppCompatActivity {
                     //进行跳转
                     startActivity(intent);*/
                     JPushInterface.setAlias(getApplicationContext(),0,"exitLogin");
+                    signOut();
                     finish();
                     break;
                 case R.id.user_person_informatin_header_img:
@@ -392,7 +395,29 @@ public class UserPersonInformationActivity extends AppCompatActivity {
         database.close();
     }
 
+    /**
+     * 环信退出登录
+     */
+    private void signOut() {
+        // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
+        EMClient.getInstance().logout(false, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.i("lzan13", "logout success");
 
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.i("lzan13", "logout error " + i + " - " + s);
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
