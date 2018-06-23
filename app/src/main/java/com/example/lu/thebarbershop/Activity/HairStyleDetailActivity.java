@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.HairStyleDetail;
+import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
 import com.example.lu.thebarbershop.MyTools.PrepareHairStylePicture;
 import com.example.lu.thebarbershop.MyTools.ViewPagerTools;
@@ -190,7 +191,7 @@ public class HairStyleDetailActivity extends AppCompatActivity implements ViewPa
         for (int i = 0; i < list.size(); i++) {
             ImageView imageView = new ImageView(mContext);
             Glide.with(mContext)
-                    .load(list.get(i))
+                    .load(UrlAddress.url+list.get(i))
                     .apply(requestOptions)
                     .into(imageView);
             imageViewArrayList.add(imageView);
