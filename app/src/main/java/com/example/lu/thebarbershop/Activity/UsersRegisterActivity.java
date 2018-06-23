@@ -24,6 +24,8 @@ import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
+import net.qiujuer.genius.ui.widget.Loading;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -37,17 +39,17 @@ public class UsersRegisterActivity extends AppCompatActivity {
 
     // 弹出框
     private ProgressDialog mDialog;
-    private Button ToLogin;
-    private ImageView RegisterLogo;
+    private TextView ToLogin;
+
     private EditText UserRegisterUsername;
     private EditText UserRegisterPwd;
     private EditText UserRegisterPwd2;
-    private CheckBox checkBox;
+
     private Button UserRegister;
     private Mylistener mylistener;
-    private TextView errorMessage;
 
 
+    private Loading loading;
     OkHttpClient okHttpClient;
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
 
@@ -69,7 +71,8 @@ public class UsersRegisterActivity extends AppCompatActivity {
                         finish();
 
                     }else if(users.getUserCondition()==false){
-                        errorMessage.setText("用户名已经注册");
+                        showError();
+                        Toast.makeText(getApplicationContext(),"该账户已注册！！！",Toast.LENGTH_SHORT).show();
                     }
 
                    /* Log.i("ztlhandler2",users.getUserAccount());*/
@@ -98,9 +101,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
                 }else {
                     String str =UserRegisterUsername.getText().toString().trim();
                     if (str.isEmpty()){
-                        errorMessage.setText("用户名不能为空");
-                    }else if (!str.isEmpty()){
-                        errorMessage.setText("");
+                        Toast.makeText(getApplicationContext(),"账户不能为空",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -112,9 +113,7 @@ public class UsersRegisterActivity extends AppCompatActivity {
                 }else {
                     String str =UserRegisterPwd.getText().toString().trim();
                     if (str.isEmpty()){
-                        errorMessage.setText("密码不能为空");
-                    }else if (!str.isEmpty()){
-                        errorMessage.setText("");
+                        Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -127,11 +126,9 @@ public class UsersRegisterActivity extends AppCompatActivity {
                     String str1 =UserRegisterPwd.getText().toString().trim();
                     String str2 =UserRegisterPwd2.getText().toString().trim();
                      if (str2.isEmpty()){
-                        errorMessage.setText("密码不能为空");
+                         Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
                     }else if (!str1.equals(str2)){
-                        errorMessage.setText("密码不一致");
-                    }else if (str1.equals(str2)){
-                        errorMessage.setText("");
+                         Toast.makeText(getApplicationContext(),"两次密码输入不一致",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -145,13 +142,14 @@ public class UsersRegisterActivity extends AppCompatActivity {
 //获取控件
     private void getview() {
         ToLogin = findViewById(R.id.user_register_login);
-        RegisterLogo = findViewById(R.id.user_register_logo);
+
         UserRegisterUsername = findViewById(R.id.user_register_username);
         UserRegisterPwd = findViewById(R.id.user_register_pwd);
         UserRegisterPwd2 = findViewById(R.id.user_register_pwd2);
-        checkBox = findViewById(R.id.user_register_box);
+
         UserRegister = findViewById(R.id.user_register);
-        errorMessage = findViewById(R.id.register_error_message);
+
+        loading = findViewById(R.id.register_loading);
     }
     private class Mylistener implements View.OnClickListener{
         @Override
@@ -168,12 +166,13 @@ public class UsersRegisterActivity extends AppCompatActivity {
                     String registerPwd =UserRegisterPwd.getText().toString().trim();
                     String registerPwd2 =UserRegisterPwd2.getText().toString().trim();
                     if (registerUsername.isEmpty()){
-                        errorMessage.setText("用户名不能为空");
+                        Toast.makeText(getApplicationContext(),"账户不能为空",Toast.LENGTH_SHORT).show();
                     }else if (registerPwd.isEmpty()){
-                        errorMessage.setText("密码不能为空");
+                        Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
                     }else if (!registerPwd.equals(registerPwd2)){
-                        errorMessage.setText("两次密码不一致");
+                        Toast.makeText(getApplicationContext(),"两次密码输入不一致",Toast.LENGTH_SHORT).show();
                     }else {
+                        showLoading();
                         signUp();
                         Gson gson = new GsonBuilder().serializeNulls().create();
                         Users user = new Users();
@@ -294,5 +293,19 @@ public class UsersRegisterActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void showLoading(){
+        loading.start();
+        UserRegisterUsername.setEnabled(false);
+        UserRegisterPwd.setEnabled(false);
+        UserRegisterPwd2.setEnabled(false);
+        UserRegister.setEnabled(false);
+    }
 
+    private void showError(){
+        loading.stop();
+        UserRegisterUsername.setEnabled(true);
+        UserRegisterPwd.setEnabled(true);
+        UserRegisterPwd2.setEnabled(true);
+        UserRegister.setEnabled(true);
+    }
 }

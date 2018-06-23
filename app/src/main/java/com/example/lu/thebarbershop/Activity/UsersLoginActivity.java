@@ -28,6 +28,8 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 
+import net.qiujuer.genius.ui.widget.Loading;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -39,17 +41,17 @@ import okhttp3.Response;
 import cn.jpush.android.api.JPushInterface;
 
 public class UsersLoginActivity extends AppCompatActivity {
-    private Button ToRegister;//跳转注册button
-    private ImageView UserLoginLogo;//登录页面logo
+    private TextView ToRegister;//跳转注册button
+
     private EditText UserLoginUsername;//登录用户名
     private EditText UserLoginPwd;//登录密码
     private Button UserLogin;//登录按钮
     private Mylistener mylistener;//监听器
-    private TextView errorMessage;
+
     private UserTokenSql userTokenSql = new UserTokenSql(this);//数据库连接
     private SQLiteDatabase sqLiteDatabase;
 
-
+    private Loading loading;
     /* private final String url = "http://192.168.155.3:8080/theBarberShopServers/loginCheck.action";*/
     OkHttpClient okHttpClient;
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");
@@ -81,7 +83,8 @@ public class UsersLoginActivity extends AppCompatActivity {
 
 
                     }else {
-                        errorMessage.setText("用户名密码错误");
+                        showError();
+                        Toast.makeText(getApplicationContext(),"账户输入错误,请重新输入",Toast.LENGTH_SHORT).show();
                         UserLoginUsername.setText("");
                         UserLoginPwd.setText("");
                     }
@@ -111,9 +114,7 @@ public class UsersLoginActivity extends AppCompatActivity {
                 }else{
                     String str =UserLoginUsername.getText().toString().trim();
                     if (str.isEmpty()){
-                        errorMessage.setText("请输入用户名");
-                    }else if (!str.isEmpty()){
-                        errorMessage.setText("");
+                        Toast.makeText(getApplicationContext(),"账户不能为空",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -126,9 +127,7 @@ public class UsersLoginActivity extends AppCompatActivity {
                 }else{
                     String str =UserLoginPwd.getText().toString().trim();
                     if (str.isEmpty()){
-                        errorMessage.setText("请输入密码");
-                    }else if (!str.isEmpty()){
-                        errorMessage.setText("");
+                        Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -139,11 +138,10 @@ public class UsersLoginActivity extends AppCompatActivity {
 //获取控件
     private void getview() {
         ToRegister = findViewById(R.id.users_login_register);
-        UserLoginLogo = findViewById(R.id.users_login_logo);
         UserLoginUsername = findViewById(R.id.users_login_username);
         UserLoginPwd = findViewById(R.id.users_login_pwd);
         UserLogin = findViewById(R.id.users_login_login);
-        errorMessage = findViewById(R.id.login_error_message);
+        loading = findViewById(R.id.login_loading);
     }
 //实现监听器类
     private class Mylistener implements View.OnClickListener{
@@ -157,6 +155,7 @@ public class UsersLoginActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.users_login_login:
+                showLoading();
                 signIn();
                 postLoginUser(UserLoginUsername.getText().toString().trim(),UserLoginPwd.getText().toString().trim());
                /* intent.setClass(getApplicationContext(),UserPersonInformationActivity.class);
@@ -341,5 +340,18 @@ public class UsersLoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void showLoading(){
+        loading.start();
+        UserLoginUsername.setEnabled(false);
+        UserLoginPwd.setEnabled(false);
+        UserLogin.setEnabled(false);
+    }
+
+    private void showError(){
+        loading.stop();
+        UserLoginUsername.setEnabled(true);
+        UserLoginPwd.setEnabled(true);
+        UserLogin.setEnabled(true);
     }
 }

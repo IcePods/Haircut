@@ -34,6 +34,7 @@ android {
                 JPUSH_APPKEY : "78c2c7c0c4cceaa37faa1340", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
+
     }
     buildTypes {
         release {
