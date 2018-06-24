@@ -367,59 +367,65 @@ public class UserPersonInformationActivity extends AppCompatActivity implements 
         // 用户没有进行有效的设置操作，返回
         if (resultCode == RESULT_CANCELED) {
             Toast.makeText(getApplication(), "取消", Toast.LENGTH_LONG).show();
-        }
-        //图片剪裁后的请求意图
-        Intent mIntent;
-        UploadPictureUtil uploadPictureUtil = new UploadPictureUtil();
-        switch (requestCode) {
-            case CODE_GALLERY_REQUEST:
-                //剪裁图片
-                mIntent = uploadPictureUtil.cropPhoto(intent.getData());
-                startActivityForResult(mIntent, CODE_RESULT_REQUEST);
-                break;
-
-            case CODE_CAMERA_REQUEST:
-                if (hasSdcard()) {
-                    File tempFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
-                    //剪裁图片并获得剪裁后的Intent
-                    mIntent = uploadPictureUtil.cropPhoto(Uri.fromFile(tempFile));
-                    //删除拍照图片：：未完成
-
+            finish();
+        }else{
+            //图片剪裁后的请求意图
+            Intent mIntent;
+            UploadPictureUtil uploadPictureUtil = new UploadPictureUtil();
+            switch (requestCode) {
+                case CODE_GALLERY_REQUEST:
+                    //剪裁图片
+                    mIntent = uploadPictureUtil.cropPhoto(intent.getData());
                     startActivityForResult(mIntent, CODE_RESULT_REQUEST);
-                } else {
-                    Toast.makeText(getApplication(), "没有SDCard!", Toast.LENGTH_LONG)
-                            .show();
-                }
-                break;
+                    break;
 
-            case CODE_RESULT_REQUEST:
-                Handler handler = new Handler(){
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        Bundle bundle = msg.getData();
-                        String path = bundle.getString("string");
-                        database = new UserTokenSql(getApplicationContext()).getWritableDatabase();
-                        ContentValues cv = new ContentValues();
-                        cv.put("userheader",path);
-                        SharedPreferences sharedPreferences = getSharedPreferences("usertoken", Context.MODE_PRIVATE);
-                        token = sharedPreferences.getString("token","");
-                       long r =  database.update("user",cv,"usertoken"+"=?",new String[]{token});
-                        Log.i("更新头像",r+"");
-                        Log.i("更新头像",path);
-                        Glide.with(getApplicationContext()).load(path).into(imageView);
-                        finish();
+                case CODE_CAMERA_REQUEST:
+                    if (hasSdcard()) {
+                        File tempFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
+                        if (tempFile.exists()) {
+                            //剪裁图片并获得剪裁后的Intent
+                            mIntent = uploadPictureUtil.cropPhoto(Uri.fromFile(tempFile));
+                            //删除拍照图片：：未完成
+
+                            startActivityForResult(mIntent, CODE_RESULT_REQUEST);
+                        } else {
+                            finish();
+                        }
+
+                    } else {
+                        Toast.makeText(getApplication(), "没有SDCard!", Toast.LENGTH_LONG)
+                                .show();
                     }
-                };
-                //剪裁后的图片
-                Bitmap bitmap = setImageToHeadView(intent);
+                    break;
 
-                String picStr = uploadPictureUtil.getStringFromBitmap(bitmap);
-                String token = new GetUserFromShared(this).getUserTokenFromShared();
-                uploadPictureUtil.requestServer(uploadPicUrl,picStr,token,handler);
-                break;
+                case CODE_RESULT_REQUEST:
+                    Handler handler = new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            Bundle bundle = msg.getData();
+                            String path = bundle.getString("string");
+                            database = new UserTokenSql(getApplicationContext()).getWritableDatabase();
+                            ContentValues cv = new ContentValues();
+                            cv.put("userheader", path);
+                            SharedPreferences sharedPreferences = getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+                            token = sharedPreferences.getString("token", "");
+                            long r = database.update("user", cv, "usertoken" + "=?", new String[]{token});
+                            Log.i("更新头像", r + "");
+                            Log.i("更新头像", path);
+                            Glide.with(getApplicationContext()).load(path).into(imageView);
+                            finish();
+                        }
+                    };
+                    //剪裁后的图片
+                    Bitmap bitmap = setImageToHeadView(intent);
+
+                    String picStr = uploadPictureUtil.getStringFromBitmap(bitmap);
+                    String token = new GetUserFromShared(this).getUserTokenFromShared();
+                    uploadPictureUtil.requestServer(uploadPicUrl, picStr, token, handler);
+                    break;
+            }
         }
-
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
