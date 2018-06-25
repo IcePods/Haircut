@@ -7,16 +7,15 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
@@ -27,16 +26,22 @@ import com.example.lu.thebarbershop.Entity.Users;
 import com.example.lu.thebarbershop.Fragment.DynamicFragment;
 import com.example.lu.thebarbershop.Fragment.MainFragment;
 import com.example.lu.thebarbershop.Fragment.PersonFragment;
+import com.example.lu.thebarbershop.MyTools.GetConversations;
+import com.example.lu.thebarbershop.MyTools.UserTokenSql;
 import com.example.lu.thebarbershop.R;
 import com.google.gson.Gson;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.jaeger.library.StatusBarUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -63,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private long fistKeyDownTime;//记录第一次按下返回的时间（毫秒数）
     private OkHttpClient okHttpClient;
     private EaseConversationListFragment conversationListFragment;//环信会话列表页面
-    Handler handler = new Handler(){
+
+    /*Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
             super.handleMessage(msg);
         }
-    };
+    };*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onListItemClicked(EMConversation conversation) {
                 userAccount = conversation.conversationId();
-                postUserName(conversation.conversationId());
+                startActivity(new Intent(MainActivity.this, ECChatActivity.class)
+                        .putExtra(EaseConstant.EXTRA_USER_ID,userAccount));
+                /*postUserName(conversation.conversationId());*/
             }
         });
         //获取控件
@@ -176,8 +184,21 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(int position) {
             }
         });
+/************************************************************************************
+ *
+ */
+        //getChatName();
+
     }
-    private void postUserName(final String UserAccount){
+
+    private void getChatName() {
+        GetConversations getConversations = new GetConversations(getApplicationContext());
+        getConversations.getAccountList();
+        Gson gson = new Gson();
+        String sss = gson.toJson(getConversations.accountList);
+        getConversations.postUserNameList(sss);
+    }
+    /*private void postUserName(final String UserAccount){
         new Thread(){
             @Override
             public void run() {
@@ -200,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }.start();
-    }
+    }*/
     //获取布局文件中的控件对象
  /*   private void getView(){
         BtnFragmentIndex =  findViewById(R.id.btn_fragment_main);
@@ -362,5 +383,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getChatName();
+    }
 }

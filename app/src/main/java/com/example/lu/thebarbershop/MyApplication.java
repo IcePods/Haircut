@@ -5,12 +5,21 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.example.lu.thebarbershop.MyTools.GetConversations;
 import com.example.lu.thebarbershop.MyTools.UserTokenSql;
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -21,8 +30,12 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends Application {
     // 上下文菜单
     private Context mContext;
-    private String token;
+    /*private String token;
     private SQLiteDatabase sqLiteDatabase;
+    private GetConversations getConversations = new GetConversations();*/
+    /*private Map<String,String> data;*/
+    /*private Map<String,EMConversation> conversations;
+    private Map<String,String> data = new HashMap<>();*/
 
     // 记录是否已经初始化
     private boolean isInit = false;
@@ -30,11 +43,20 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        /*data = new HashMap<>();
+        data.put("hzl1","何宗良");
+        data.put("li","李善长");
+        data.put("r3r3f","曲名");*/
+
 
         // 初始化环信SDK
         initEasemob();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+
+
+
+        /*setUserProfileProvider();*/
     }
     /**
      * 初始化环信SDK
@@ -88,28 +110,52 @@ public class MyApplication extends Application {
 
         return options;
     }
-    private void setEaseUser() {
+    /*private void setUserProfileProvider(){
         EaseUI easeUI = EaseUI.getInstance();
         easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
-            @Override
-            public EaseUser getUser(String username) {
-                return getUserInfo(username);
-            }
-        });
+                @Override
+                public EaseUser getUser(String username) {
+                    return getUserInfo(username);
+                }
+            });
     }
 
     private EaseUser getUserInfo(String username) {
         EaseUser easeUser = new EaseUser(username);
+
         SharedPreferences sharedPreferences = this.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token","");
         sqLiteDatabase =new UserTokenSql(this).getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("user",null,"usertoken"+"=?",new String[]{token},null,null,null);
         if(cursor.moveToLast()){
-            String usernamefromLocal = cursor.getString(cursor.getColumnIndex("username"));
-            String userheaderfromLocal = cursor.getString(cursor.getColumnIndex("userheader"));
-            easeUser.setAvatar(userheaderfromLocal);
-            easeUser.setNickname(usernamefromLocal);
+            if (username.equals(EMClient.getInstance().getCurrentUser())){
+                String usernamefromLocal = cursor.getString(cursor.getColumnIndex("username"));
+                String userheaderfromLocal = cursor.getString(cursor.getColumnIndex("userheader"));
+                easeUser.setAvatar(userheaderfromLocal);
+                easeUser.setNickname(usernamefromLocal);
+            }else {
+                easeUser.setNickname(getConversations.nameMap.get(username));
+            }
         }
         return easeUser;
-    }//即可正常显示头像昵称
+    }//即可正常显示头像昵称*/
+    /*private List<String> getAllConversation(){
+        List<String> con = new ArrayList<>();
+        for (EMConversation conversation : conversations.values()) {
+            String userid = conversation.conversationId();
+            con.add(userid);
+        }
+        return con;
+    }
+    private Map<String,String> getConversationSourse(){
+        GetConversations getConversations = new GetConversations();
+        Map<String,String> data = new HashMap<>();
+        List<String> con1 = new ArrayList<>();
+        con1 = getAllConversation();
+        for (String s:con1){
+            getConversations.postUserName(s);
+            data.put(s,getConversations.getUserName());
+        }
+        return data;
+    }*/
 }
