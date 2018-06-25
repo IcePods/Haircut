@@ -90,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
             super.handleMessage(msg);
         }
     };*/
+
+
+    public static void show(Context context){
+        Intent intent = new Intent(context,MainActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
