@@ -50,7 +50,7 @@ public class UploadPictureUtil {
                 //创建RequestBody对象
                 RequestBody body;
                 if(obj == null){
-                    body = RequestBody.create(type, "");
+                    body = RequestBody.create(type, "sdw");
                 }else{
                     body = RequestBody.create(type, obj);
                 }
