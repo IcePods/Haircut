@@ -126,7 +126,7 @@ public class UserAppointmentActivity extends AppCompatActivity {
         masterName = str;
         hairStyle = (HairStyle)bundle.getSerializable("hairStyleDetail");
         Glide.with(getApplicationContext())
-                .load(hairStyle.getHairstylePicture())
+                .load(UrlAddress.url+hairStyle.getHairstylePicture())
                 .into(HeaderPic);
         Title.setText(hairStyle.getHairstyleName());
         Description.setText(hairStyle.getHairstyleIntroduce());
