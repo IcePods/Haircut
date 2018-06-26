@@ -115,4 +115,17 @@ public class IndexShopDetailAdapter extends BaseAdapter {
         viewHolder.indexshopIntroduce.setText(userShopDetail.getShopIntroduce());
         return convertView;
     }
+
+    public void add(List<UserShopDetail> addMessageList){
+        //增加数据
+        int position = dataSource.size();
+        dataSource.addAll(position,addMessageList);
+        notifyDataSetChanged();
+    }
+
+    public void refresh(List<UserShopDetail> newList){
+        //刷新数据
+        dataSource = newList;
+        notifyDataSetChanged();
+    }
 }

@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 
 import android.content.Intent;
 
+import android.media.DrmInitData;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,12 +22,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -41,6 +44,7 @@ import com.example.lu.thebarbershop.Activity.UserMainPermActivity;
 import com.example.lu.thebarbershop.Activity.UserShopDetailActivity;
 import com.example.lu.thebarbershop.Activity.UsersLoginActivity;
 import com.example.lu.thebarbershop.Adapter.IndexShopDetailAdapter;
+import com.example.lu.thebarbershop.Entity.Dynamic;
 import com.example.lu.thebarbershop.Entity.HairStyle;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
 import com.example.lu.thebarbershop.Entity.UserShopDetail;
@@ -104,6 +108,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private ViewPager vp;
     private LinearLayout ll_point;
     private List<UserShopDetail> allShopList;
+    private int showDataNum=0;
 
     RefreshLayout refreshLayout;
 
@@ -123,40 +128,76 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     /*private final String url="";*/
     OkHttpClient okHttpClient= new OkHttpClient();
    /* private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/plain;charset=UTF-8");*/
-
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 1:
-                    Bundle bundle = msg.getData();
-                    String allShop = bundle.getString("allshop");
-                    Log.i("allshop",allShop);
-                    Gson gson =new Gson();
-                    allShopList =gson.fromJson(allShop,new TypeToken<List<UserShopDetail>>(){}.getType());
-                    Log.i("allshop",allShopList.size()+"");
-                    initShopAdapter();
-                    break;
-                case 2:
-                    Bundle bundle1 = msg.getData();
-                    String fromServiceUser = bundle1.getString("fromServiceToken");
-                    Log.i("fromServiceToken",fromServiceUser);
-                    Gson gson1 =new Gson();
-                    Users users = gson1.fromJson(fromServiceUser,Users.class);
-                    //得到服务器返回的user的token
-                    String fromServiceToken = users.getUserToken();
-                    String localUserToken = new GetUserFromShared(mContext).getUserTokenFromShared();
-                    SharedPreferences sharedPreferences= mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
-                    if(!fromServiceToken.equals(localUserToken)){
+   Handler handler = new Handler(){
+       @Override
+       public void handleMessage(Message msg) {
+           switch (msg.what){
+               case 1:
+                   Bundle bundle = msg.getData();
+                   String allShop = bundle.getString("allshop");
+                   Log.i("allshop",allShop);
+                   Gson gson =new Gson();
+                   List<UserShopDetail> list = gson.fromJson(allShop,new TypeToken<List<UserShopDetail>>(){}.getType());
+                   if(list.size() == 0){
+                   }else {
+                       allShopList.addAll(list);
+                       //设置显示的数据
+                       if(list.size()>10){
+                           list.removeAll(list);
+                           for (int i=0;i<10;i++){
+                               list.add(allShopList.get(i));
+                           }
+                       }
+                   }
+                   //首次显示的数据量
+                   showDataNum = list.size();
+                   Log.i("allshop",allShopList.size()+"");
+                   initShopAdapter(list);
+                   break;
+               case 2:
+                   Bundle bundle1 = msg.getData();
+                   String fromServiceUser = bundle1.getString("fromServiceToken");
+                   Log.i("fromServiceToken",fromServiceUser);
+                   Gson gson1 =new Gson();
+                   Users users = gson1.fromJson(fromServiceUser,Users.class);
+                   //得到服务器返回的user的token
+                   String fromServiceToken = users.getUserToken();
+                   String localUserToken = new GetUserFromShared(mContext).getUserTokenFromShared();
+                   SharedPreferences sharedPreferences= mContext.getSharedPreferences("usertoken", Context.MODE_PRIVATE);
+                   if(!fromServiceToken.equals(localUserToken)){
                        //登录失效跳转到登录界面
                        alertDialog();
 
-                    }
+                   }
+                   break;
+               case 3:
+                   Bundle bundle2 = msg.getData();
+                   String allShop2 = bundle2.getString("allshop");
+                   Log.i("allshop",allShop2);
+                   Gson gson2 =new Gson();
+                   List<UserShopDetail> list2 = gson2.fromJson(allShop2,new TypeToken<List<UserShopDetail>>(){}.getType());
+                   allShopList.removeAll(allShopList);
+                   if(list2.size() == 0){
+                   }else {
+                       allShopList.addAll(list2);
+                       //设置显示的数据
+                       if(list2.size()>10){
+                           list2.removeAll(list2);
+                           for (int i=0;i<10;i++){
+                               list2.add(allShopList.get(i));
+                           }
+                       }
+                   }
+                   //首次显示的数据量
+                   showDataNum = list2.size();
+                   Log.i("allshop",allShopList.size()+"");
+                   indexShopDetailAdapter.refresh(list2);
+           }
+           super.handleMessage(msg);
+       }
+   };
 
-            }
-            super.handleMessage(msg);
-        }
-    };
+
 
     @Nullable
     @Override
@@ -177,7 +218,11 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         haircolortxt.setOnClickListener(mylistener);
         nurse.setOnClickListener(mylistener);
         nursetxt.setOnClickListener(mylistener);
+        allShopList = new ArrayList<>();
         //设置刷新
+        indexPullRefresher();
+        //从服务器获取usershopdetail
+        getUserShopDetail();
 
         //设置图片为圆形
         setRounded();
@@ -187,10 +232,10 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         viewPagerThread();
         //消息上下轮播
         looperTextView.setTipList(new PrepareLooperTextDate().getLooperList());
-        //从服务器获取usershopdetail
-        getUserShopDetail();
+
         //店铺listview
 
+        postJudgeUserIsLogin();
         //设置scroll开始从头显示
        /* scrollView.smoothScrollTo(0,0);*/
        vp.setFocusable(true);
@@ -199,8 +244,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         //设置监听器
         MianFragmentListener mianFragmentListener = new MianFragmentListener();
         search.setOnClickListener(mianFragmentListener);
-
-        postJudgeUserIsLogin();
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return view;
@@ -239,6 +282,12 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         haircolor.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)haircolor.getDrawable()).getBitmap(),2));
         perm.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)perm.getDrawable()).getBitmap(),2));
         nurse.setImageBitmap(GetRounded.getRoundedCornerBitmap(((BitmapDrawable)nurse.getDrawable()).getBitmap(),2));
+
+    }
+
+    public void initData(){
+
+
 
     }
 
@@ -377,9 +426,9 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     /**
      * 实例化主页展示shop的adapter以及数据
      * */
-    public void initShopAdapter(){
+    public void initShopAdapter(List<UserShopDetail> list){
         //实例化数据
-        indexShopDetailAdapter = new IndexShopDetailAdapter(mContext,allShopList,R.layout.item_user_index_shop);
+        indexShopDetailAdapter = new IndexShopDetailAdapter(mContext,list,R.layout.item_user_index_shop);
         lv_shop.setAdapter(indexShopDetailAdapter);
         lv_shop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -481,14 +530,59 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(2000/*,false*/);
+                Request request = new Request.Builder().url(UrlAddress.url+"AllShop.action").build();
+                final Call call = okHttpClient.newCall(request);
+                Log.i("李垚：：", "刷新请求");
+                Toast.makeText(mContext,
+                        "正在刷新",
+                        Toast.LENGTH_SHORT).show();
+                new Thread(){
+                    @Override
+                    public void run() {
 
+                        try {
+                            Response response = call.execute();
+                            String a = response.body().string();
+                            Message message =Message.obtain();
+                            message.what =3;
+                            Bundle bundle =new Bundle();
+                            bundle.putString("allshop",a);
+                            message.setData(bundle);
+                            handler.sendMessage(message);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
         });
         //上滑加载的点击事件
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+                refreshLayout.finishLoadMore(2000);
+                //在这里执行上滑加载时的具体操作
+                List<UserShopDetail> add = new ArrayList<>();
+                if(showDataNum < allShopList.size()){
+                    if(showDataNum+10 <= allShopList.size()){
+                        for(int i=0; i<10; i++){
+                            add.add(allShopList.get(showDataNum + i));
+                        }
+                        showDataNum+=10;
+                    }else {
+                        for(;showDataNum<allShopList.size(); showDataNum++){
+                            add.add(allShopList.get(showDataNum));
+                            showDataNum = allShopList.size();
+                        }
+                    }
+                }else {
+                    Toast.makeText(mContext,
+                            "没有更多啦",
+                            Toast.LENGTH_SHORT).show();
+                }
+                indexShopDetailAdapter.add(add);
             }
         });
     }
