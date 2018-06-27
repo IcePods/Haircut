@@ -10,7 +10,7 @@ android {
         config {
             keyAlias 'baidumapkey'
             keyPassword 'lhy1023973648'
-            storeFile file('D:/KeyStorePath/keystore.jks')
+            storeFile file('E:/KeyStorePath/keystore.jks')
             storePassword 'lhy1023973648'
         }
     }
@@ -34,12 +34,15 @@ android {
                 JPUSH_APPKEY : "78c2c7c0c4cceaa37faa1340", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
+        multiDexEnabled true
 
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            aaptOptions.cruncherEnabled = false
+            aaptOptions.useNewCruncher = false
         }
     }
 }
@@ -82,5 +85,7 @@ dependencies {
     //底部栏
     implementation "com.jaeger.statusbarutil:library:1.5.1"
     implementation "com.ashokvarma.android:bottom-navigation-bar:2.0.4"
+
+
 
 }
