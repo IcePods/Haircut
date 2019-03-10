@@ -75,10 +75,16 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
     private LinearLayout ll_point;
     //百度定位
     private RelativeLayout LocationMap;
+    //地图文字
+    private Button locationButton ;
     //电话控件
     private RelativeLayout TelephoneLayout;
+    //电话文字
+    private Button telephoneButton;
     //作品展示
     private RelativeLayout productionLayout;
+    //作品文字
+    private Button productButton;
 
     private List<String> shopPictureList=new ArrayList<String>();//服务器获取的店铺轮播图片集合
     private ArrayList<ImageView> imageViewArrayList = new ArrayList<ImageView>(); //存放轮播图片图片的集合
@@ -149,10 +155,13 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         user_shop_detail_back_imgbtn.setOnClickListener(listener);
         //点击跳转百度地图
         LocationMap.setOnClickListener(listener);
+        locationButton.setOnClickListener(listener);
         //点击跳转拨号盘 填入电话号 但不拨打
         TelephoneLayout.setOnClickListener(listener);
+        telephoneButton.setOnClickListener(listener);
         //点击跳转作品展示页面
         productionLayout.setOnClickListener(listener);
+        productButton.setOnClickListener(listener);
         //收藏点击事件
         user_shopdetail_collect.setOnClickListener(listener);
         initData();
@@ -196,8 +205,10 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     finish();
                     break;
                 case R.id.user_shop_detail_address_content:
+                case R.id.user_shop_detail_address:
                    /* Intent intent =  new Intent();*/
                     //把点击的商品对象添加到intent对象中去
+                    Log.i("testAddress","点击地图");
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("userShopDetail",userShopDetail);
                     intent.putExtras(bundle);
@@ -205,12 +216,14 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     startActivity(intent);
                     break;
                 case R.id.user_shop_detail_phone_content:
+                case R.id.user_shop_detail_phone_btn:
                     //拉取拨号盘 填入电话号 不拨打
                     Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+userShopDetail.getShopPhone()));
                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent1);
                     break;
-                case R.id.user_shop_detail_production:
+                //case R.id.user_shop_detail_production:
+                case R.id.user_shop_detail_production_btn:
                     //跳转到作品展示页面
                    /* Intent intent2 =  new Intent();*/
                     intent.setClass(getApplicationContext(),UserShopDetailProductionActivity.class);
@@ -258,9 +271,20 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
         user_shopdetail_collect = findViewById(R.id.user_shopdetail_collect);
         vp =findViewById(R.id.user_shop_detail_viewpager_content);
         ll_point =findViewById(R.id.user_shop_detail_ll_point);
+        //地图layout
         LocationMap = findViewById(R.id.user_shop_detail_address_content);
+        //地图文字
+        locationButton = findViewById(R.id.user_shop_detail_address);
+        //电话layout
         TelephoneLayout = findViewById(R.id.user_shop_detail_phone_content);
+        //电话文字
+        telephoneButton = findViewById(R.id.user_shop_detail_phone_btn);
+        //作品layout
         productionLayout = findViewById(R.id.user_shop_detail_production);
+        //作品文字
+        productButton = findViewById(R.id.user_shop_detail_production_btn);
+
+
         //活动下拉
         mHiddenLayout = (LinearLayout) findViewById(R.id.linear_hidden);
         mIv = (ImageView) findViewById(R.id.my_iv);

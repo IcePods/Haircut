@@ -53,6 +53,7 @@ public class UserShopDetailBaberRecyclerAdapter  extends RecyclerView.Adapter<Us
         holder.baberName.setText(mData.get(position).getUser().getUserName());
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
+                .circleCrop()
                 .transform(new CircleCrop());
         Glide.with(mContext)
                 .load(UrlAddress.url+mData.get(position).getUser().getUserHeader())

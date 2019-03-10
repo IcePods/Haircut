@@ -65,7 +65,7 @@ public class MyDynamicActivity extends AppCompatActivity {
      * 初始化控件对象
      */
     private void initControl(){
-        Log.i("李垚：：：：：","初始化控件对象");
+        Log.i("我的动态：：：：：","初始化控件对象");
         myDynamicList = findViewById(R.id.my_dynamic_list);
         data = new ArrayList<>();
         refreshLayout  = findViewById(R.id.my_dynamic_refreshLayout);
@@ -77,7 +77,6 @@ public class MyDynamicActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
     }
 
     /**
@@ -96,7 +95,7 @@ public class MyDynamicActivity extends AppCompatActivity {
      * 服务器请求用户动态数据
      */
     private void initData(){
-        Log.i("李垚：：：：：","初始化数据源");
+        Log.i("我的动态：：：：：","初始化数据源");
         Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -131,7 +130,7 @@ public class MyDynamicActivity extends AppCompatActivity {
     }
 
     private void setRefreshAndLoadMore(){
-        Log.i("李垚：：：：：","绑定刷新加载的监听器");
+        Log.i("我的动态：：：：：","绑定刷新加载的监听器");
         refreshLayout.finishRefresh(2000);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

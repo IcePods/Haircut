@@ -61,7 +61,11 @@ public class UserPersonAppointmentEffectiveFragment extends Fragment {
                     Log.i("appoint",appointlist);
                     Gson gson = new Gson();
                     appointList = gson.fromJson(appointlist,new TypeToken<List<Appointment>>(){}.getType());
-
+                    if(appointList.size() == 0 ){
+                        Toast.makeText(mContext,
+                                "您没有有效预约！",
+                                Toast.LENGTH_SHORT).show();
+                    }
                     Log.i("appoint",appointList.toString());
                     initAdapter();
                     break;

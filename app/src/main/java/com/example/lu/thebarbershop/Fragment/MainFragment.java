@@ -463,6 +463,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     //Get请求，带有封装请求参数的请求方式
     private void getUserShopDetail(){
+        Log.i("urlString",UrlAddress.url+"AllShop.action");
         Request request = new Request.Builder().url(UrlAddress.url+"AllShop.action").build();
         final Call call = okHttpClient.newCall(request);
         new Thread(){

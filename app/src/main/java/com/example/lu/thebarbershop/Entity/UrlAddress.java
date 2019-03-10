@@ -5,6 +5,6 @@ package com.example.lu.thebarbershop.Entity;
  */
 
 public class UrlAddress {
-    public static String url = "http://211.159.176.35:8080/theBarberShopServers/";
+    public static String url = "http://192.168.1.121:8080/theBarberShopServers/";
 
 }

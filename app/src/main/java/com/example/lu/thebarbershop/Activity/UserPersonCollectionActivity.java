@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.lu.thebarbershop.Adapter.CollectionAdapter;
 import com.example.lu.thebarbershop.Entity.UrlAddress;
@@ -53,9 +54,16 @@ public class UserPersonCollectionActivity extends AppCompatActivity {
                     Log.i("getusercollections",getusercollections);
                     Gson gson = new Gson();
                     collectionsList = gson.fromJson(getusercollections,new TypeToken<List<UserCollections>>(){}.getType());
-                    for(UserCollections i:collectionsList){
-                        userShopDetailsLisk.add(i.getShop());
+                    if(collectionsList.size()!=0){
+                        for(UserCollections i:collectionsList){
+                            userShopDetailsLisk.add(i.getShop());
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(),
+                                "您暂未收藏任何一家店铺！",
+                                Toast.LENGTH_SHORT).show();
                     }
+
                     Log.i("userShopDetailsLisk",userShopDetailsLisk.toString());
                     initAdapter();
                     break;
