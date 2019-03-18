@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -217,10 +218,28 @@ public class UserShopDetailActivity extends AppCompatActivity implements ViewPag
                     break;
                 case R.id.user_shop_detail_phone_content:
                 case R.id.user_shop_detail_phone_btn:
-                    //拉取拨号盘 填入电话号 不拨打
-                    Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+userShopDetail.getShopPhone()));
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent1);
+                    AlertDialog alertDialog = new AlertDialog.Builder(UserShopDetailActivity.this)
+                            .setTitle("确定要拨打此电话吗")
+                            .setMessage(userShopDetail.getShopPhone())
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {//添加"Yes"按钮
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //拉取拨号盘 填入电话号 不拨打
+                                    Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+userShopDetail.getShopPhone()));
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent1);
+                                }
+                            })
+
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {//添加取消
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            })
+                            .create();
+                    alertDialog.show();
+
+
                     break;
                 //case R.id.user_shop_detail_production:
                 case R.id.user_shop_detail_production_btn:
